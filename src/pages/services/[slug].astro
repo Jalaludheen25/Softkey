@@ -1,0 +1,355 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Picture } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Icon from '@/components/Icon.astro';
+import FeatureGrid from '@/components/FeatureGrid.astro';
+import ProcessSteps from '@/components/ProcessSteps.astro';
+import FaqList from '@/components/FaqList.astro';
+import CTASection from '@/components/CTASection.astro';
+import { SERVICES, SERVICE_GROUPS, getService, serviceHref, type Service } from '@/data/services';
+import { SITE, CONTACT, whatsappLink } from '@/data/site';
+import { breadcrumbSchema, faqSchema } from '@/data/schema';
+import { richTitle, plainTitle } from '@/lib/text';
+
+export const getStaticPaths = (() => SERVICES.map((service) => ({ params: { slug: service.slug }, props: { service } }))) satisfies GetStaticPaths;
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+const group = SERVICE_GROUPS.find((g) => g.id === service.group)!;
+const related = service.related.map(getService);
+const path = serviceHref(service.slug);
+const crumbs = [{ label: 'Services', href: '/services/' }, { label: service.title }];
+
+const schema = [
+  breadcrumbSchema(crumbs, path),
+  {
+    '@type': 'Service',
+    '@id': `${SITE.url}${path}#service`,
+    name: service.title,
+    serviceType: service.title,
+    description: service.seo.description,
+    url: `${SITE.url}${path}`,
+    provider: { '@id': `${SITE.url}/#organization` },
+    areaServed: [
+      { '@type': 'City', name: 'Kannur' },
+      { '@type': 'City', name: 'Payyannur' },
+      { '@type': 'City', name: 'Mangaluru' },
+    ],
+  },
+  faqSchema(service.faqs),
+];
+const waMessage = `Hello Softkey Technologies, I would like to know more about ${service.title}.`;
+---
+
+<BaseLayout title={service.seo.title} description={service.seo.description} schema={schema}>
+  <PageHero
+    eyebrow={group.title}
+    title={richTitle(service.headline)}
+    lead={service.lead}
+    crumbs={crumbs}
+    image={service.image}
+    imageAlt={service.imageAlt}
+    badgeIcon={service.icon}
+    badgeText={service.title}
+  >
+    <Fragment slot="actions">
+      <a class="btn btn--gold btn--lg" href={`/contact/?service=${service.slug}#enquiry`}>
+        Get Started <Icon name="arrow-right" class="icon--arrow" stroke={2} />
+      </a>
+      <a class="btn btn--glass btn--lg" href={whatsappLink(waMessage)} target="_blank" rel="noopener">
+        <Icon name="whatsapp" /> Talk to an Expert
+      </a>
+    </Fragment>
+  </PageHero>
+
+  <!-- Overview -->
+  <section class="ov theme-light section" aria-labelledby="ov-title">
+    <div class="container ov__grid">
+      <div class="ov__copy">
+        <p class="eyebrow" data-reveal>Overview</p>
+        <h2 id="ov-title" class="h2" data-reveal style="--d:1">{service.intro.title}</h2>
+        <div class="prose ov__prose" data-reveal style="--d:2">
+          {service.intro.body.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+      <aside class="ov__card" data-reveal="right" style="--d:2" aria-labelledby="ov-outcomes">
+        <p class="ov__card-kicker" id="ov-outcomes">What you get</p>
+        <ul role="list" class="ov__outcomes">
+          {
+            service.outcomes.map((o) => (
+              <li>
+                <span class="ov__check">
+                  <Icon name="check" size={16} stroke={2.2} />
+                </span>
+                {o}
+              </li>
+            ))
+          }
+        </ul>
+        <div class="ov__card-foot">
+          <p>Questions about {service.title}?</p>
+          <a class="link-arrow" href={whatsappLink(waMessage)} target="_blank" rel="noopener">
+            WhatsApp {CONTACT.whatsapp.display} <Icon name="arrow-up-right" />
+          </a>
+          <a class="link-arrow" href={CONTACT.phone.href}>
+            Call {CONTACT.phone.display} <Icon name="arrow-up-right" />
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <FeatureGrid
+    eyebrow="What’s included"
+    title={`Everything covered in <em class="accent">${plainTitle(service.title)}</em>`}
+    lead={service.summary}
+    features={service.features}
+  />
+
+  <ProcessSteps eyebrow="How we work" title={`A clear, <em class="accent">four-step</em> process`} steps={service.process} />
+
+  <!-- FAQ + related -->
+  <section class="fq theme-dark section" aria-labelledby="fq-title">
+    <div class="container fq__grid">
+      <div>
+        <p class="eyebrow" data-reveal>FAQ</p>
+        <h2 id="fq-title" class="h2 fq__title" data-reveal style="--d:1">
+          Questions, <em class="accent">answered</em>
+        </h2>
+        <FaqList faqs={service.faqs} />
+      </div>
+
+      <aside class="rel" aria-labelledby="rel-title">
+        <p class="eyebrow" id="rel-title" data-reveal>Related services</p>
+        <ul role="list" class="rel__list">
+          {
+            related.map((r, i) => (
+              <li data-reveal style={`--d:${i + 1}`}>
+                <a class="rel__item" href={serviceHref(r.slug)}>
+                  <span class="rel__thumb">
+                    <Picture src={r.image} formats={['avif', 'webp']} alt="" widths={[160, 320]} sizes="96px" loading="lazy" />
+                  </span>
+                  <span class="rel__body">
+                    <strong>{r.title}</strong>
+                    <span>{r.summary}</span>
+                  </span>
+                  <Icon name="arrow-up-right" size={18} class="rel__arrow" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+        <a class="link-arrow rel__all" href="/services/">
+          View all services <Icon name="arrow-up-right" />
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  <CTASection title={`Ready to get started with`} accent={plainTitle(service.title)} titleAfter="?" />
+</BaseLayout>
+
+<style>
+  /* ---- Overview ---- */
+  .ov__grid {
+    display: grid;
+    gap: clamp(2.5rem, 2rem + 3vw, 4rem);
+    align-items: start;
+  }
+
+  @media (min-width: 1024px) {
+    .ov__grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+      gap: 5rem;
+    }
+  }
+
+  .ov__copy {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .ov__prose {
+    font-size: 1.075rem;
+    max-width: 42rem;
+  }
+
+  .ov__card {
+    position: relative;
+    padding: clamp(1.75rem, 1.4rem + 1vw, 2.25rem);
+    border-radius: var(--radius-lg);
+    color: var(--ink-100);
+    background:
+      radial-gradient(120% 80% at 100% 0%, rgb(212 175 106 / 0.18), transparent 55%),
+      linear-gradient(160deg, #0d2349, #050c1f);
+    box-shadow: 0 40px 80px -40px rgb(6 23 49 / 0.7);
+    overflow: hidden;
+  }
+
+  @media (min-width: 1024px) {
+    .ov__card {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+  }
+
+  .ov__card-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+  }
+
+  .ov__outcomes {
+    display: grid;
+    gap: 0.95rem;
+    margin-top: 1.25rem;
+  }
+
+  .ov__outcomes li {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .ov__check {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--grad-gold);
+    color: var(--navy-950);
+  }
+
+  .ov__card-foot {
+    display: grid;
+    gap: 0.5rem;
+    justify-items: start;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    font-size: var(--fs-sm);
+  }
+
+  .ov__card-foot p {
+    color: var(--ink-300);
+  }
+
+  .ov__card-foot .link-arrow {
+    color: var(--gold-200);
+  }
+
+  /* ---- FAQ + related ---- */
+  .fq {
+    background: #050c1f;
+  }
+
+  .fq__grid {
+    display: grid;
+    gap: clamp(3rem, 2rem + 3vw, 4rem);
+  }
+
+  @media (min-width: 1024px) {
+    .fq__grid {
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+      gap: 5rem;
+    }
+  }
+
+  .fq__title {
+    margin: 1rem 0 2rem;
+  }
+
+  .rel {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+
+  @media (min-width: 1024px) {
+    .rel {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+  }
+
+  .rel__list {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .rel__item {
+    display: grid;
+    grid-template-columns: 72px minmax(0, 1fr) auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: rgb(255 255 255 / 0.02);
+    transition:
+      border-color 0.3s,
+      background-color 0.3s,
+      transform 0.4s var(--ease-out);
+  }
+
+  .rel__item:hover {
+    border-color: var(--border-gold);
+    background: rgb(255 255 255 / 0.04);
+    transform: translateX(4px);
+  }
+
+  .rel__thumb {
+    width: 72px;
+    height: 72px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .rel__thumb :global(picture),
+  .rel__thumb :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .rel__body {
+    display: grid;
+    gap: 0.2rem;
+    line-height: 1.35;
+  }
+
+  .rel__body strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .rel__body span {
+    color: var(--ink-400);
+    font-size: var(--fs-xs);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .rel__item :global(.rel__arrow) {
+    color: var(--gold-400);
+  }
+
+  .rel__all {
+    justify-self: start;
+    margin-top: 0.5rem;
+  }
+</style>

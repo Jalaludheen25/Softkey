@@ -1,0 +1,156 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import skyline from '@/assets/images/skyline.jpg';
+import { CONTACT, whatsappLink } from '@/data/site';
+
+interface Props {
+  title?: string;
+  accent?: string;
+  titleAfter?: string;
+  text?: string;
+}
+const {
+  title = 'Let’s make Tally work',
+  accent = 'harder',
+  titleAfter = 'for your business.',
+  text = 'Tell us where you are today — a new setup, an upgrade, a customization or a support need — and we’ll suggest a clear next step.',
+} = Astro.props;
+---
+
+<section class="cta theme-dark" aria-labelledby="cta-title">
+  <div class="cta__media" aria-hidden="true" data-parallax="0.06">
+    <Picture src={skyline} formats={['avif', 'webp']} alt="" widths={[828, 1280, 1920]} sizes="100vw" loading="lazy" />
+  </div>
+  <div class="cta__shade" aria-hidden="true"></div>
+  <svg class="cta__rings" viewBox="0 0 800 800" aria-hidden="true">
+    <circle cx="400" cy="400" r="390" fill="none" stroke="rgb(212 175 106 / .22)" stroke-width="1"></circle>
+    <circle cx="400" cy="400" r="300" fill="none" stroke="rgb(212 175 106 / .16)" stroke-width="1" stroke-dasharray="1500 385" stroke-dashoffset="80"></circle>
+  </svg>
+
+  <div class="container cta__inner">
+    <p class="eyebrow eyebrow--center" data-reveal>Get started</p>
+    <h2 id="cta-title" class="h1 cta__title" data-reveal style="--d:1">
+      {title}{' '}<em class="accent">{accent}</em>{/^[?.!,]/.test(titleAfter) ? '' : ' '}{titleAfter}
+    </h2>
+    <p class="lead cta__text" data-reveal style="--d:2">{text}</p>
+    <div class="btn-row cta__actions btn-row--stack-sm" data-reveal style="--d:3">
+      <a class="btn btn--gold btn--lg" href="/contact/">
+        Get Started <Icon name="arrow-right" class="icon--arrow" stroke={2} />
+      </a>
+      <a class="btn btn--glass btn--lg" href={whatsappLink('Hello Softkey Technologies, I would like to talk to a Tally expert.')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" /> Talk to an Expert
+      </a>
+    </div>
+    <ul class="cta__contacts" role="list" data-reveal style="--d:4">
+      <li>
+        <Icon name="whatsapp" size={18} />
+        <a href={whatsappLink()} target="_blank" rel="noopener">{CONTACT.whatsapp.display}</a>
+      </li>
+      <li>
+        <Icon name="phone" size={18} />
+        <a href={CONTACT.phone.href}>{CONTACT.phone.display}</a>
+      </li>
+      <li>
+        <Icon name="mail" size={18} />
+        <a href={CONTACT.email.href}>{CONTACT.email.display}</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cta {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    padding-block: clamp(5rem, 3.5rem + 6vw, 9rem);
+    background: var(--navy-950);
+    text-align: center;
+  }
+
+  .cta__media {
+    position: absolute;
+    inset: -12% 0;
+    z-index: -3;
+    transform: translateY(var(--parallax, 0));
+  }
+
+  .cta__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.35) contrast(1.05);
+  }
+
+  .cta__shade {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(70% 80% at 50% 50%, rgb(6 23 49 / 0.72), rgb(5 12 31 / 0.95)),
+      linear-gradient(180deg, rgb(5 12 31 / 0.5), rgb(5 12 31 / 0.9));
+  }
+
+  .cta__rings {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: -1;
+    width: min(900px, 150vw);
+    transform: translate(-50%, -50%);
+    animation: cta-spin 140s linear infinite;
+  }
+
+  .cta__inner {
+    display: grid;
+    justify-items: center;
+    gap: 1.4rem;
+    max-width: 880px;
+  }
+
+  .cta__title {
+    max-width: 18ch;
+  }
+
+  .cta__text {
+    max-width: 38rem;
+  }
+
+  .cta__actions {
+    justify-content: center;
+    margin-top: 0.75rem;
+  }
+
+  .cta__contacts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem 2rem;
+    margin-top: 1.25rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    font-weight: 650;
+  }
+
+  .cta__contacts li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: #fff;
+  }
+
+  .cta__contacts :global(.icon) {
+    color: var(--gold-300);
+  }
+
+  .cta__contacts a:hover {
+    color: var(--gold-200);
+  }
+
+  @keyframes cta-spin {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+</style>

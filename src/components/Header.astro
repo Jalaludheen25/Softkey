@@ -1,0 +1,783 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { NAV, CONTACT, LOCATIONS, whatsappLink } from '@/data/site';
+import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
+
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label="Softkey Technologies — home">
+      <Logo variant="horizontal" tone="light" class="brand__logo" decorative />
+    </a>
+
+    <nav class="primary-nav" aria-label="Primary">
+      <ul role="list" class="nav-list">
+        {
+          NAV.map((item) =>
+            item.href === '/services/' ? (
+              <li class="nav-item has-mega" data-mega>
+                <a class="nav-link" href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+                <button class="mega-toggle" type="button" aria-expanded="false" aria-controls="mega-services" data-mega-toggle>
+                  <span class="sr-only">Show services menu</span>
+                  <Icon name="chevron-down" size={16} stroke={2} />
+                </button>
+                <div class="mega" id="mega-services" data-mega-panel>
+                  <div class="mega__inner glass">
+                    <div class="mega__groups">
+                      {SERVICE_GROUPS.map((g) => (
+                        <div class="mega__group">
+                          <p class="mega__title">
+                            <Icon name={g.icon} size={18} />
+                            {g.title}
+                          </p>
+                          <ul role="list">
+                            {servicesInGroup(g.id).map((s) => (
+                              <li>
+                                <a href={serviceHref(s.slug)} class="mega__link" aria-current={path === serviceHref(s.slug) ? 'page' : undefined}>
+                                  <span>{s.navTitle}</span>
+                                  <Icon name="arrow-up-right" size={15} />
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                    <aside class="mega__aside">
+                      <p class="mega__aside-kicker">Not sure where to start?</p>
+                      <p class="mega__aside-title">Talk to a Tally expert and get a clear recommendation.</p>
+                      <a class="btn btn--gold btn--sm" href={whatsappLink()} target="_blank" rel="noopener">
+                        <Icon name="whatsapp" size={18} />
+                        Chat on WhatsApp
+                      </a>
+                      <a class="mega__all link-arrow" href="/services/">
+                        All services <Icon name="arrow-right" class="icon--arrow" />
+                      </a>
+                    </aside>
+                  </div>
+                </div>
+              </li>
+            ) : (
+              <li class="nav-item">
+                <a class="nav-link" href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            )
+          )
+        }
+      </ul>
+    </nav>
+
+    <div class="header-actions">
+      <a class="header-call" href={CONTACT.phone.href}>
+        <span class="header-call__icon"><Icon name="phone" size={16} /></span>
+        <span class="header-call__text">
+          <small>Call us</small>
+          {CONTACT.phone.display}
+        </span>
+      </a>
+      <a class="btn btn--gold btn--sm header-cta" href="/contact/">Get Started</a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span class="sr-only">Open menu</span>
+        <span class="menu-toggle__bars" aria-hidden="true"><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+
+</header>
+
+<div class="mobile-menu" id="mobile-menu" data-menu hidden>
+  <div class="mobile-menu__bg" aria-hidden="true"></div>
+  <nav class="mobile-menu__inner container" aria-label="Mobile">
+    <ul role="list" class="m-nav">
+      {
+        NAV.map((item, i) =>
+          item.href === '/services/' ? (
+            <li style={`--i:${i}`}>
+              <details class="m-services">
+                <summary>
+                  <span>{item.label}</span>
+                  <Icon name="plus" size={22} />
+                </summary>
+                <ul role="list" class="m-services__list">
+                  <li>
+                    <a href="/services/">All services</a>
+                  </li>
+                  {SERVICE_GROUPS.flatMap((g) => servicesInGroup(g.id)).map((s) => (
+                    <li>
+                      <a href={serviceHref(s.slug)}>{s.navTitle}</a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li style={`--i:${i}`}>
+              <a class="m-link" href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          )
+        )
+      }
+    </ul>
+
+    <div class="m-contact">
+      <a class="btn btn--gold" href={whatsappLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={20} /> WhatsApp {CONTACT.whatsapp.display}
+      </a>
+      <a class="btn btn--glass" href={CONTACT.phone.href}>
+        <Icon name="phone" size={18} /> Call {CONTACT.phone.display}
+      </a>
+      <a class="m-email" href={CONTACT.email.href}><Icon name="mail" size={18} /> {CONTACT.email.display}</a>
+      <p class="m-locations">
+        <Icon name="map-pin" size={16} />
+        {LOCATIONS.map((l) => l.city).join(' · ')}
+      </p>
+    </div>
+  </nav>
+</div>
+
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 100;
+    transition:
+      background-color 0.4s var(--ease-out),
+      box-shadow 0.4s var(--ease-out),
+      backdrop-filter 0.4s;
+  }
+
+  .site-header::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(212 175 106 / 0.35), transparent);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .site-header.is-scrolled,
+  .site-header.menu-open {
+    background: rgb(5 12 31 / 0.78);
+    -webkit-backdrop-filter: blur(18px) saturate(1.3);
+    backdrop-filter: blur(18px) saturate(1.3);
+    box-shadow: 0 10px 30px -20px rgb(0 0 0 / 0.8);
+  }
+
+  .site-header.is-scrolled::after {
+    opacity: 1;
+  }
+
+  .header-inner {
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: height 0.4s var(--ease-out);
+  }
+
+  .site-header.is-scrolled .header-inner {
+    height: 68px;
+  }
+
+  .brand {
+    display: block;
+    flex: none;
+    color: #fff;
+    position: relative;
+    z-index: 2;
+  }
+
+  .brand :global(.brand__logo) {
+    width: clamp(158px, 11vw + 60px, 196px);
+    transition: width 0.4s var(--ease-out);
+  }
+
+  .site-header.is-scrolled .brand :global(.brand__logo) {
+    width: clamp(150px, 10vw + 56px, 176px);
+  }
+
+  /* ---- Desktop nav ---- */
+  .primary-nav {
+    margin-inline: auto;
+    display: none;
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    margin: 0;
+  }
+
+  .nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 0.95rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink-200);
+    border-radius: 999px;
+    transition: color 0.25s;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0.2rem;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--gold-400);
+    transform: translateX(-50%) scale(0);
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .nav-link:hover,
+  .nav-link[aria-current='page'] {
+    color: #fff;
+  }
+
+  .nav-link[aria-current='page']::after,
+  .nav-link:hover::after {
+    transform: translateX(-50%) scale(1);
+  }
+
+  .has-mega .nav-link {
+    padding-right: 0.35rem;
+  }
+
+  .mega-toggle {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    margin-right: 0.35rem;
+    border-radius: 50%;
+    color: var(--ink-300);
+    transition:
+      transform 0.35s var(--ease-out),
+      color 0.25s;
+  }
+
+  .has-mega:hover .mega-toggle,
+  .has-mega.is-open .mega-toggle {
+    color: var(--gold-300);
+    transform: rotate(180deg);
+  }
+
+  .mega {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: min(920px, calc(100vw - 2 * var(--gutter)));
+    padding-top: 18px;
+    transform: translate(-50%, 10px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 0.3s var(--ease-out),
+      transform 0.4s var(--ease-out),
+      visibility 0s linear 0.3s;
+  }
+
+  .has-mega:hover .mega,
+  .has-mega.is-open .mega {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+    transition-delay: 0s;
+  }
+
+  .mega__inner {
+    display: grid;
+    grid-template-columns: 1fr 250px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: linear-gradient(160deg, rgb(13 30 66 / 0.96), rgb(6 16 38 / 0.97));
+  }
+
+  .mega__groups {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 2rem;
+    padding: 2rem;
+  }
+
+  .mega__title {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-400);
+  }
+
+  .mega__group ul {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .mega__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0.65rem;
+    margin-inline: -0.65rem;
+    border-radius: var(--radius-xs);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--ink-100);
+    transition:
+      background-color 0.25s,
+      color 0.25s;
+  }
+
+  .mega__link :global(.icon) {
+    color: var(--gold-400);
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: all 0.3s var(--ease-out);
+  }
+
+  .mega__link:hover,
+  .mega__link[aria-current='page'] {
+    background: rgb(255 255 255 / 0.05);
+    color: #fff;
+  }
+
+  .mega__link:hover :global(.icon) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .mega__aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 2rem 1.75rem;
+    border-left: 1px solid rgb(255 255 255 / 0.08);
+    background:
+      radial-gradient(120% 70% at 100% 0%, rgb(212 175 106 / 0.16), transparent 60%),
+      rgb(255 255 255 / 0.02);
+  }
+
+  .mega__aside-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-400);
+  }
+
+  .mega__aside-title {
+    font-size: 1.15rem;
+    line-height: 1.35;
+    font-weight: 650;
+    color: #fff;
+    margin-bottom: 0.4rem;
+  }
+
+  .mega__all {
+    margin-top: auto;
+    font-size: 0.9rem;
+  }
+
+  /* ---- Actions ---- */
+  .header-actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: relative;
+    z-index: 2;
+  }
+
+  .header-call {
+    display: none;
+    align-items: center;
+    gap: 0.65rem;
+    padding-right: 0.5rem;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.15;
+  }
+
+  .header-call small {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-400);
+  }
+
+  .header-call__icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--border-gold);
+    color: var(--gold-300);
+    transition:
+      background-color 0.3s,
+      color 0.3s;
+  }
+
+  .header-call:hover .header-call__icon {
+    background: var(--gold-400);
+    color: var(--navy-950);
+  }
+
+  .header-cta {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    background: rgb(255 255 255 / 0.04);
+    transition:
+      border-color 0.3s,
+      background-color 0.3s;
+  }
+
+  .menu-toggle:hover {
+    border-color: var(--gold-400);
+  }
+
+  .menu-toggle__bars {
+    position: relative;
+    width: 18px;
+    height: 10px;
+  }
+
+  .menu-toggle__bars span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.6px;
+    border-radius: 2px;
+    background: #fff;
+    transition:
+      transform 0.45s var(--ease-out),
+      top 0.45s var(--ease-out),
+      width 0.45s var(--ease-out);
+  }
+
+  .menu-toggle__bars span:first-child {
+    top: 0;
+  }
+
+  .menu-toggle__bars span:last-child {
+    top: 8.4px;
+    width: 70%;
+  }
+
+  .menu-open .menu-toggle__bars span:first-child {
+    top: 4.2px;
+    transform: rotate(45deg);
+  }
+
+  .menu-open .menu-toggle__bars span:last-child {
+    top: 4.2px;
+    width: 100%;
+    transform: rotate(-45deg);
+  }
+
+  @media (min-width: 640px) {
+    .header-cta {
+      display: inline-flex;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .primary-nav {
+      display: block;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1240px) {
+    .header-call {
+      display: inline-flex;
+    }
+  }
+
+  /* ---- Mobile menu ---- */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    padding-top: calc(var(--header-h) + 1rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  .mobile-menu__bg {
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(90% 60% at 100% 0%, rgb(212 175 106 / 0.14), transparent 60%),
+      linear-gradient(180deg, #071531, #050c1f);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-out);
+  }
+
+  .mobile-menu.is-visible .mobile-menu__bg {
+    opacity: 1;
+  }
+
+  .mobile-menu__inner {
+    position: relative;
+    display: grid;
+    gap: 2rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .m-nav {
+    display: grid;
+  }
+
+  .m-nav > li {
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s var(--ease-out),
+      transform 0.6s var(--ease-out);
+    transition-delay: calc(var(--i) * 55ms + 60ms);
+  }
+
+  .mobile-menu.is-visible .m-nav > li {
+    opacity: 1;
+    transform: none;
+  }
+
+  .m-link,
+  .m-services summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.05rem 0;
+    font-size: clamp(1.5rem, 1.2rem + 1.6vw, 2rem);
+    font-weight: 650;
+    letter-spacing: -0.02em;
+    color: #fff;
+  }
+
+  .m-link[aria-current='page'] {
+    color: var(--gold-300);
+  }
+
+  .m-services summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .m-services summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .m-services summary :global(.icon) {
+    color: var(--gold-400);
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .m-services[open] summary :global(.icon) {
+    transform: rotate(45deg);
+  }
+
+  .m-services__list {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0 0 1.1rem;
+  }
+
+  .m-services__list a {
+    display: block;
+    padding: 0.55rem 0 0.55rem 1rem;
+    border-left: 1px solid rgb(212 175 106 / 0.3);
+    color: var(--ink-200);
+    font-weight: 550;
+  }
+
+  .m-services__list a:hover {
+    color: var(--gold-300);
+  }
+
+  .m-contact {
+    display: grid;
+    gap: 0.75rem;
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.5s var(--ease-out) 0.35s,
+      transform 0.6s var(--ease-out) 0.35s;
+  }
+
+  .mobile-menu.is-visible .m-contact {
+    opacity: 1;
+    transform: none;
+  }
+
+  .m-email,
+  .m-locations {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--ink-300);
+    font-size: 0.95rem;
+  }
+
+  .m-email {
+    margin-top: 0.5rem;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .m-email :global(.icon),
+  .m-locations :global(.icon) {
+    color: var(--gold-400);
+  }
+
+  @media (min-width: 1100px) {
+    .mobile-menu {
+      display: none !important;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 12);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // ---- Mobile menu ----
+  if (header && toggle && menu) {
+    const label = toggle.querySelector('.sr-only');
+    let lastFocus: Element | null = null;
+
+    const focusables = () =>
+      Array.from(document.querySelectorAll<HTMLElement>('.site-header .brand, [data-menu-toggle], #mobile-menu a, #mobile-menu summary')).filter(
+        (el) => el.offsetParent !== null
+      );
+
+    const open = () => {
+      lastFocus = document.activeElement;
+      menu.hidden = false;
+      requestAnimationFrame(() => menu.classList.add('is-visible'));
+      header.classList.add('menu-open');
+      toggle.setAttribute('aria-expanded', 'true');
+      if (label) label.textContent = 'Close menu';
+      document.body.classList.add('is-locked');
+    };
+
+    const close = (restoreFocus = true) => {
+      menu.classList.remove('is-visible');
+      header.classList.remove('menu-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      if (label) label.textContent = 'Open menu';
+      document.body.classList.remove('is-locked');
+      window.setTimeout(() => {
+        if (!menu.classList.contains('is-visible')) menu.hidden = true;
+      }, 350);
+      if (restoreFocus && lastFocus instanceof HTMLElement) lastFocus.focus();
+    };
+
+    toggle.addEventListener('click', () => (toggle.getAttribute('aria-expanded') === 'true' ? close() : open()));
+
+    menu.addEventListener('click', (e) => {
+      const link = (e.target as HTMLElement).closest('a');
+      if (link) close(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (toggle.getAttribute('aria-expanded') !== 'true') return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'Tab') {
+        const items = focusables();
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    });
+
+    window.matchMedia('(min-width: 1100px)').addEventListener('change', (mq) => {
+      if (mq.matches && toggle.getAttribute('aria-expanded') === 'true') close(false);
+    });
+  }
+
+  // ---- Mega menu (keyboard / touch) ----
+  document.querySelectorAll<HTMLElement>('[data-mega]').forEach((item) => {
+    const btn = item.querySelector<HTMLButtonElement>('[data-mega-toggle]');
+    if (!btn) return;
+    const set = (open: boolean) => {
+      item.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+    };
+    btn.addEventListener('click', () => set(!item.classList.contains('is-open')));
+    item.addEventListener('mouseenter', () => btn.setAttribute('aria-expanded', 'true'));
+    item.addEventListener('mouseleave', () => set(false));
+    item.addEventListener('focusout', (e) => {
+      if (!item.contains(e.relatedTarget as Node)) set(false);
+    });
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        set(false);
+        btn.focus();
+      }
+    });
+  });
+</script>

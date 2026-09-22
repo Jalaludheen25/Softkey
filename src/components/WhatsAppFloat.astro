@@ -1,0 +1,93 @@
+---
+import Icon from './Icon.astro';
+import { CONTACT, whatsappLink } from '@/data/site';
+---
+
+<a class="wa-float" href={whatsappLink()} target="_blank" rel="noopener" aria-label={`Chat with Softkey on WhatsApp (${CONTACT.whatsapp.display})`}>
+  <span class="wa-float__ring" aria-hidden="true"></span>
+  <Icon name="whatsapp" size={28} />
+  <span class="wa-float__label" aria-hidden="true">Chat with us</span>
+</a>
+
+<style>
+  .wa-float {
+    position: fixed;
+    right: max(16px, env(safe-area-inset-right));
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 90;
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    color: var(--navy-950);
+    background: var(--grad-gold);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.5),
+      0 16px 34px -12px rgb(0 0 0 / 0.6),
+      0 8px 24px -10px rgb(212 175 106 / 0.6);
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  .wa-float:hover {
+    transform: translateY(-3px) scale(1.04);
+  }
+
+  @media (max-width: 639px) {
+    .wa-float {
+      width: 52px;
+      height: 52px;
+    }
+    .wa-float :global(.icon) {
+      width: 25px;
+      height: 25px;
+    }
+  }
+
+  .wa-float__ring {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgb(212 175 106 / 0.6);
+    animation: wa-pulse 2.8s var(--ease-out) infinite;
+  }
+
+  .wa-float__label {
+    position: absolute;
+    right: calc(100% + 12px);
+    top: 50%;
+    padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+    background: rgb(5 12 31 / 0.9);
+    border: 1px solid rgb(212 175 106 / 0.35);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 650;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translate(8px, -50%);
+    pointer-events: none;
+    transition:
+      opacity 0.3s,
+      transform 0.4s var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    .wa-float:hover .wa-float__label {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+
+  @keyframes wa-pulse {
+    0% {
+      transform: scale(0.9);
+      opacity: 0.9;
+    }
+    70%,
+    100% {
+      transform: scale(1.35);
+      opacity: 0;
+    }
+  }
+</style>

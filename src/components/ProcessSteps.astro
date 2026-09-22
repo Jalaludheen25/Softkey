@@ -1,0 +1,143 @@
+---
+import type { Step } from '@/data/services';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  steps: Step[];
+  id?: string;
+}
+const { eyebrow, title, lead, steps, id = 'process' } = Astro.props;
+---
+
+<section class="ps theme-light section" aria-labelledby={`${id}-title`}>
+  <div class="container">
+    <div class="section-head section-head--center">
+      <p class="eyebrow eyebrow--center" data-reveal>{eyebrow}</p>
+      <h2 id={`${id}-title`} class="h2" data-reveal style="--d:1" set:html={title} />
+      {lead && <p class="lead" data-reveal style="--d:2">{lead}</p>}
+    </div>
+
+    <ol class="ps__steps" role="list">
+      {
+        steps.map((s, i) => (
+          <li class="ps__step" data-reveal style={`--d:${i}`}>
+            <span class="ps__num" aria-hidden="true">
+              <span>0{i + 1}</span>
+            </span>
+            <h3 class="ps__title">
+              <span class="sr-only">Step {i + 1}: </span>
+              {s.title}
+            </h3>
+            <p class="ps__text">{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .ps {
+    background: var(--ivory-2);
+  }
+
+  .ps__steps {
+    position: relative;
+    display: grid;
+    gap: 2.25rem;
+    margin: clamp(2.5rem, 2rem + 2vw, 4rem) 0 0;
+    padding: 0;
+    counter-reset: step;
+  }
+
+  @media (min-width: 900px) {
+    .ps__steps {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2rem;
+    }
+
+    .ps__steps::before {
+      content: '';
+      position: absolute;
+      top: 32px;
+      left: 12.5%;
+      right: 12.5%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold-600), rgb(185 141 54 / 0.2));
+    }
+  }
+
+  .ps__step {
+    position: relative;
+    display: grid;
+    gap: 0.6rem;
+    justify-items: center;
+    text-align: center;
+  }
+
+  @media (max-width: 899px) {
+    .ps__step {
+      grid-template-columns: auto 1fr;
+      justify-items: start;
+      text-align: left;
+      column-gap: 1.25rem;
+    }
+    .ps__num {
+      grid-row: span 2;
+    }
+    .ps__step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 31px;
+      top: 70px;
+      bottom: -2rem;
+      width: 1px;
+      background: rgb(185 141 54 / 0.35);
+    }
+  }
+
+  .ps__num {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--ivory-2);
+    border: 1px solid rgb(185 141 54 / 0.45);
+    margin-bottom: 0.5rem;
+  }
+
+  .ps__num span {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--navy-900);
+    color: var(--gold-300);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.35rem;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .ps__step:hover .ps__num span {
+    transform: scale(1.08) rotate(-6deg);
+  }
+
+  .ps__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .ps__text {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    line-height: 1.65;
+    max-width: 17rem;
+  }
+</style>

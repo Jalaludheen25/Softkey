@@ -1,0 +1,107 @@
+---
+import Icon from './Icon.astro';
+import type { Faq } from '@/data/services';
+
+interface Props {
+  faqs: Faq[];
+}
+const { faqs } = Astro.props;
+---
+
+<div class="faq">
+  {
+    faqs.map((f, i) => (
+      <details class="faq__item" name="faq" open={i === 0} data-reveal style={`--d:${i}`}>
+        <summary class="faq__q">
+          <span>{f.q}</span>
+          <span class="faq__icon" aria-hidden="true">
+            <Icon name="plus" size={18} stroke={1.8} />
+          </span>
+        </summary>
+        <div class="faq__a">
+          <p>{f.a}</p>
+        </div>
+      </details>
+    ))
+  }
+</div>
+
+<style>
+  .faq {
+    border-top: 1px solid var(--border);
+    interpolate-size: allow-keywords;
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .faq__item::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.5s var(--ease-out),
+      content-visibility 0.5s allow-discrete;
+  }
+
+  .faq__item[open]::details-content {
+    block-size: auto;
+  }
+
+  .faq__q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.4rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-size: 1.1rem;
+    font-weight: 650;
+    line-height: 1.4;
+    color: var(--fg-strong);
+    transition: color 0.25s;
+  }
+
+  .faq__q::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__q:hover {
+    color: var(--accent-strong);
+  }
+
+  .faq__icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex: none;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    color: var(--accent);
+    transition:
+      transform 0.4s var(--ease-out),
+      background-color 0.3s,
+      color 0.3s;
+  }
+
+  .faq__item[open] .faq__icon {
+    transform: rotate(45deg);
+    background: var(--gold-400);
+    border-color: var(--gold-400);
+    color: var(--navy-950);
+  }
+
+  .faq__a p {
+    padding: 0 3.5rem 1.5rem 0;
+    color: var(--fg-muted);
+    line-height: 1.75;
+  }
+
+  @media (max-width: 639px) {
+    .faq__a p {
+      padding-right: 0;
+    }
+  }
+</style>

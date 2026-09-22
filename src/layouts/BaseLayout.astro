@@ -1,0 +1,152 @@
+---
+import '@fontsource-variable/manrope/wght.css';
+import '@fontsource/instrument-serif/latin-400-italic.css';
+import '@/styles/global.css';
+import manropeLatin from '@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url';
+import serifLatin from '@fontsource/instrument-serif/files/instrument-serif-latin-400-italic.woff2?url';
+
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import WhatsAppFloat from '@/components/WhatsAppFloat.astro';
+import { SITE, CONTACT, LOCATIONS, REGISTERED_OFFICE } from '@/data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Absolute or root-relative image path for social sharing */
+  image?: string;
+  noindex?: boolean;
+  /** Extra JSON-LD nodes for this page */
+  schema?: Record<string, unknown>[];
+  /** Use the raw title (no brand suffix) */
+  rawTitle?: boolean;
+}
+
+const { title, description, image = '/og-default.png', noindex = false, schema = [], rawTitle = false } = Astro.props;
+
+const pageTitle = rawTitle ? title : `${title} | ${SITE.name}`;
+const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), SITE.url).href;
+const ogImage = new URL(image, SITE.url).href;
+
+const orgId = `${SITE.url}/#organization`;
+const graph = [
+  {
+    '@type': 'Organization',
+    '@id': orgId,
+    name: SITE.legalName,
+    alternateName: SITE.name,
+    legalName: SITE.legalNameLong,
+    url: `${SITE.url}/`,
+    logo: `${SITE.url}/icon-512.png`,
+    image: `${SITE.url}/og-default.png`,
+    email: CONTACT.email.display,
+    telephone: CONTACT.phone.e164,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: REGISTERED_OFFICE.streetAddress,
+      addressLocality: REGISTERED_OFFICE.locality,
+      addressRegion: REGISTERED_OFFICE.region,
+      postalCode: REGISTERED_OFFICE.postalCode,
+      addressCountry: REGISTERED_OFFICE.country,
+    },
+    contactPoint: [
+      { '@type': 'ContactPoint', telephone: CONTACT.phone.e164, contactType: 'customer service', areaServed: 'IN' },
+      { '@type': 'ContactPoint', telephone: CONTACT.whatsapp.e164, contactType: 'sales', areaServed: 'IN' },
+    ],
+    department: LOCATIONS.map((l) => ({
+      '@type': 'LocalBusiness',
+      '@id': `${SITE.url}/#branch-${l.id}`,
+      name: `${SITE.name} — ${l.city}`,
+      telephone: CONTACT.phone.e164,
+      email: CONTACT.email.display,
+      url: `${SITE.url}/contact/`,
+      image: `${SITE.url}/og-default.png`,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: l.address,
+        addressLocality: l.city,
+        addressRegion: l.state,
+        addressCountry: 'IN',
+      },
+    })),
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${SITE.url}/#website`,
+    url: `${SITE.url}/`,
+    name: SITE.name,
+    publisher: { '@id': orgId },
+    inLanguage: 'en-IN',
+  },
+  ...schema,
+];
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+---
+
+<!doctype html>
+<html lang="en-IN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+
+    <meta name="theme-color" content={SITE.themeColor} />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <link rel="preload" href={manropeLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifLatin} as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.legalName} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Softkey Technologies Private Limited" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script type="application/ld+json" set:html={jsonLd} />
+
+    <script is:inline>
+      // Enable reveal animations only when JS runs; fall back to visible content if main script fails.
+      document.documentElement.classList.add('js');
+      setTimeout(function () {
+        if (!window.__skReady) document.documentElement.classList.remove('js');
+      }, 3500);
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+
+    <script>
+      import { initSite } from '@/scripts/site';
+      initSite();
+    </script>
+  </body>
+</html>
+
+<style>
+  main:focus {
+    outline: none;
+  }
+</style>

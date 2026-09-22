@@ -1,0 +1,291 @@
+---
+import { Picture } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Icon from '@/components/Icon.astro';
+import Industries from '@/components/Industries.astro';
+import ProcessSteps from '@/components/ProcessSteps.astro';
+import CTASection from '@/components/CTASection.astro';
+import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
+import { whatsappLink } from '@/data/site';
+import { breadcrumbSchema } from '@/data/schema';
+
+const crumbs = [{ label: 'Services' }];
+const engage = [
+  { title: 'Consult', text: 'A conversation about your business, your current setup and what needs to change.' },
+  { title: 'Plan', text: 'A clear recommendation — license, setup, customization or support — with scope agreed up front.' },
+  { title: 'Deliver', text: 'Implementation, development or training carried out and verified with your team.' },
+  { title: 'Support', text: 'Ongoing help through AMC, WhatsApp, phone, email and remote sessions.' },
+];
+---
+
+<BaseLayout
+  title="Tally Services — Licenses, Implementation, Customization & AMC"
+  description="TallyPrime licenses, implementation, customization, integration, AMC, cloud, GST setup, business apps and training from Softkey Technologies in Kannur, Payyannur and Mangaluru."
+  schema={[breadcrumbSchema(crumbs, '/services/')]}
+>
+  <PageHero
+    eyebrow="Our services"
+    title={`Tally services, <em class="accent">end to end</em>`}
+    lead="Nine focused services that cover the full life of your Tally setup — from choosing a license to customizing, connecting, supporting and training."
+    crumbs={crumbs}
+  >
+    <Fragment slot="actions">
+      <a class="btn btn--gold btn--lg" href="/contact/">Get Started <Icon name="arrow-right" class="icon--arrow" stroke={2} /></a>
+      <a class="btn btn--glass btn--lg" href={whatsappLink('Hello Softkey Technologies, I would like to talk to a Tally expert.')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" /> Talk to an Expert
+      </a>
+    </Fragment>
+    <nav class="jump" aria-label="Service categories" data-reveal style="--d:5">
+      {
+        SERVICE_GROUPS.map((g) => (
+          <a href={`#${g.id}`}>
+            <Icon name={g.icon} size={16} /> {g.title}
+          </a>
+        ))
+      }
+    </nav>
+  </PageHero>
+
+  <section class="groups theme-light" aria-label="Services by category">
+    {
+      SERVICE_GROUPS.map((g, gi) => (
+        <div class="group section" id={g.id}>
+          <div class="container group__grid">
+            <div class="group__aside">
+              <div class="group__sticky">
+                <p class="group__index" data-reveal>
+                  0{gi + 1} <span>/ 0{SERVICE_GROUPS.length}</span>
+                </p>
+                <h2 class="h2" data-reveal style="--d:1">
+                  {g.title}
+                </h2>
+                <p class="lead" data-reveal style="--d:2">
+                  {g.summary}
+                </p>
+                <div class="frame group__img" data-reveal="zoom" style="--d:2">
+                  <Picture src={g.image} formats={['avif', 'webp']} alt={g.imageAlt} widths={[480, 720, 960]} sizes="(min-width: 1024px) 520px, 92vw" loading="lazy" />
+                </div>
+              </div>
+            </div>
+            <ul class="group__list" role="list">
+              {servicesInGroup(g.id).map((s, i) => (
+                <li data-reveal style={`--d:${i}`}>
+                  <a class="srow" href={serviceHref(s.slug)}>
+                    <span class="icon-ring">
+                      <Icon name={s.icon} />
+                    </span>
+                    <span class="srow__body">
+                      <span class="srow__title">{s.title}</span>
+                      <span class="srow__text">{s.summary}</span>
+                      <span class="srow__tags">
+                        {s.outcomes.slice(0, 3).map((o) => (
+                          <span>{o}</span>
+                        ))}
+                      </span>
+                    </span>
+                    <span class="srow__arrow" aria-hidden="true">
+                      <Icon name="arrow-up-right" size={20} />
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ))
+    }
+  </section>
+
+  <Industries />
+
+  <ProcessSteps
+    eyebrow="How we engage"
+    title={`Simple to start, <em class="accent">easy</em> to work with`}
+    lead="Whatever you need, the path is the same: understand first, agree the plan, deliver properly and stay close afterwards."
+    steps={engage}
+  />
+
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.95rem;
+    border-radius: 999px;
+    border: 1px solid rgb(255 255 255 / 0.14);
+    background: rgb(255 255 255 / 0.03);
+    font-size: 0.85rem;
+    font-weight: 650;
+    color: var(--ink-200);
+    transition:
+      border-color 0.3s,
+      color 0.3s;
+  }
+
+  .jump a :global(.icon) {
+    color: var(--gold-400);
+  }
+
+  .jump a:hover {
+    border-color: var(--gold-400);
+    color: #fff;
+  }
+
+  .groups {
+    background: var(--ivory);
+  }
+
+  .group + .group {
+    border-top: 1px solid var(--border);
+  }
+
+  .group:nth-child(even) {
+    background: var(--ivory-2);
+  }
+
+  .group__grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .group__grid {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 5rem;
+      align-items: start;
+    }
+    .group__sticky {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+  }
+
+  .group__sticky {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .group__index {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 2rem;
+    line-height: 1;
+    color: var(--gold-700);
+  }
+
+  .group__index span {
+    font-size: 1.1rem;
+    color: var(--fg-subtle);
+  }
+
+  .group__img {
+    margin-top: 0.75rem;
+    aspect-ratio: 16 / 10;
+    box-shadow: 0 30px 60px -35px rgb(6 23 49 / 0.55);
+  }
+
+  .group__list {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .srow {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 1.25rem;
+    align-items: start;
+    padding: clamp(1.4rem, 1.1rem + 1vw, 2rem);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    border: 1px solid rgb(6 23 49 / 0.06);
+    box-shadow: 0 20px 40px -32px rgb(6 23 49 / 0.45);
+    transition:
+      transform 0.5s var(--ease-out),
+      box-shadow 0.5s var(--ease-out),
+      border-color 0.4s;
+  }
+
+  .srow:hover {
+    transform: translateY(-4px);
+    border-color: rgb(185 141 54 / 0.35);
+    box-shadow: 0 34px 60px -34px rgb(6 23 49 / 0.55);
+  }
+
+  .srow__body {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .srow__title {
+    font-size: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--fg-strong);
+    line-height: 1.25;
+  }
+
+  .srow__text {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    line-height: 1.65;
+  }
+
+  .srow__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+  }
+
+  .srow__tags span {
+    padding: 0.28rem 0.7rem;
+    border-radius: 999px;
+    background: var(--ivory);
+    border: 1px solid var(--border);
+    font-size: 0.75rem;
+    font-weight: 650;
+    color: var(--fg-muted);
+  }
+
+  .srow__arrow {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    color: var(--navy-900);
+    transition:
+      transform 0.5s var(--ease-out),
+      background-color 0.4s,
+      color 0.4s,
+      border-color 0.4s;
+  }
+
+  .srow:hover .srow__arrow {
+    transform: rotate(45deg);
+    background: var(--navy-900);
+    border-color: var(--navy-900);
+    color: var(--gold-300);
+  }
+
+  @media (max-width: 639px) {
+    .srow {
+      grid-template-columns: auto minmax(0, 1fr);
+    }
+    .srow__arrow {
+      display: none;
+    }
+  }
+</style>

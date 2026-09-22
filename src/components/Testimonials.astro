@@ -1,0 +1,294 @@
+---
+import Icon from './Icon.astro';
+import { TESTIMONIALS, TESTIMONIALS_ARE_PLACEHOLDERS } from '@/data/testimonials';
+---
+
+<section class="tst theme-light section" aria-labelledby="tst-title">
+  <div class="container">
+    <div class="tst__head">
+      <div class="section-head">
+        <p class="eyebrow" data-reveal>Client voices</p>
+        <h2 id="tst-title" class="h2" data-reveal style="--d:1">
+          What our clients <em class="accent">say</em>
+        </h2>
+      </div>
+      {
+        TESTIMONIALS_ARE_PLACEHOLDERS && (
+          <p class="tst__notice" data-reveal style="--d:2">
+            <Icon name="quote" size={16} />
+            Placeholder testimonials — to be replaced with verified client reviews.
+          </p>
+        )
+      }
+    </div>
+
+    <div class="tst__stage" data-tst data-reveal style="--d:2">
+      <svg class="tst__mark" viewBox="0 0 64 48" aria-hidden="true">
+        <path
+          d="M0 48V29.6C0 12.4 8.2 2.5 24.6 0l2.2 6.4C18.4 8.8 14 14.2 13.6 22.6H26V48H0Zm38 0V29.6C38 12.4 46.2 2.5 62.6 0l2.2 6.4C56.4 8.8 52 14.2 51.6 22.6H64V48H38Z"
+          fill="currentColor"></path>
+      </svg>
+
+      <div class="tst__track" data-tst-track tabindex="0" role="region" aria-roledescription="carousel" aria-label="Client testimonials">
+        {
+          TESTIMONIALS.map((t, i) => (
+            <figure class="tst__slide" role="group" aria-roledescription="slide" aria-label={`${i + 1} of ${TESTIMONIALS.length}`} data-tst-slide>
+              <blockquote>
+                <p>{t.quote}</p>
+              </blockquote>
+              <figcaption>
+                <span class="tst__avatar" aria-hidden="true">
+                  <Icon name="user-round-check" size={20} />
+                </span>
+                <span>
+                  <strong>{t.name}</strong>
+                  <span>
+                    {t.role} · {t.location}
+                  </span>
+                </span>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+
+      <div class="tst__nav">
+        <button class="tst__btn" type="button" data-tst-prev aria-label="Previous testimonial">
+          <Icon name="arrow-right" size={20} class="flip" />
+        </button>
+        <div class="tst__dots">
+          {TESTIMONIALS.map((_, i) => <button type="button" class="tst__dot" aria-label={`Show testimonial ${i + 1}`} aria-current={i === 0 ? 'true' : undefined} data-tst-dot={i} />)}
+        </div>
+        <button class="tst__btn" type="button" data-tst-next aria-label="Next testimonial">
+          <Icon name="arrow-right" size={20} />
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tst {
+    background:
+      radial-gradient(50% 60% at 50% 100%, rgb(185 141 54 / 0.1), transparent 70%),
+      var(--ivory-2);
+  }
+
+  .tst__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+  }
+
+  .tst__notice {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    border: 1px dashed var(--border-gold);
+    background: rgb(255 255 255 / 0.6);
+    color: var(--gold-800);
+    font-size: var(--fs-xs);
+    font-weight: 650;
+  }
+
+  .tst__stage {
+    position: relative;
+    margin-top: clamp(2rem, 1.5rem + 2vw, 3.25rem);
+    padding: clamp(2rem, 1.25rem + 3vw, 4rem) clamp(1.25rem, 0.5rem + 4vw, 5rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    border-radius: var(--radius-xl);
+    background: #fff;
+    border: 1px solid rgb(6 23 49 / 0.06);
+    box-shadow: 0 40px 80px -50px rgb(6 23 49 / 0.45);
+    overflow: hidden;
+  }
+
+  .tst__mark {
+    position: absolute;
+    top: clamp(1.25rem, 1rem + 1vw, 2rem);
+    right: clamp(1.25rem, 1rem + 2vw, 3rem);
+    width: clamp(48px, 40px + 3vw, 84px);
+    color: rgb(185 141 54 / 0.18);
+  }
+
+  @media (max-width: 767px) {
+    .tst__stage {
+      padding-top: 4.75rem;
+    }
+    .tst__mark {
+      top: 1.5rem;
+      left: 1.25rem;
+      right: auto;
+      width: 44px;
+      color: rgb(185 141 54 / 0.35);
+    }
+  }
+
+  .tst__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .tst__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tst__slide {
+    margin: 0;
+    padding-right: 2px;
+    scroll-snap-align: start;
+    display: grid;
+    gap: 2rem;
+    align-content: start;
+  }
+
+  .tst__slide blockquote p {
+    max-width: 52rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.45rem, 1.1rem + 1.6vw, 2.4rem);
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    color: var(--navy-900);
+  }
+
+  .tst__slide figcaption {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    line-height: 1.3;
+  }
+
+  .tst__slide figcaption strong {
+    display: block;
+    color: var(--fg-strong);
+    font-weight: 700;
+  }
+
+  .tst__slide figcaption span span {
+    color: var(--fg-subtle);
+    font-size: var(--fs-sm);
+  }
+
+  .tst__avatar {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex: none;
+    border-radius: 50%;
+    background: var(--navy-900);
+    color: var(--gold-300);
+  }
+
+  .tst__nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .tst__btn {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    color: var(--navy-900);
+    transition:
+      background-color 0.3s,
+      color 0.3s,
+      border-color 0.3s;
+  }
+
+  .tst__btn:hover {
+    background: var(--navy-900);
+    border-color: var(--navy-900);
+    color: var(--gold-300);
+  }
+
+  .tst__btn :global(.flip) {
+    transform: scaleX(-1);
+  }
+
+  .tst__dots {
+    display: flex;
+    gap: 0.5rem;
+    margin-inline: auto;
+  }
+
+  .tst__dot {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+  }
+
+  .tst__dot::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: rgb(6 23 49 / 0.2);
+    transition:
+      width 0.4s var(--ease-out),
+      background-color 0.3s;
+  }
+
+  .tst__dot[aria-current='true']::before {
+    width: 26px;
+    background: var(--gold-600);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tst]').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-tst-track]');
+    const slides = Array.from(root.querySelectorAll<HTMLElement>('[data-tst-slide]'));
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-tst-dot]'));
+    if (!track || !slides.length) return;
+    let index = 0;
+    let timer = 0;
+
+    const go = (i: number) => {
+      index = (i + slides.length) % slides.length;
+      track.scrollTo({ left: slides[index].offsetLeft - track.offsetLeft, behavior: 'smooth' });
+    };
+
+    const sync = () => {
+      const i = Math.round(track.scrollLeft / track.clientWidth);
+      index = Math.max(0, Math.min(slides.length - 1, i));
+      dots.forEach((d, j) => (j === index ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current')));
+    };
+
+    root.querySelector('[data-tst-prev]')?.addEventListener('click', () => go(index - 1));
+    root.querySelector('[data-tst-next]')?.addEventListener('click', () => go(index + 1));
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+    track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const start = () => {
+      if (reduce) return;
+      stop();
+      timer = window.setInterval(() => go(index + 1), 7000);
+    };
+    const stop = () => window.clearInterval(timer);
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    const io = new IntersectionObserver(([e]) => (e.isIntersecting ? start() : stop()), { threshold: 0.4 });
+    io.observe(root);
+  });
+</script>

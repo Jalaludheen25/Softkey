@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@/components/home/Hero.astro';
+import Marquee from '@/components/Marquee.astro';
+import Intro from '@/components/home/Intro.astro';
+import ServicesShowcase from '@/components/home/ServicesShowcase.astro';
+import WhyChoose from '@/components/home/WhyChoose.astro';
+import Industries from '@/components/Industries.astro';
+import Ecosystem from '@/components/Ecosystem.astro';
+import Locations from '@/components/Locations.astro';
+import Testimonials from '@/components/Testimonials.astro';
+import CTASection from '@/components/CTASection.astro';
+import { SITE } from '@/data/site';
+
+const keywords = [
+  'TallyPrime',
+  'Implementation',
+  'Customization',
+  'Integration',
+  'AMC & Support',
+  'Tally on Cloud',
+  'GST & e-Invoicing',
+  'Business Apps',
+  'Training',
+];
+---
+
+<BaseLayout
+  rawTitle
+  title="Softkey Technologies | Tally Channel Partner in Kannur, Payyannur & Mangaluru"
+  description={SITE.description}
+>
+  <Hero />
+  <Marquee items={keywords} />
+  <Intro />
+  <ServicesShowcase />
+  <WhyChoose />
+  <Industries />
+  <Ecosystem />
+  <Locations />
+  <Testimonials />
+  <CTASection />
+</BaseLayout>

@@ -1,0 +1,84 @@
+---
+/**
+ * Softkey Technologies logo — vector rebuild of the client's mark.
+ * Primary colour follows `currentColor`; gold and the lime dot are fixed brand colours.
+ */
+import { ICON, WORDMARK } from '@/data/brand-geometry';
+
+interface Props {
+  variant?: 'horizontal' | 'icon' | 'stacked';
+  /** "light" = for dark backgrounds, "dark" = for light backgrounds */
+  tone?: 'light' | 'dark';
+  class?: string;
+  title?: string;
+  decorative?: boolean;
+}
+
+const { variant = 'horizontal', tone = 'light', class: className, title = 'Softkey Technologies Private Limited', decorative = false } = Astro.props;
+
+const gold = tone === 'light' ? '#D9B870' : '#B98D36';
+const [ix, iy, iw] = ICON.viewBox.split(' ').map(Number);
+
+// Horizontal lockup geometry (matches scripts/generate-brand.mjs)
+const H = 163;
+const hScale = (H * 0.66) / WORDMARK.twoLineHeight;
+const hGap = 34;
+const hW = H + hGap + WORDMARK.width * hScale;
+const ty = (H - WORDMARK.twoLineHeight * hScale) / 2;
+
+const pvt = WORDMARK.privateLimited;
+const ruleGap = 20;
+const ruleInset = 14;
+const ruleW = pvt.x - ruleGap - ruleInset;
+const ruleY = pvt.baseline - pvt.cap / 2;
+
+const a11y: { 'aria-hidden'?: 'true'; role?: 'img'; 'aria-label'?: string } = decorative
+  ? { 'aria-hidden': 'true' }
+  : { role: 'img', 'aria-label': title };
+---
+
+{
+  variant === 'icon' && (
+    <svg class:list={['logo', 'logo--icon', className]} viewBox={ICON.viewBox} xmlns="http://www.w3.org/2000/svg" {...a11y}>
+      <path d={ICON.ring} fill="currentColor" />
+      <path d={ICON.shape} fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round" />
+      <circle class="logo__dot" cx={ICON.dot.cx} cy={ICON.dot.cy} r={ICON.dot.r} fill="#99EB26" />
+    </svg>
+  )
+}
+
+{
+  variant === 'horizontal' && (
+    <svg class:list={['logo', 'logo--horizontal', className]} viewBox={`0 0 ${hW.toFixed(2)} ${H}`} xmlns="http://www.w3.org/2000/svg" {...a11y}>
+      <g transform={`translate(${-ix} ${-iy})`}>
+        <path d={ICON.ring} fill="currentColor" />
+        <path d={ICON.shape} fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round" />
+        <circle class="logo__dot" cx={ICON.dot.cx} cy={ICON.dot.cy} r={ICON.dot.r} fill="#99EB26" />
+      </g>
+      <g transform={`translate(${iw + hGap} ${ty.toFixed(2)}) scale(${hScale.toFixed(4)})`}>
+        <path transform={`translate(0 ${WORDMARK.softkey.baseline})`} d={WORDMARK.softkey.d} fill="currentColor" />
+        <path transform={`translate(0 ${WORDMARK.technologies.baseline})`} d={WORDMARK.technologies.d} fill={gold} />
+      </g>
+    </svg>
+  )
+}
+
+{
+  variant === 'stacked' && (
+    <svg class:list={['logo', 'logo--stacked', className]} viewBox={`0 0 ${WORDMARK.width} ${WORDMARK.stackedHeight}`} xmlns="http://www.w3.org/2000/svg" {...a11y}>
+      <path transform={`translate(0 ${WORDMARK.softkey.baseline})`} d={WORDMARK.softkey.d} fill="currentColor" />
+      <path transform={`translate(0 ${WORDMARK.technologies.baseline})`} d={WORDMARK.technologies.d} fill={gold} />
+      <path transform={`translate(${pvt.x} ${pvt.baseline})`} d={pvt.d} fill="currentColor" />
+      <rect x={ruleInset} y={ruleY - 1.5} width={ruleW} height="3" fill={gold} />
+      <rect x={pvt.x + pvt.width + ruleGap} y={ruleY - 1.5} width={ruleW} height="3" fill={gold} />
+    </svg>
+  )
+}
+
+<style>
+  .logo {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+</style>

@@ -1,0 +1,81 @@
+---
+interface Props {
+  items: string[];
+  speed?: number;
+}
+const { items, speed = 45 } = Astro.props;
+const loop = [...items, ...items];
+---
+
+<div class="marquee" style={`--speed:${speed}s`} role="presentation">
+  <p class="sr-only">{items.join(', ')}</p>
+  <div class="marquee__track" aria-hidden="true">
+    {
+      loop.map((item) => (
+        <span class="marquee__item">
+          {item}
+          <svg viewBox="0 0 12 12" class="marquee__star">
+            <path d="M6 0 7.2 4.8 12 6 7.2 7.2 6 12 4.8 7.2 0 6 4.8 4.8Z" fill="currentColor" />
+          </svg>
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    position: relative;
+    overflow: hidden;
+    padding-block: 1.35rem;
+    background: linear-gradient(180deg, #061430, #050c1f);
+    border-block: 1px solid rgb(212 175 106 / 0.18);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee var(--speed) linear infinite;
+  }
+
+  .marquee:hover .marquee__track {
+    animation-play-state: paused;
+  }
+
+  .marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+    padding-right: clamp(1.25rem, 1rem + 1.5vw, 2.5rem);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(1.35rem, 1.1rem + 1.1vw, 2.1rem);
+    line-height: 1.2;
+    white-space: nowrap;
+    color: var(--gold-200);
+  }
+
+  .marquee__item:nth-child(even) {
+    color: var(--ink-300);
+  }
+
+  .marquee__star {
+    width: 0.5em;
+    height: 0.5em;
+    color: var(--gold-500);
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+    }
+  }
+</style>

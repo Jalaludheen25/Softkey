@@ -1,0 +1,91 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/Icon.astro';
+import Logo from '@/components/Logo.astro';
+import { SERVICES, serviceHref } from '@/data/services';
+---
+
+<BaseLayout title="Page not found" description="The page you were looking for could not be found." noindex>
+  <section class="nf theme-dark grain" aria-labelledby="nf-title">
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="container nf__inner">
+      <div class="nf__mark" aria-hidden="true">
+        <Logo variant="icon" decorative />
+      </div>
+      <p class="eyebrow eyebrow--center">Error 404</p>
+      <h1 id="nf-title" class="h1">This page has <em class="accent">moved</em> or doesn’t exist</h1>
+      <p class="lead">Let’s get you back on track. Try one of these pages instead.</p>
+      <div class="btn-row nf__actions">
+        <a class="btn btn--gold btn--lg" href="/">Back to home <Icon name="arrow-right" class="icon--arrow" stroke={2} /></a>
+        <a class="btn btn--glass btn--lg" href="/contact/">Contact us</a>
+      </div>
+      <ul class="nf__links" role="list">
+        {
+          SERVICES.slice(0, 6).map((s) => (
+            <li>
+              <a href={serviceHref(s.slug)}>{s.navTitle}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    position: relative;
+    overflow: clip;
+    min-height: 100svh;
+    display: grid;
+    align-items: center;
+    padding: calc(var(--header-h) + 3rem) 0 5rem;
+    background: var(--grad-navy);
+    text-align: center;
+  }
+
+  .nf__inner {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 1.25rem;
+    max-width: 760px;
+  }
+
+  .nf__mark {
+    width: 96px;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .nf__actions {
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+
+  .nf__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .nf__links a {
+    display: inline-block;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    font-size: 0.85rem;
+    font-weight: 650;
+    color: var(--ink-200);
+    transition:
+      border-color 0.3s,
+      color 0.3s;
+  }
+
+  .nf__links a:hover {
+    border-color: var(--gold-400);
+    color: #fff;
+  }
+</style>

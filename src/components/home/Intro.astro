@@ -1,0 +1,264 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from '@/components/Icon.astro';
+import Logo from '@/components/Logo.astro';
+import consulting from '@/assets/images/consulting.jpg';
+import { PARTNERS } from '@/data/partners';
+import { LOCATIONS } from '@/data/site';
+
+const facts = [
+  {
+    icon: 'map-pin',
+    title: 'Three branches, close to you',
+    text: `${LOCATIONS.map((l) => l.city).join(', ').replace(/, ([^,]*)$/, ' and $1')} — so on-site help is never far away.`,
+  },
+  {
+    icon: 'layers',
+    title: 'The whole Tally ecosystem',
+    text: 'Channel partner for Tally, Tally on Cloud (AWS), Biz Analyst, Live Keeping, CredFlow and Vyapar.',
+  },
+  {
+    icon: 'handshake',
+    title: 'One team, end to end',
+    text: 'Licensing, implementation, customization, integration, support and training under one roof.',
+  },
+];
+---
+
+<section class="intro theme-light section" id="intro" aria-labelledby="intro-title">
+  <div class="container intro__grid">
+    <div class="intro__media" data-reveal="left">
+      <div class="intro__frame-line" aria-hidden="true"></div>
+      <div class="frame intro__photo" data-parallax="0.04">
+        <Picture
+          src={consulting}
+          formats={['avif', 'webp']}
+          alt="Two professionals reviewing figures together over laptops and notes"
+          widths={[480, 720, 960, 1280]}
+          sizes="(min-width: 1024px) 560px, 92vw"
+          loading="lazy"
+        />
+      </div>
+      <div class="intro__card">
+        <div class="intro__card-head">
+          <span class="intro__card-logo"><Logo variant="icon" decorative /></span>
+          <span>
+            <small>Channel partner for</small>
+            <strong>Tally &amp; its ecosystem</strong>
+          </span>
+        </div>
+        <ul role="list" class="intro__card-list">
+          {PARTNERS.map((p) => <li>{p.name}</li>)}
+        </ul>
+      </div>
+    </div>
+
+    <div class="intro__copy">
+      <p class="eyebrow" data-reveal>Who we are</p>
+      <h2 id="intro-title" class="h2" data-reveal style="--d:1">
+        Your trusted partner for <em class="accent">Tally</em> — and everything around it.
+      </h2>
+      <div class="prose intro__prose" data-reveal style="--d:2">
+        <p>
+          <strong>Softkey Technologies Pvt. Ltd.</strong> is a channel partner for Tally, helping businesses in Kerala and Karnataka get more from
+          TallyPrime. We help you pick the right license, set it up properly, shape it around your processes and keep it running smoothly.
+        </p>
+        <p>
+          Because accounting rarely lives alone, we also bring in the connected tools that make a difference day to day — cloud access, mobile
+          reporting, automated collections and simple billing.
+        </p>
+      </div>
+
+      <ul role="list" class="intro__facts">
+        {
+          facts.map((f, i) => (
+            <li data-reveal style={`--d:${i + 3}`}>
+              <span class="icon-ring">
+                <Icon name={f.icon} />
+              </span>
+              <span>
+                <strong>{f.title}</strong>
+                <span>{f.text}</span>
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <a class="link-arrow intro__link" href="/about/" data-reveal style="--d:6">
+        More about Softkey <Icon name="arrow-up-right" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro {
+    overflow: clip;
+  }
+
+  .intro__grid {
+    display: grid;
+    gap: clamp(3rem, 2rem + 4vw, 5rem);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .intro__grid {
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    }
+  }
+
+  .intro__media {
+    position: relative;
+    padding: 0 0 3.5rem 0;
+    max-width: 600px;
+  }
+
+  @media (min-width: 640px) {
+    .intro__media {
+      padding: 0 4rem 3rem 0;
+    }
+  }
+
+  .intro__frame-line {
+    position: absolute;
+    inset: 1.5rem -0.25rem 1.25rem 1.5rem;
+    border: 1px solid var(--border-gold);
+    border-radius: var(--radius-lg);
+  }
+
+  @media (min-width: 640px) {
+    .intro__frame-line {
+      inset: 1.75rem 2.25rem 1.25rem 1.75rem;
+    }
+  }
+
+  .intro__photo {
+    aspect-ratio: 4 / 4.4;
+    transform: translateY(var(--parallax, 0));
+    box-shadow: 0 40px 80px -40px rgb(6 23 49 / 0.55);
+  }
+
+  .intro__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .intro__card {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: min(300px, 82%);
+    padding: 1.25rem 1.35rem;
+    border-radius: var(--radius);
+    color: var(--ink-100);
+    background: linear-gradient(160deg, rgb(13 35 73 / 0.94), rgb(5 12 31 / 0.96));
+    border: 1px solid rgb(212 175 106 / 0.25);
+    box-shadow: 0 30px 60px -24px rgb(6 23 49 / 0.7);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+  }
+
+  .intro__card-head {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    line-height: 1.25;
+  }
+
+  .intro__card-head small {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+    font-weight: 700;
+  }
+
+  .intro__card-head strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .intro__card-logo {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    flex: none;
+    border-radius: 12px;
+    background: rgb(255 255 255 / 0.06);
+    color: #fff;
+  }
+
+  .intro__card-logo :global(.logo) {
+    width: 30px;
+  }
+
+  .intro__card-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+
+  .intro__card-list li {
+    padding: 0.28rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 650;
+    color: var(--ink-200);
+    background: rgb(255 255 255 / 0.06);
+    border: 1px solid rgb(255 255 255 / 0.08);
+  }
+
+  .intro__copy {
+    display: grid;
+    gap: 1.4rem;
+    align-content: start;
+  }
+
+  .intro__prose {
+    font-size: 1.075rem;
+  }
+
+  .intro__prose strong {
+    color: var(--fg-strong);
+    font-weight: 700;
+  }
+
+  .intro__facts {
+    display: grid;
+    gap: 0;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .intro__facts li {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .intro__facts strong {
+    display: block;
+    color: var(--fg-strong);
+    font-weight: 700;
+    font-size: 1.05rem;
+    margin-bottom: 0.15rem;
+  }
+
+  .intro__facts li > span:last-child > span {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .intro__link {
+    justify-self: start;
+    margin-top: 0.5rem;
+  }
+</style>

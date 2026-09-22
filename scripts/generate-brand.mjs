@@ -97,7 +97,6 @@ const W = 575; // wordmark width
 const softkey = setText(bold, 'SOFTKEY', 100, W); // cap height 70
 const tech = setText(bold, 'TECHNOLOGIES', 57, W); // cap height ~40
 const pvtSize = 24.5;
-const pvt = setText(semi, 'PRIVATE LIMITED', pvtSize, 0);
 const pvtTracked = setText(semi, 'PRIVATE LIMITED', pvtSize, W * 0.7);
 
 const CAP1 = 70, CAP2 = 57 * 0.7, CAP3 = pvtSize * 0.7;

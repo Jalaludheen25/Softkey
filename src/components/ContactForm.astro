@@ -1,0 +1,329 @@
+---
+import Icon from './Icon.astro';
+import { SERVICES } from '@/data/services';
+import { LOCATIONS, CONTACT } from '@/data/site';
+
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT ?? '';
+const serviceNames = JSON.stringify(Object.fromEntries(SERVICES.map((s) => [s.slug, s.navTitle])));
+---
+
+<form class="cform" id="enquiry" data-form data-endpoint={endpoint} data-whatsapp={CONTACT.whatsapp.e164.replace('+', '')} data-email={CONTACT.email.display} data-services={serviceNames} novalidate>
+  <div class="cform__head">
+    <p class="eyebrow">Send an enquiry</p>
+    <h2 class="h3 cform__title">Tell us what you need</h2>
+    <p class="cform__sub">We usually reply on WhatsApp or by phone. Fields marked <span class="req">*</span> are required.</p>
+  </div>
+
+  <div class="cform__grid">
+    <div class="field">
+      <label for="f-name">Your name <span class="req" aria-hidden="true">*</span></label>
+      <input class="input" id="f-name" name="name" type="text" autocomplete="name" required aria-describedby="e-name" maxlength="80" />
+      <p class="field-error" id="e-name" data-error-for="name"></p>
+    </div>
+
+    <div class="field">
+      <label for="f-phone">Phone / WhatsApp <span class="req" aria-hidden="true">*</span></label>
+      <input
+        class="input"
+        id="f-phone"
+        name="phone"
+        type="tel"
+        inputmode="tel"
+        autocomplete="tel"
+        required
+        aria-describedby="e-phone"
+        placeholder="e.g. 98460 00000"
+        maxlength="20"
+      />
+      <p class="field-error" id="e-phone" data-error-for="phone"></p>
+    </div>
+
+    <div class="field">
+      <label for="f-email">Email</label>
+      <input class="input" id="f-email" name="email" type="email" autocomplete="email" aria-describedby="e-email" maxlength="120" />
+      <p class="field-error" id="e-email" data-error-for="email"></p>
+    </div>
+
+    <div class="field">
+      <label for="f-business">Business name</label>
+      <input class="input" id="f-business" name="business" type="text" autocomplete="organization" maxlength="120" />
+    </div>
+
+    <div class="field">
+      <label for="f-service">I’m interested in</label>
+      <select class="input" id="f-service" name="service">
+        <option value="">Not sure yet — please advise</option>
+        {SERVICES.map((s) => <option value={s.slug}>{s.navTitle}</option>)}
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="f-location">Nearest branch</label>
+      <select class="input" id="f-location" name="location">
+        <option value="">Any</option>
+        {LOCATIONS.map((l) => <option value={l.city}>{l.city}</option>)}
+      </select>
+    </div>
+
+    <div class="field field--full">
+      <label for="f-message">How can we help? <span class="req" aria-hidden="true">*</span></label>
+      <textarea class="input" id="f-message" name="message" rows="5" required aria-describedby="e-message" maxlength="2000"
+      ></textarea>
+      <p class="field-error" id="e-message" data-error-for="message"></p>
+    </div>
+
+    <div class="hp" aria-hidden="true">
+      <label for="f-website">Leave this field empty</label>
+      <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+  </div>
+
+  <div class="cform__foot">
+    <button class="btn btn--gold btn--lg cform__submit" type="submit" data-submit>
+      <span data-submit-label>Send enquiry</span>
+      <Icon name="send" stroke={2} />
+    </button>
+    <p class="cform__note">
+      By sending, you agree to be contacted about your enquiry. See our <a href="/privacy-policy/">privacy policy</a>.
+    </p>
+  </div>
+
+  <div class="cform__status" role="status" aria-live="polite" data-status hidden></div>
+</form>
+
+<style>
+  .cform {
+    position: relative;
+    display: grid;
+    gap: 1.75rem;
+    padding: clamp(1.5rem, 1rem + 2.5vw, 2.75rem);
+    border-radius: var(--radius-xl);
+    background: #fff;
+    border: 1px solid rgb(6 23 49 / 0.06);
+    box-shadow: 0 50px 90px -60px rgb(6 23 49 / 0.6);
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+  }
+
+  .cform__head {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .cform__title {
+    font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.95rem);
+  }
+
+  .cform__sub {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+  }
+
+  .cform__grid {
+    display: grid;
+    gap: 1.1rem 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .cform__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .field--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .cform .input {
+    background: var(--surface-2);
+  }
+
+  .hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .cform__foot {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  @media (min-width: 640px) {
+    .cform__foot {
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 1.5rem;
+    }
+  }
+
+  .cform__submit[disabled] {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .cform__note {
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+  }
+
+  .cform__note a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .cform__status {
+    padding: 1.1rem 1.25rem;
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+
+  .cform__status[data-kind='success'] {
+    background: rgb(153 235 38 / 0.12);
+    border: 1px solid rgb(90 150 20 / 0.35);
+    color: #2c4a07;
+  }
+
+  .cform__status[data-kind='error'] {
+    background: rgb(224 113 106 / 0.1);
+    border: 1px solid rgb(194 65 58 / 0.35);
+    color: #8a2620;
+  }
+
+  .cform__status :global(a) {
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-form]').forEach((form) => {
+    const names: Record<string, string> = JSON.parse(form.dataset.services || '{}');
+    const serviceName = (slug: string) => names[slug] ?? '';
+    const status = form.querySelector<HTMLElement>('[data-status]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[data-submit]')!;
+    const submitLabel = form.querySelector<HTMLElement>('[data-submit-label]')!;
+    const endpoint = form.dataset.endpoint?.trim();
+    const waNumber = form.dataset.whatsapp!;
+    const email = form.dataset.email!;
+
+    // Pre-select a service from ?service=slug
+    const params = new URLSearchParams(location.search);
+    const pre = params.get('service');
+    const select = form.querySelector<HTMLSelectElement>('#f-service');
+    if (pre && select && Array.from(select.options).some((o) => o.value === pre)) select.value = pre;
+
+    const rules: Record<string, (v: string) => string> = {
+      name: (v) => (v.trim().length < 2 ? 'Please enter your name.' : ''),
+      phone: (v) => {
+        const digits = v.replace(/\D/g, '');
+        return digits.length < 10 || digits.length > 13 ? 'Please enter a valid phone number (10 digits).' : '';
+      },
+      email: (v) => (v && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? 'Please enter a valid email address.' : ''),
+      message: (v) => (v.trim().length < 5 ? 'Please tell us a little about what you need.' : ''),
+    };
+
+    const setError = (name: string, msg: string) => {
+      const field = form.elements.namedItem(name) as HTMLInputElement | null;
+      const out = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+      if (field) field.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      if (out) out.textContent = msg;
+    };
+
+    const validate = () => {
+      let first: HTMLElement | null = null;
+      for (const [name, rule] of Object.entries(rules)) {
+        const field = form.elements.namedItem(name) as HTMLInputElement;
+        const msg = rule(field.value);
+        setError(name, msg);
+        if (msg && !first) first = field;
+      }
+      return first;
+    };
+
+    Object.keys(rules).forEach((name) => {
+      const field = form.elements.namedItem(name) as HTMLInputElement;
+      field.addEventListener('blur', () => {
+        if (field.value) setError(name, rules[name](field.value));
+      });
+      field.addEventListener('input', () => {
+        if (field.getAttribute('aria-invalid') === 'true') setError(name, rules[name](field.value));
+      });
+    });
+
+    const show = (kind: 'success' | 'error', html: string) => {
+      status.hidden = false;
+      status.dataset.kind = kind;
+      status.innerHTML = html;
+    };
+
+    const escape = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const invalid = validate();
+      if (invalid) {
+        invalid.focus();
+        return;
+      }
+
+      const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+      if (data.website) return; // honeypot
+      const service = serviceName(data.service) || 'Not sure yet';
+
+      const lines = [
+        'New enquiry from tallygoldpartner.in',
+        `Name: ${data.name.trim()}`,
+        `Phone: ${data.phone.trim()}`,
+        data.email ? `Email: ${data.email.trim()}` : '',
+        data.business ? `Business: ${data.business.trim()}` : '',
+        `Interested in: ${service}`,
+        data.location ? `Nearest branch: ${data.location}` : '',
+        '',
+        data.message.trim(),
+      ].filter((l, i, arr) => l !== '' || (i > 0 && arr[i - 1] !== ''));
+      const text = lines.join('\n');
+      const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
+      const mailUrl = `mailto:${email}?subject=${encodeURIComponent(`Enquiry: ${service}`)}&body=${encodeURIComponent(text)}`;
+
+      if (endpoint) {
+        submit.disabled = true;
+        submitLabel.textContent = 'Sending…';
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ ...data, service, source: location.href }),
+          });
+          if (!res.ok) throw new Error(String(res.status));
+          form.reset();
+          show('success', `<strong>Thank you, ${escape(data.name.trim())}!</strong> Your enquiry has been sent. We will get back to you shortly.`);
+        } catch {
+          show(
+            'error',
+            `Sorry, we couldn’t send your enquiry just now. Please <a href="${waUrl}" target="_blank" rel="noopener">send it on WhatsApp</a> or <a href="${mailUrl}">email us</a> instead.`
+          );
+        } finally {
+          submit.disabled = false;
+          submitLabel.textContent = 'Send enquiry';
+        }
+        return;
+      }
+
+      // No backend configured: hand the enquiry to WhatsApp (with email as an alternative).
+      const win = window.open(waUrl, '_blank');
+      if (win) win.opener = null;
+      show(
+        'success',
+        `<strong>Almost done, ${escape(data.name.trim())}!</strong> ${win ? 'WhatsApp has opened with your enquiry — just press send.' : 'Tap below to send your enquiry on WhatsApp.'}<br />
+         <a href="${waUrl}" target="_blank" rel="noopener">Open WhatsApp</a> · <a href="${mailUrl}">Send by email instead</a>`
+      );
+    });
+  });
+</script>

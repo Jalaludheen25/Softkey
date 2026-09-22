@@ -1,0 +1,114 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import { SITE, CONTACT, REGISTERED_OFFICE } from '@/data/site';
+import { breadcrumbSchema } from '@/data/schema';
+
+const crumbs = [{ label: 'Privacy policy' }];
+const updated = 'September 2026';
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="How Softkey Technologies Pvt. Ltd. collects, uses and protects the information you share through tallygoldpartner.in."
+  schema={[breadcrumbSchema(crumbs, '/privacy-policy/')]}
+>
+  <PageHero eyebrow="Legal" title={`Privacy <em class="accent">policy</em>`} lead={`Last updated: ${updated}`} crumbs={crumbs} />
+
+  <section class="theme-light section">
+    <div class="container--narrow legal prose">
+      <p>
+        This policy explains how <strong>{SITE.legalName}</strong> (“Softkey Technologies”, “we”, “us”) handles information you share with us
+        through {SITE.domain} and when you contact us.
+      </p>
+
+      <h2>Information we collect</h2>
+      <p>
+        When you send an enquiry, we collect the details you choose to provide — such as your name, phone number, email address, business name,
+        nearest branch, the service you are interested in and your message. If you contact us on WhatsApp, by phone or by email, we receive the
+        information that channel shares with us, such as your number or email address.
+      </p>
+
+      <h2>How we use it</h2>
+      <ul>
+        <li>To respond to your enquiry and provide the services you request.</li>
+        <li>To share quotations, renewal reminders and support updates related to your products or services.</li>
+        <li>To keep records required for billing, accounting and legal compliance.</li>
+      </ul>
+      <p>We do not sell your personal information.</p>
+
+      <h2>Enquiry form and WhatsApp</h2>
+      <p>
+        Depending on how this website is configured, the enquiry form either opens WhatsApp with your message pre-filled, or sends your
+        details securely to our enquiry inbox through a form-processing service. When WhatsApp is used, your message is handled under WhatsApp’s
+        own privacy policy.
+      </p>
+
+      <h2>Cookies and analytics</h2>
+      <p>
+        This website does not use advertising cookies. If we add privacy-friendly analytics in future to understand how the site is used, this
+        policy will be updated accordingly.
+      </p>
+
+      <h2>Sharing</h2>
+      <p>
+        We share information only where needed to deliver a service you have asked for — for example with the software vendor when activating a
+        license or subscription on your behalf — or where required by law.
+      </p>
+
+      <h2>Retention and security</h2>
+      <p>
+        We keep enquiry and customer information only as long as it is needed for the purposes above or as required by law, and we take
+        reasonable measures to protect it.
+      </p>
+
+      <h2>Your choices</h2>
+      <p>
+        You can ask us to access, correct or delete the personal information we hold about you, or to stop contacting you, by writing to
+        <a href={CONTACT.email.href}>{CONTACT.email.display}</a>.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        {SITE.legalName}<br />
+        {REGISTERED_OFFICE.lines.join(', ')}<br />
+        Phone: <a href={CONTACT.phone.href}>{CONTACT.phone.display}</a> · Email: <a href={CONTACT.email.href}>{CONTACT.email.display}</a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+
+  .legal h2 {
+    margin: 2.5rem 0 0.75rem;
+    font-size: 1.35rem;
+    letter-spacing: -0.015em;
+  }
+
+  .legal strong {
+    color: var(--fg-strong);
+  }
+
+  .legal ul {
+    margin: 0.75rem 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .legal li::marker {
+    color: var(--gold-600);
+  }
+
+  .legal a {
+    color: var(--accent);
+    font-weight: 650;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

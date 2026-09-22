@@ -1,0 +1,334 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import { INDUSTRIES } from '@/data/industries';
+
+interface Props {
+  eyebrow?: string;
+  id?: string;
+}
+const { eyebrow = 'Industries we support', id = 'industries' } = Astro.props;
+---
+
+<section class="ind theme-dark section" aria-labelledby={`${id}-title`} id={id}>
+  <div class="container ind__head">
+    <div class="section-head">
+      <p class="eyebrow" data-reveal>{eyebrow}</p>
+      <h2 id={`${id}-title`} class="h2" data-reveal style="--d:1">
+        Built for the way <em class="accent">your industry</em> works
+      </h2>
+      <p class="lead" data-reveal style="--d:2">
+        TallyPrime adapts to very different businesses. We configure it — and the apps around it — for the realities of your trade.
+      </p>
+    </div>
+    <div class="ind__controls" data-reveal style="--d:2">
+      <button class="ind__btn" type="button" data-ind-prev aria-label="Previous industries" aria-controls={`${id}-track`}>
+        <Icon name="chevron-left" size={22} />
+      </button>
+      <button class="ind__btn" type="button" data-ind-next aria-label="Next industries" aria-controls={`${id}-track`}>
+        <Icon name="chevron-right" size={22} />
+      </button>
+    </div>
+  </div>
+
+  <div class="ind__viewport" data-ind>
+    <ul class="ind__track" id={`${id}-track`} role="list" data-ind-track tabindex="0" aria-label="Industries">
+      {
+        INDUSTRIES.map((ind, i) => (
+          <li class="ind__card" data-reveal style={`--d:${Math.min(i, 4)}`}>
+            <Picture
+              src={ind.image}
+              formats={['avif', 'webp']}
+              alt={ind.alt}
+              widths={[360, 540, 720]}
+              sizes="(min-width: 1024px) 340px, 78vw"
+              loading="lazy"
+              class="ind__img"
+              draggable="false"
+            />
+            <div class="ind__shade" />
+            <div class="ind__content">
+              <span class="ind__icon">
+                <Icon name={ind.icon} size={20} />
+              </span>
+              <h3 class="ind__name">{ind.name}</h3>
+              <p class="ind__text">{ind.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="container ind__progress" aria-hidden="true">
+    <span data-ind-bar></span>
+  </div>
+</section>
+
+<style>
+  .ind {
+    background: #050c1f;
+    overflow: clip;
+  }
+
+  .ind__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem 3rem;
+  }
+
+  .ind__controls {
+    display: flex;
+    gap: 0.6rem;
+  }
+
+  .ind__btn {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    color: var(--gold-200);
+    transition:
+      background-color 0.3s,
+      border-color 0.3s,
+      color 0.3s,
+      opacity 0.3s;
+  }
+
+  .ind__btn:hover:not(:disabled) {
+    background: var(--gold-400);
+    border-color: var(--gold-400);
+    color: var(--navy-950);
+  }
+
+  .ind__btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .ind__viewport {
+    margin-top: clamp(2.25rem, 1.75rem + 2vw, 3.5rem);
+  }
+
+  .ind__track {
+    --pad: max(var(--gutter), calc((100% - var(--container)) / 2));
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(250px, 72vw, 340px);
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0.5rem var(--pad) 1.5rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--pad);
+    scrollbar-width: none;
+    cursor: grab;
+  }
+
+  .ind__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ind__track.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+
+  .ind__track.is-dragging .ind__card {
+    pointer-events: none;
+  }
+
+  .ind__card {
+    position: relative;
+    aspect-ratio: 3 / 4.1;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    isolation: isolate;
+    scroll-snap-align: start;
+    background: var(--navy-850);
+    box-shadow: var(--shadow);
+  }
+
+  .ind__card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    pointer-events: none;
+    transition: border-color 0.4s;
+  }
+
+  .ind__card:hover::after {
+    border-color: rgb(212 175 106 / 0.5);
+  }
+
+  .ind__card :global(.ind__img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out);
+    user-select: none;
+  }
+
+  .ind__card:hover :global(.ind__img) {
+    transform: scale(1.06);
+  }
+
+  .ind__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(5 12 31 / 0.05) 20%, rgb(5 12 31 / 0.55) 55%, rgb(5 12 31 / 0.95) 100%);
+  }
+
+  .ind__content {
+    position: absolute;
+    inset: auto 0 0;
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.5rem;
+  }
+
+  .ind__icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 0.35rem;
+    border-radius: 50%;
+    color: var(--gold-200);
+    background: rgb(5 12 31 / 0.5);
+    border: 1px solid rgb(212 175 106 / 0.4);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+  }
+
+  .ind__name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .ind__text {
+    color: var(--ink-200);
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+  }
+
+  @media (hover: hover) and (min-width: 1024px) {
+    .ind__text {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition:
+        max-height 0.6s var(--ease-out),
+        opacity 0.5s var(--ease-out);
+    }
+    .ind__card:hover .ind__text,
+    .ind__card:focus-within .ind__text {
+      max-height: 6rem;
+      opacity: 1;
+    }
+  }
+
+  .ind__progress {
+    position: relative;
+    height: 2px;
+    margin-top: 0.5rem;
+    background: rgb(255 255 255 / 0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .ind__progress span {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 25%;
+    border-radius: inherit;
+    background: var(--grad-gold);
+    transform-origin: left;
+    transition: transform 0.2s linear;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ind]').forEach((viewport) => {
+    const section = viewport.closest('section');
+    const track = viewport.querySelector<HTMLElement>('[data-ind-track]');
+    const prev = section?.querySelector<HTMLButtonElement>('[data-ind-prev]');
+    const next = section?.querySelector<HTMLButtonElement>('[data-ind-next]');
+    const bar = section?.querySelector<HTMLElement>('[data-ind-bar]');
+    if (!track) return;
+
+    const step = () => {
+      const card = track.querySelector<HTMLElement>('li');
+      return card ? card.offsetWidth + 20 : 320;
+    };
+
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth;
+      const ratio = max > 0 ? track.scrollLeft / max : 0;
+      if (prev) prev.disabled = track.scrollLeft <= 4;
+      if (next) next.disabled = track.scrollLeft >= max - 4;
+      if (bar) {
+        const visible = track.clientWidth / track.scrollWidth;
+        bar.style.width = `${Math.max(visible * 100, 12)}%`;
+        bar.style.transform = `translateX(${ratio * (1 / Math.max(visible, 0.12) - 1) * 100}%)`;
+      }
+    };
+
+    prev?.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next?.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+
+    // Mouse drag to scroll (touch uses native scrolling)
+    let startX = 0;
+    let startLeft = 0;
+    let dragging = false;
+    let moved = false;
+    track.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      dragging = true;
+      moved = false;
+      startX = e.clientX;
+      startLeft = track.scrollLeft;
+    });
+    window.addEventListener('pointermove', (e) => {
+      if (!dragging) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 4 && !moved) {
+        moved = true;
+        track.classList.add('is-dragging');
+      }
+      if (moved) track.scrollLeft = startLeft - dx;
+    });
+    window.addEventListener('pointerup', () => {
+      if (!dragging) return;
+      dragging = false;
+      if (moved) {
+        track.classList.remove('is-dragging');
+        // snap to nearest card
+        const s = step();
+        track.scrollTo({ left: Math.round(track.scrollLeft / s) * s, behavior: 'smooth' });
+      }
+    });
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        track.scrollBy({ left: step(), behavior: 'smooth' });
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        track.scrollBy({ left: -step(), behavior: 'smooth' });
+      }
+    });
+  });
+</script>

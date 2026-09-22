@@ -1,0 +1,353 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { SITE, CONTACT, LOCATIONS, REGISTERED_OFFICE, whatsappLink, mapsLink } from '@/data/site';
+import { SERVICES, serviceHref } from '@/data/services';
+
+const year = new Date().getFullYear();
+const company = [
+  { label: 'About Softkey', href: '/about/' },
+  { label: 'All services', href: '/services/' },
+  { label: 'Partner ecosystem', href: '/partners/' },
+  { label: 'Contact', href: '/contact/' },
+  { label: 'Privacy policy', href: '/privacy-policy/' },
+];
+---
+
+<footer class="site-footer grain" aria-labelledby="footer-title">
+  <h2 id="footer-title" class="sr-only">Site footer</h2>
+  <div class="footer-glow" aria-hidden="true"></div>
+
+  <div class="container footer-top">
+    <div class="footer-brand">
+      <a href="/" class="footer-logo" aria-label="Softkey Technologies — home">
+        <Logo variant="icon" class="footer-logo__icon" decorative />
+        <Logo variant="stacked" tone="light" class="footer-logo__word" decorative />
+      </a>
+      <p class="footer-about">
+        Channel partner for Tally and its connected ecosystem — helping businesses across Kerala and Karnataka buy, implement, customize and
+        support TallyPrime.
+      </p>
+      <div class="footer-quick">
+        <a class="quick" href={whatsappLink()} target="_blank" rel="noopener" aria-label={`WhatsApp ${CONTACT.whatsapp.display}`}>
+          <Icon name="whatsapp" size={20} />
+        </a>
+        <a class="quick" href={CONTACT.phone.href} aria-label={`Call ${CONTACT.phone.display}`}>
+          <Icon name="phone" size={18} />
+        </a>
+        <a class="quick" href={CONTACT.email.href} aria-label={`Email ${CONTACT.email.display}`}>
+          <Icon name="mail" size={18} />
+        </a>
+      </div>
+    </div>
+
+    <nav class="footer-col" aria-label="Services">
+      <p class="footer-title">Services</p>
+      <ul role="list">
+        {
+          SERVICES.map((s) => (
+            <li>
+              <a href={serviceHref(s.slug)}>{s.navTitle}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <nav class="footer-col" aria-label="Company">
+      <p class="footer-title">Company</p>
+      <ul role="list">
+        {
+          company.map((c) => (
+            <li>
+              <a href={c.href}>{c.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="footer-col footer-contact">
+      <p class="footer-title">Get in touch</p>
+      <ul role="list" class="contact-list">
+        <li>
+          <Icon name="whatsapp" size={18} />
+          <span><small>WhatsApp</small><a href={whatsappLink()} target="_blank" rel="noopener">{CONTACT.whatsapp.display}</a></span>
+        </li>
+        <li>
+          <Icon name="phone" size={18} />
+          <span><small>Phone</small><a href={CONTACT.phone.href}>{CONTACT.phone.display}</a></span>
+        </li>
+        <li>
+          <Icon name="mail" size={18} />
+          <span><small>Email</small><a href={CONTACT.email.href}>{CONTACT.email.display}</a></span>
+        </li>
+        <li>
+          <Icon name="globe" size={18} />
+          <span><small>Website</small><a href="/">{CONTACT.website.display}</a></span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-locations">
+    {
+      LOCATIONS.map((l) => (
+        <a class="loc" href={mapsLink(l.mapsQuery)} target="_blank" rel="noopener">
+          <span class="loc__pin">
+            <Icon name="map-pin" size={18} />
+          </span>
+          <span>
+            <strong>{l.city}</strong>
+            <span class="loc__addr">{l.address}</span>
+          </span>
+          <Icon name="arrow-up-right" size={16} class="loc__arrow" />
+        </a>
+      ))
+    }
+  </div>
+
+  <div class="container footer-bottom">
+    <p>{`© ${year} ${SITE.legalName} All rights reserved.`}</p>
+    <p class="footer-reg">Registered office: {REGISTERED_OFFICE.lines.join(', ')}</p>
+    <p class="footer-tm">
+      Tally, TallyPrime and related marks are trademarks of Tally Solutions Pvt. Ltd. Biz Analyst, Live Keeping, CredFlow, Vyapar and AWS are
+      trademarks of their respective owners. Softkey Technologies is an independent channel partner.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    position: relative;
+    overflow: hidden;
+    padding-top: clamp(4rem, 3rem + 4vw, 6.5rem);
+    background: linear-gradient(180deg, #050c1f 0%, #030816 100%);
+    border-top: 1px solid rgb(212 175 106 / 0.18);
+    color: var(--ink-300);
+    font-size: var(--fs-sm);
+  }
+
+  .footer-glow {
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    width: 70%;
+    height: 60%;
+    transform: translateX(-50%);
+    background: radial-gradient(closest-side, rgb(212 175 106 / 0.12), transparent);
+    pointer-events: none;
+  }
+
+  .footer-top {
+    position: relative;
+    display: grid;
+    gap: 2.75rem 2rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .footer-top {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .footer-brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (min-width: 900px) {
+    .footer-top {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1.15fr);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .footer-top {
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 0.75fr) minmax(0, 1.1fr);
+      gap: 3rem;
+    }
+    .footer-brand {
+      grid-column: auto;
+    }
+  }
+
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    color: #fff;
+    width: fit-content;
+  }
+
+  .footer-logo :global(.footer-logo__icon) {
+    width: 64px;
+    flex: none;
+  }
+
+  .footer-logo :global(.footer-logo__word) {
+    width: 210px;
+  }
+
+  .footer-about {
+    margin-top: 1.5rem;
+    max-width: 30rem;
+    line-height: 1.7;
+  }
+
+  .footer-quick {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 1.5rem;
+  }
+
+  .quick {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgb(255 255 255 / 0.12);
+    color: var(--gold-300);
+    transition:
+      background-color 0.3s,
+      color 0.3s,
+      border-color 0.3s,
+      transform 0.3s var(--ease-out);
+  }
+
+  .quick:hover {
+    background: var(--gold-400);
+    border-color: var(--gold-400);
+    color: var(--navy-950);
+    transform: translateY(-3px);
+  }
+
+  .footer-title {
+    margin-bottom: 1.1rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-400);
+  }
+
+  .footer-col ul {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .footer-col a {
+    color: var(--ink-200);
+    transition: color 0.25s;
+  }
+
+  .footer-col a:hover {
+    color: var(--gold-300);
+  }
+
+  .contact-list {
+    gap: 1rem !important;
+  }
+
+  .contact-list li {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+
+  .contact-list :global(.icon) {
+    margin-top: 0.2rem;
+    color: var(--gold-400);
+  }
+
+  .contact-list small {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-400);
+  }
+
+  .contact-list a {
+    color: #fff;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .footer-locations {
+    position: relative;
+    display: grid;
+    gap: 0.75rem;
+    margin-top: 3.5rem;
+    padding-block: 1.75rem;
+    border-block: 1px solid rgb(255 255 255 / 0.08);
+  }
+
+  @media (min-width: 768px) {
+    .footer-locations {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .loc {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.4rem 0;
+    color: var(--ink-200);
+  }
+
+  .loc strong {
+    display: block;
+    color: #fff;
+    font-weight: 650;
+    font-size: 1rem;
+  }
+
+  .loc__addr {
+    font-size: var(--fs-sm);
+  }
+
+  .loc__pin {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    flex: none;
+    border-radius: 50%;
+    background: rgb(212 175 106 / 0.1);
+    color: var(--gold-300);
+  }
+
+  .loc :global(.loc__arrow) {
+    margin-left: auto;
+    color: var(--gold-400);
+    opacity: 0.5;
+    transition:
+      opacity 0.3s,
+      transform 0.3s var(--ease-out);
+  }
+
+  .loc:hover :global(.loc__arrow) {
+    opacity: 1;
+    transform: translate(2px, -2px);
+  }
+
+  .footer-bottom {
+    position: relative;
+    display: grid;
+    gap: 0.6rem;
+    padding-block: 1.75rem 2.25rem;
+    font-size: var(--fs-xs);
+    color: var(--ink-400);
+  }
+
+  .footer-bottom p:first-child {
+    color: var(--ink-300);
+  }
+
+  .footer-tm {
+    max-width: 60rem;
+    line-height: 1.6;
+  }
+</style>

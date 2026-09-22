@@ -89,7 +89,7 @@ export const SERVICES: Service[] = [
     image: tallyPrimeImg,
     imageAlt: 'Laptop on a glossy desk displaying a business analytics dashboard',
     summary: 'New TallyPrime licenses, upgrades from Tally.ERP 9 and TSS renewals — with the right edition for your business.',
-    headline: 'TallyPrime licenses, upgrades & renewals',
+    headline: 'TallyPrime licenses, upgrades & *renewals*',
     lead: 'Get the right TallyPrime edition for your business, installed and activated correctly — plus timely TSS renewals so you always stay on the latest release.',
     intro: {
       title: 'Business management software, set up right from day one.',
@@ -152,7 +152,7 @@ export const SERVICES: Service[] = [
     image: implementationImg,
     imageAlt: 'Consultant discussing a software setup with a client over a laptop',
     summary: 'Structured TallyPrime rollouts — requirement study, data migration, configuration and go-live support.',
-    headline: 'Tally implementation, planned and delivered end to end',
+    headline: 'Tally implementation, *planned* and delivered end to end',
     lead: 'From the first requirement discussion to the day your team posts its first voucher, we handle the setup so you can focus on running your business.',
     intro: {
       title: 'A clean start for your books.',
@@ -211,7 +211,7 @@ export const SERVICES: Service[] = [
     image: customizationImg,
     imageAlt: 'Laptop showing source code in a dark editor',
     summary: 'TDL-based customizations — invoice formats, reports, fields, controls and workflows built around your business.',
-    headline: 'Tally customization that fits the way you work',
+    headline: 'Tally customization that fits *the way you work*',
     lead: 'Custom invoice formats, reports, fields and workflows built with Tally Definition Language (TDL) — so TallyPrime works exactly the way your business does.',
     intro: {
       title: 'Your process, not a workaround.',
@@ -270,7 +270,7 @@ export const SERVICES: Service[] = [
     image: integrationImg,
     imageAlt: 'Network patch panel with connected cables',
     summary: 'Connect TallyPrime with your billing, e-commerce, CRM, mobile apps and other business systems.',
-    headline: 'Tally integration — your systems, finally connected',
+    headline: 'Tally integration — your systems, *finally connected*',
     lead: 'Stop re-typing the same data in two places. We connect TallyPrime with the applications you already use so information flows automatically and accurately.',
     intro: {
       title: 'One source of truth for your numbers.',
@@ -329,7 +329,7 @@ export const SERVICES: Service[] = [
     image: supportImg,
     imageAlt: 'Support team working together at a computer while on a call',
     summary: 'Annual maintenance contracts and on-call support to keep Tally running smoothly all year.',
-    headline: 'Tally AMC & support you can count on',
+    headline: 'Tally AMC & support you can *count on*',
     lead: 'An annual maintenance contract keeps your Tally healthy — regular check-ups, quick help when something goes wrong, and one team that knows your setup.',
     intro: {
       title: 'Support that knows your business.',
@@ -388,12 +388,12 @@ export const SERVICES: Service[] = [
     image: cloudImg,
     imageAlt: 'Server racks with network cabling in a data centre',
     summary: 'Run TallyPrime on AWS and access it from anywhere — plus secure remote support sessions.',
-    headline: 'Tally on Cloud & remote support',
+    headline: 'Tally on Cloud & *remote* support',
     lead: 'Access TallyPrime securely from any location with Tally on Cloud (AWS), and get expert help remotely without waiting for a visit.',
     intro: {
       title: 'Your books, wherever business takes you.',
       body: [
-        'Owners on the move, accountants working from home, branches in different towns — modern businesses need Tally beyond a single office computer. Tally on Cloud runs TallyPrime on Amazon Web Services, so authorised users can work on the same data from anywhere with an internet connection.',
+        'Owners on the move, accountants working from home, branches in different towns — modern businesses need Tally beyond a single office computer. Tally on Cloud runs TallyPrime on Amazon Web Services, so authorized users can work on the same data from anywhere with an internet connection.',
         'We help you decide whether the cloud or TallyPrime’s built-in remote access suits you best, set it up, move your data and train your users. Whichever you choose, our remote support team is a message away.',
       ],
     },
@@ -420,7 +420,7 @@ export const SERVICES: Service[] = [
     faqs: [
       {
         q: 'What is Tally on Cloud?',
-        a: 'Tally on Cloud runs your TallyPrime on AWS cloud infrastructure, letting authorised users access the same company data from different locations over the internet — without maintaining a server in your office.',
+        a: 'Tally on Cloud runs your TallyPrime on AWS cloud infrastructure, letting authorized users access the same company data from different locations over the internet — without maintaining a server in your office.',
       },
       {
         q: 'Do I need a new Tally license for the cloud?',
@@ -447,7 +447,7 @@ export const SERVICES: Service[] = [
     image: gstImg,
     imageAlt: 'Calculator, pen and paperwork on a clean white desk',
     summary: 'GST, e-invoicing, e-way bills, TDS and day-to-day accounting set up correctly in Tally.',
-    headline: 'GST & accounting, set up for compliance',
+    headline: 'GST & accounting, set up for *compliance*',
     lead: 'Configure TallyPrime for GST, e-invoicing, e-way bills and TDS, and give your accounts team a clean, reliable workflow for everyday bookkeeping and returns.',
     intro: {
       title: 'Compliance built into every entry.',
@@ -506,7 +506,7 @@ export const SERVICES: Service[] = [
     image: businessImg,
     imageAlt: 'Monitor displaying business analytics charts',
     summary: 'Inventory, receivables, mobile reporting and billing apps from the Tally ecosystem — working together.',
-    headline: 'Business management, beyond the ledger',
+    headline: 'Business management, *beyond the ledger*',
     lead: 'Combine TallyPrime with the right connected apps — mobile reporting, collections automation and simple billing — to run sales, stock and cash flow with clarity.',
     intro: {
       title: 'The right tools around your Tally.',
@@ -565,7 +565,7 @@ export const SERVICES: Service[] = [
     image: trainingImg,
     imageAlt: 'Presenter leading a training session in a meeting room with laptops',
     summary: 'Practical TallyPrime training for owners, accountants and staff — from basics to advanced features.',
-    headline: 'Software training that sticks',
+    headline: 'Software training that *sticks*',
     lead: 'Practical, hands-on TallyPrime training for business owners, accountants and staff — built around the way your company actually uses Tally.',
     intro: {
       title: 'Confident users, fewer errors.',

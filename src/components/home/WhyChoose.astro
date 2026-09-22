@@ -1,0 +1,188 @@
+---
+import Icon from '@/components/Icon.astro';
+import { whatsappLink } from '@/data/site';
+
+const reasons = [
+  {
+    icon: 'badge-indian-rupee',
+    title: 'Channel partner for Tally',
+    text: 'Genuine TallyPrime licenses, renewals and upgrades — plus the connected products around it — from a single partner.',
+  },
+  {
+    icon: 'map-pin',
+    title: 'Local, not remote-only',
+    text: 'Branches in Kannur, Payyannur and Mangaluru mean on-site visits are practical when a problem needs hands-on attention.',
+  },
+  {
+    icon: 'workflow',
+    title: 'End-to-end ownership',
+    text: 'The team that implements your Tally also customizes, integrates and supports it — no hand-offs, no finger-pointing.',
+  },
+  {
+    icon: 'message-circle',
+    title: 'Support on your terms',
+    text: 'Reach us on WhatsApp, phone or email, with secure remote sessions to resolve issues without waiting for a visit.',
+  },
+  {
+    icon: 'sliders-horizontal',
+    title: 'Built around your workflow',
+    text: 'We study how you actually bill, stock and report, then configure and customize Tally to match — not the other way round.',
+  },
+  {
+    icon: 'shield-check',
+    title: 'Compliance done carefully',
+    text: 'GST, e-invoicing, e-way bills and TDS configured correctly, so returns are a matter of review rather than rework.',
+  },
+];
+---
+
+<section class="why theme-light section" aria-labelledby="why-title">
+  <div class="container why__grid">
+    <div class="why__aside">
+      <div class="why__sticky">
+        <p class="eyebrow" data-reveal>Why Softkey</p>
+        <h2 id="why-title" class="h2" data-reveal style="--d:1">
+          Why businesses choose <em class="accent">Softkey</em>
+        </h2>
+        <p class="lead" data-reveal style="--d:2">
+          Software is only half the story. What makes Tally work for a business is the partner behind it — people who understand your
+          processes and pick up the phone when you need them.
+        </p>
+        <div class="btn-row" data-reveal style="--d:3">
+          <a class="btn btn--navy" href="/contact/">
+            Book a consultation <Icon name="arrow-right" class="icon--arrow" stroke={2} />
+          </a>
+          <a class="btn btn--outline" href={whatsappLink()} target="_blank" rel="noopener">
+            <Icon name="whatsapp" /> WhatsApp us
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <ol class="why__list" role="list">
+      {
+        reasons.map((r, i) => (
+          <li class="why__item" data-reveal style={`--d:${i % 2}`}>
+            <span class="why__num" aria-hidden="true">
+              0{i + 1}
+            </span>
+            <span class="icon-ring">
+              <Icon name={r.icon} />
+            </span>
+            <h3 class="why__title">{r.title}</h3>
+            <p class="why__text">{r.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .why {
+    background:
+      radial-gradient(60% 50% at 0% 0%, rgb(185 141 54 / 0.08), transparent 60%),
+      var(--ivory);
+  }
+
+  .why__grid {
+    display: grid;
+    gap: clamp(2.5rem, 2rem + 3vw, 4rem);
+  }
+
+  @media (min-width: 1024px) {
+    .why__grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      gap: 5rem;
+    }
+  }
+
+  .why__sticky {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .why__sticky {
+      position: sticky;
+      top: calc(var(--header-h) + 3rem);
+    }
+  }
+
+  .why__sticky .btn-row {
+    margin-top: 0.75rem;
+  }
+
+  .why__list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media (min-width: 640px) {
+    .why__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 2.5rem;
+    }
+  }
+
+  .why__item {
+    position: relative;
+    display: grid;
+    gap: 0.85rem;
+    align-content: start;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .why__item::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--gold-600);
+    transition: width 0.8s var(--ease-out);
+  }
+
+  .why__item:hover::before {
+    width: 100%;
+  }
+
+  .why__num {
+    position: absolute;
+    top: 1.9rem;
+    right: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: rgb(143 107 37 / 0.45);
+  }
+
+  .why__title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .why__text {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    line-height: 1.7;
+  }
+
+  .why__item .icon-ring {
+    transition:
+      transform 0.5s var(--ease-out),
+      background-color 0.4s,
+      color 0.4s;
+  }
+
+  .why__item:hover .icon-ring {
+    transform: rotate(-8deg) scale(1.06);
+    background: var(--navy-900);
+    color: var(--gold-300);
+  }
+</style>

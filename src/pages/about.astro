@@ -1,0 +1,379 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Icon from '@/components/Icon.astro';
+import Logo from '@/components/Logo.astro';
+import Ecosystem from '@/components/Ecosystem.astro';
+import Locations from '@/components/Locations.astro';
+import CTASection from '@/components/CTASection.astro';
+import team from '@/assets/images/team.jpg';
+import { SITE, LOCATIONS, REGISTERED_OFFICE, whatsappLink } from '@/data/site';
+import { PARTNERS } from '@/data/partners';
+import { SERVICES } from '@/data/services';
+import { breadcrumbSchema } from '@/data/schema';
+
+const crumbs = [{ label: 'About' }];
+
+const principles = [
+  {
+    icon: 'compass',
+    title: 'Understand first',
+    text: 'Every engagement starts with how your business actually works — your billing, your stock, your reports, your people.',
+  },
+  {
+    icon: 'clipboard-check',
+    title: 'Do it properly',
+    text: 'Clean masters, correct tax settings, tested customizations. Getting the foundation right saves years of rework.',
+  },
+  {
+    icon: 'message-circle',
+    title: 'Stay close',
+    text: 'Local branches and quick channels — WhatsApp, phone, email and remote sessions — so help is never far away.',
+  },
+  {
+    icon: 'book-open',
+    title: 'Explain clearly',
+    text: 'No jargon for its own sake. We make sure owners and staff understand their software and their numbers.',
+  },
+];
+
+const facts = [
+  { value: LOCATIONS.length, label: 'Branches', sub: LOCATIONS.map((l) => l.city).join(' · ') },
+  { value: PARTNERS.length, label: 'Channel-partner products', sub: 'Tally and its connected ecosystem' },
+  { value: SERVICES.length, label: 'Specialised services', sub: 'Licensing to training' },
+  { value: 2, label: 'States served', sub: 'Kerala and Karnataka' },
+];
+---
+
+<BaseLayout
+  title="About Softkey Technologies — Tally Channel Partner"
+  description="Softkey Technologies Pvt. Ltd. is a channel partner for Tally with branches in Kannur, Payyannur and Mangaluru, offering TallyPrime licensing, implementation, customization, support and training."
+  schema={[breadcrumbSchema(crumbs, '/about/')]}
+>
+  <PageHero
+    eyebrow="About us"
+    title={`A Tally partner built around <em class="accent">your business</em>`}
+    lead="Softkey Technologies Pvt. Ltd. helps businesses across North Kerala and coastal Karnataka get the most from TallyPrime and the tools that work around it."
+    crumbs={crumbs}
+    image={team}
+    imageAlt="Team collaborating around a table with laptops"
+    badgeIcon="handshake"
+    badgeText="Channel partner for Tally"
+  >
+    <Fragment slot="actions">
+      <a class="btn btn--gold btn--lg" href="/contact/">Get Started <Icon name="arrow-right" class="icon--arrow" stroke={2} /></a>
+      <a class="btn btn--glass btn--lg" href="/services/">Our services</a>
+    </Fragment>
+  </PageHero>
+
+  <!-- Who we are -->
+  <section class="who theme-light section" aria-labelledby="who-title">
+    <div class="container who__grid">
+      <div class="who__copy">
+        <p class="eyebrow" data-reveal>Who we are</p>
+        <h2 id="who-title" class="h2" data-reveal style="--d:1">
+          Software is the start. <em class="accent">Partnership</em> is what makes it work.
+        </h2>
+        <div class="prose who__prose" data-reveal style="--d:2">
+          <p>
+            <strong>{SITE.legalName}</strong> is a channel partner for Tally. We work with businesses of all kinds — shops and supermarkets,
+            distributors, manufacturers, service firms and more — to choose, implement, customize and support TallyPrime.
+          </p>
+          <p>
+            We are also a channel partner for Tally on Cloud (AWS), Biz Analyst, Live Keeping, CredFlow and Vyapar. That lets us look at your
+            business as a whole: how your books connect to your sales team, your collections, your branches and your phone.
+          </p>
+          <p>
+            With branches in Kannur, Payyannur and Mangaluru, we are close enough to visit when it matters — and reachable on WhatsApp, phone
+            and email for everything else.
+          </p>
+        </div>
+      </div>
+
+      <div class="who__brand" data-reveal="right" style="--d:2">
+        <div class="brandcard">
+          <div class="brandcard__rings" aria-hidden="true"></div>
+          <Logo variant="icon" class="brandcard__icon" decorative />
+          <Logo variant="stacked" tone="light" class="brandcard__word" />
+          <p class="brandcard__meta">
+            <Icon name="building-2" size={16} />
+            <span>Registered office: {REGISTERED_OFFICE.lines.join(', ')}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <dl class="facts">
+        {
+          facts.map((f, i) => (
+            <div class="fact" data-reveal style={`--d:${i}`}>
+              <dt>
+                <strong>{f.label}</strong>
+                <span>{f.sub}</span>
+              </dt>
+              <dd>{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- Principles -->
+  <section class="pr theme-dark section grain" aria-labelledby="pr-title">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="pr__head">
+          <p class="eyebrow" data-reveal>How we work</p>
+          <h2 id="pr-title" class="h2" data-reveal style="--d:1">
+            Four principles behind <em class="accent">every</em> engagement
+          </h2>
+        </div>
+        <p class="lead" data-reveal style="--d:2">
+          Whether it is a single-user license or a multi-branch rollout, the approach stays the same — and so does the team you talk to.
+        </p>
+      </div>
+
+      <ol class="pr__list" role="list">
+        {
+          principles.map((p, i) => (
+            <li class="pr__item spotlight" data-reveal style={`--d:${i}`}>
+              <span class="pr__num" aria-hidden="true">
+                0{i + 1}
+              </span>
+              <span class="icon-ring">
+                <Icon name={p.icon} />
+              </span>
+              <h3 class="pr__title">{p.title}</h3>
+              <p class="pr__text">{p.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="pr__cta" data-reveal>
+        <p>Want to see how we would approach your business?</p>
+        <a class="btn btn--gold" href={whatsappLink('Hello Softkey Technologies, I would like to discuss my business requirements.')} target="_blank" rel="noopener">
+          <Icon name="whatsapp" /> Start a conversation
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Ecosystem />
+  <Locations />
+  <CTASection />
+</BaseLayout>
+
+<style>
+  .who__grid {
+    display: grid;
+    gap: clamp(2.5rem, 2rem + 3vw, 4rem);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .who__grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 5rem;
+    }
+  }
+
+  .who__copy {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .who__prose strong {
+    color: var(--fg-strong);
+  }
+
+  .brandcard {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 1.75rem;
+    padding: clamp(2.25rem, 1.5rem + 3vw, 3.5rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    border-radius: var(--radius-xl);
+    background:
+      radial-gradient(90% 70% at 50% 0%, rgb(35 76 160 / 0.55), transparent 70%),
+      linear-gradient(170deg, #0d2349, #050c1f);
+    color: #fff;
+    overflow: hidden;
+    box-shadow: 0 50px 90px -45px rgb(6 23 49 / 0.8);
+  }
+
+  .brandcard__rings {
+    position: absolute;
+    inset: -30% -30% auto;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1px solid rgb(212 175 106 / 0.15);
+    box-shadow:
+      0 0 0 60px rgb(255 255 255 / 0.015),
+      0 0 0 120px rgb(255 255 255 / 0.01);
+  }
+
+  .brandcard :global(.brandcard__icon) {
+    position: relative;
+    width: clamp(96px, 20vw, 132px);
+  }
+
+  .brandcard :global(.brandcard__word) {
+    position: relative;
+    width: min(320px, 100%);
+  }
+
+  .brandcard__meta {
+    position: relative;
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    max-width: 22rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+    font-size: var(--fs-xs);
+    color: var(--ink-300);
+    text-align: left;
+  }
+
+  .brandcard__meta :global(.icon) {
+    color: var(--gold-300);
+    margin-top: 0.1rem;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: clamp(3rem, 2.5rem + 3vw, 5rem) 0 0;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (min-width: 900px) {
+    .facts {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .fact {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.75rem 1.25rem 1.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .fact dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(3rem, 2.5rem + 2vw, 4.5rem);
+    line-height: 0.9;
+    color: var(--gold-700);
+  }
+
+  .fact dt strong {
+    display: block;
+    color: var(--fg-strong);
+    font-weight: 700;
+  }
+
+  .fact dt span {
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+  }
+
+  /* ---- Principles ---- */
+  .pr {
+    background: linear-gradient(180deg, #050c1f, #071531);
+    overflow: clip;
+  }
+
+  .pr__head {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .pr__list {
+    display: grid;
+    margin: clamp(2.5rem, 2rem + 2vw, 3.5rem) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (min-width: 640px) {
+    .pr__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pr__list {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .pr__item {
+    position: relative;
+    display: grid;
+    gap: 0.85rem;
+    align-content: start;
+    padding: 2rem 1.5rem 2.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media (min-width: 640px) {
+    .pr__item:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .pr__item:nth-child(2n) {
+      border-right: 0;
+    }
+  }
+
+  .pr__num {
+    position: absolute;
+    top: 2rem;
+    right: 1.5rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.5rem;
+    color: rgb(212 175 106 / 0.45);
+  }
+
+  .pr__title {
+    margin-top: 0.4rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  .pr__text {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    line-height: 1.7;
+  }
+
+  .pr__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-top: 2.5rem;
+    padding: 1.5rem clamp(1.25rem, 1rem + 1vw, 2rem);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-gold);
+    background: rgb(212 175 106 / 0.05);
+  }
+
+  .pr__cta p {
+    font-size: 1.15rem;
+    font-weight: 650;
+    color: #fff;
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+/**
+ * Line icons rendered inline at build time (no runtime JS, no icon font).
+ * Lucide for UI icons; Remix "whatsapp-line" for the WhatsApp glyph.
+ */
+import lucide from '@iconify-json/lucide/icons.json';
+import remix from '@iconify-json/ri/icons.json';
+
+interface Props {
+  name: string;
+  size?: number | string;
+  stroke?: number;
+  class?: string;
+  /** Accessible label. Omit for decorative icons (default). */
+  label?: string;
+}
+
+const { name, size = 24, stroke = 1.6, class: className, label } = Astro.props;
+
+type IconSet = { icons: Record<string, { body: string; width?: number; height?: number }>; aliases?: Record<string, { parent: string }>; width?: number; height?: number };
+
+function resolve(set: IconSet, key: string) {
+  const direct = set.icons[key];
+  if (direct) return direct;
+  const alias = set.aliases?.[key];
+  return alias ? set.icons[alias.parent] : undefined;
+}
+
+let body: string;
+let vw = 24;
+let vh = 24;
+
+if (name === 'whatsapp') {
+  const set = remix as unknown as IconSet;
+  const icon = resolve(set, 'whatsapp-line');
+  if (!icon) throw new Error('WhatsApp icon missing');
+  body = icon.body;
+  vw = icon.width ?? set.width ?? 24;
+  vh = icon.height ?? set.height ?? 24;
+} else {
+  const set = lucide as unknown as IconSet;
+  const icon = resolve(set, name);
+  if (!icon) throw new Error(`Unknown icon "${name}"`);
+  body = icon.body.replace(/stroke-width="2"/g, `stroke-width="${stroke}"`);
+  vw = icon.width ?? set.width ?? 24;
+  vh = icon.height ?? set.height ?? 24;
+}
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={`0 0 ${vw} ${vh}`}
+  width={size}
+  height={size}
+  class:list={['icon', `icon--${name}`, className]}
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  focusable="false"
+  set:html={body}
+/>

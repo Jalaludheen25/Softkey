@@ -38,7 +38,7 @@ export const PARTNERS: Partner[] = [
     logo: tallyCloudLogo,
     category: 'Cloud hosting',
     description:
-      'Run TallyPrime on Amazon Web Services and let authorised users work on the same company data from any location, without an office server.',
+      'Run TallyPrime on Amazon Web Services and let authorized users work on the same company data from any location, without an office server.',
     offer: ['Cloud suitability assessment', 'Setup and user access', 'Data migration to the cloud', 'Remote user support'],
     services: ['tally-cloud-remote-support'],
   },

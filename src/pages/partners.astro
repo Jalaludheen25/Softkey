@@ -1,0 +1,360 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageHero from '@/components/PageHero.astro';
+import Icon from '@/components/Icon.astro';
+import CTASection from '@/components/CTASection.astro';
+import workspace from '@/assets/images/workspace.jpg';
+import { PARTNERS } from '@/data/partners';
+import { getService, serviceHref } from '@/data/services';
+import { whatsappLink } from '@/data/site';
+import { breadcrumbSchema } from '@/data/schema';
+
+const crumbs = [{ label: 'Partners' }];
+
+const reasons = [
+  { icon: 'badge-indian-rupee', title: 'Genuine licenses', text: 'Licenses and subscriptions supplied by Softkey as a channel partner — and activated properly.' },
+  { icon: 'settings', title: 'Setup done right', text: 'Installation, configuration and connection to your Tally data where the product supports it.' },
+  { icon: 'graduation-cap', title: 'Training for your team', text: 'Owners, accountants and field staff shown how to use each tool for their role.' },
+  { icon: 'headset', title: 'One support desk', text: 'One team to call for Tally and the apps around it — no bouncing between vendors.' },
+];
+---
+
+<BaseLayout
+  title="Partner Ecosystem — Tally, Tally on Cloud & Business Apps"
+  description="Softkey Technologies is a channel partner for Tally, Tally on Cloud (AWS), Biz Analyst, Live Keeping, CredFlow and Vyapar — licensing, setup, training and support from one team."
+  schema={[breadcrumbSchema(crumbs, '/partners/')]}
+>
+  <PageHero
+    eyebrow="Partner ecosystem"
+    title={`Channel partner for <em class="accent">Tally</em> and its ecosystem`}
+    lead="Six products that work together — and one partner to license, set up, train and support all of them."
+    crumbs={crumbs}
+    image={workspace}
+    imageAlt="Top view of a shared desk with laptops, phones and notebooks"
+    badgeIcon="layers"
+    badgeText={`${PARTNERS.length} channel-partner products`}
+  >
+    <Fragment slot="actions">
+      <a class="btn btn--gold btn--lg" href="/contact/">Get Started <Icon name="arrow-right" class="icon--arrow" stroke={2} /></a>
+      <a class="btn btn--glass btn--lg" href={whatsappLink('Hello Softkey Technologies, I would like help choosing the right Tally products.')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" /> Ask which fits
+      </a>
+    </Fragment>
+  </PageHero>
+
+  <section class="pl theme-light section" aria-labelledby="pl-title">
+    <div class="container">
+      <div class="section-head section-head--center">
+        <p class="eyebrow eyebrow--center" data-reveal>Channel partner for</p>
+        <h2 id="pl-title" class="h2" data-reveal style="--d:1">
+          The products we <em class="accent">bring together</em>
+        </h2>
+      </div>
+
+      <ul class="pl__list" role="list">
+        {
+          PARTNERS.map((p, i) => (
+            <li class="prow" id={p.id} data-reveal style={`--d:${i % 2}`}>
+              <div class="prow__logo">
+                <Image src={p.logo} alt={`${p.name}${p.byline ? ' ' + p.byline : ''} logo`} widths={[200, 400]} sizes="200px" loading="lazy" />
+              </div>
+              <div class="prow__body">
+                <p class="prow__cat">{p.category}</p>
+                <h3 class="prow__name">
+                  {p.name}
+                  {p.byline && <span>{p.byline}</span>}
+                </h3>
+                <p class="prow__desc">{p.description}</p>
+                <div class="prow__services">
+                  {p.services.map((slug) => (
+                    <a href={serviceHref(slug)}>
+                      {getService(slug).navTitle}
+                      <Icon name="arrow-up-right" size={14} />
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <div class="prow__offer">
+                <p class="prow__offer-title">What Softkey provides</p>
+                <ul role="list">
+                  {p.offer.map((o) => (
+                    <li>
+                      <Icon name="check" size={16} stroke={2.2} />
+                      {o}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="wb theme-dark section grain" aria-labelledby="wb-title">
+    <div class="container">
+      <div class="section-head section-head--split">
+        <div class="wb__head">
+          <p class="eyebrow" data-reveal>Why buy through Softkey</p>
+          <h2 id="wb-title" class="h2" data-reveal style="--d:1">
+            More than a license — a <em class="accent">working setup</em>
+          </h2>
+        </div>
+        <p class="lead" data-reveal style="--d:2">
+          Buying through a channel partner means the product arrives with people who make it useful: set up for your data, explained to your
+          team and supported afterwards.
+        </p>
+      </div>
+      <ul class="wb__grid" role="list">
+        {
+          reasons.map((r, i) => (
+            <li class="wb__item spotlight" data-reveal style={`--d:${i}`}>
+              <span class="icon-ring">
+                <Icon name={r.icon} />
+              </span>
+              <h3>{r.title}</h3>
+              <p>{r.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CTASection title="Not sure which products you" accent="need" titleAfter="?" text="Tell us how your business runs today and we’ll recommend the right combination — nothing more than you need." />
+</BaseLayout>
+
+<style>
+  .pl__list {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 4rem);
+  }
+
+  .prow {
+    display: grid;
+    gap: 1.5rem;
+    padding: clamp(1.5rem, 1.2rem + 1.5vw, 2.5rem);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    border: 1px solid rgb(6 23 49 / 0.06);
+    box-shadow: 0 24px 50px -38px rgb(6 23 49 / 0.5);
+    scroll-margin-top: calc(var(--header-h) + 1.5rem);
+    transition:
+      box-shadow 0.5s var(--ease-out),
+      border-color 0.4s;
+  }
+
+  .prow:hover {
+    border-color: rgb(185 141 54 / 0.3);
+    box-shadow: 0 34px 60px -38px rgb(6 23 49 / 0.6);
+  }
+
+  @media (min-width: 768px) {
+    .prow {
+      grid-template-columns: 170px minmax(0, 1fr);
+      align-items: start;
+      gap: 2rem;
+    }
+    .prow__offer {
+      grid-column: 2;
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .prow {
+      grid-template-columns: 190px minmax(0, 1.3fr) minmax(0, 0.8fr);
+      gap: 2.5rem;
+    }
+    .prow__offer {
+      grid-column: auto;
+    }
+  }
+
+  .prow__logo {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    max-width: 190px;
+    aspect-ratio: 1.3;
+    padding: 1.1rem;
+    border-radius: var(--radius);
+    background: #fff;
+    border: 1px solid rgb(6 23 49 / 0.08);
+    box-shadow: inset 0 0 0 6px var(--ivory);
+  }
+
+  @media (max-width: 767px) {
+    .prow__logo {
+      max-width: 150px;
+    }
+  }
+
+  .prow__logo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .prow__body {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .prow__cat {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-700);
+  }
+
+  .prow__name {
+    font-size: clamp(1.5rem, 1.3rem + 0.8vw, 2rem);
+    letter-spacing: -0.025em;
+  }
+
+  .prow__name span {
+    margin-left: 0.5rem;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 0.75em;
+    color: var(--fg-subtle);
+  }
+
+  .prow__desc {
+    color: var(--fg-muted);
+    max-width: 38rem;
+  }
+
+  .prow__services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.4rem;
+  }
+
+  .prow__services a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    font-size: 0.8rem;
+    font-weight: 650;
+    color: var(--fg-strong);
+    transition:
+      border-color 0.3s,
+      background-color 0.3s;
+  }
+
+  .prow__services a :global(.icon) {
+    color: var(--gold-700);
+  }
+
+  .prow__services a:hover {
+    border-color: var(--gold-600);
+    background: var(--ivory);
+  }
+
+  .prow__offer {
+    padding: 1.25rem 1.4rem;
+    border-radius: var(--radius);
+    background: var(--ivory);
+    border: 1px solid var(--border);
+  }
+
+  .prow__offer-title {
+    margin-bottom: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+  }
+
+  .prow__offer ul {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .prow__offer li {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    color: var(--fg-strong);
+    line-height: 1.45;
+  }
+
+  .prow__offer li :global(.icon) {
+    margin-top: 0.15rem;
+    color: var(--gold-700);
+  }
+
+  /* ---- Why buy ---- */
+  .wb {
+    background: linear-gradient(180deg, #050c1f, #071531);
+    overflow: clip;
+  }
+
+  .wb__head {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .wb__grid {
+    display: grid;
+    margin-top: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (min-width: 640px) {
+    .wb__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .wb__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .wb__item {
+    display: grid;
+    gap: 0.85rem;
+    align-content: start;
+    padding: 2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media (min-width: 640px) {
+    .wb__item:not(:last-child) {
+      border-right: 1px solid var(--border);
+    }
+  }
+
+  @media (min-width: 640px) and (max-width: 1023px) {
+    .wb__item:nth-child(2n) {
+      border-right: 0;
+    }
+  }
+
+  .wb__item h3 {
+    margin-top: 0.4rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .wb__item p {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    line-height: 1.7;
+  }
+</style>

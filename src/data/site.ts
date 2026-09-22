@@ -12,7 +12,7 @@ export const SITE = {
   url: 'https://tallygoldpartner.in',
   tagline: 'Tally, Accounting & Business Management Solutions',
   description:
-    'Softkey Technologies Pvt. Ltd. is a channel partner for Tally — offering TallyPrime licences, implementation, customisation, integration, AMC, cloud and training across Kannur, Payyannur and Mangaluru.',
+    'Softkey Technologies Pvt. Ltd. is a channel partner for Tally — offering TallyPrime licenses, implementation, customization, integration, AMC, cloud and training across Kannur, Payyannur and Mangaluru.',
   locale: 'en_IN',
   themeColor: '#061731',
 } as const;

@@ -1,0 +1,398 @@
+---
+import Icon from './Icon.astro';
+import { LOCATIONS, REGISTERED_OFFICE, CONTACT, mapsLink, whatsappLink } from '@/data/site';
+
+interface Props {
+  eyebrow?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { eyebrow = 'Our branches' } = Astro.props;
+
+// Simple equirectangular projection for the illustrative map
+const W = 400;
+const H = 560;
+const LNG0 = 74.55;
+const LNG1 = 75.75;
+const LAT0 = 13.25;
+const LAT1 = 11.6;
+const px = (lat: number, lng: number) => [((lng - LNG0) / (LNG1 - LNG0)) * W, ((LAT0 - lat) / (LAT0 - LAT1)) * H];
+
+const coast: [number, number][] = [
+  [13.3, 74.69],
+  [13.2, 74.735],
+  [13.08, 74.765],
+  [12.98, 74.785],
+  [12.9, 74.805],
+  [12.86, 74.825],
+  [12.8, 74.845],
+  [12.72, 74.89],
+  [12.62, 74.93],
+  [12.5, 74.985],
+  [12.4, 75.03],
+  [12.28, 75.1],
+  [12.16, 75.15],
+  [12.06, 75.19],
+  [12.02, 75.215],
+  [11.95, 75.28],
+  [11.87, 75.345],
+  [11.78, 75.44],
+  [11.68, 75.52],
+  [11.55, 75.6],
+];
+const coastPts = coast.map(([la, ln]) => px(la, ln));
+const coastD = coastPts.map((p, i) => `${i ? 'L' : 'M'}${p[0].toFixed(1)} ${p[1].toFixed(1)}`).join(' ');
+const landD = `${coastD} L${W + 20} ${H + 20} L${W + 20} -20 Z`;
+
+const border: [number, number][] = [
+  [12.765, 74.862],
+  [12.72, 75.02],
+  [12.64, 75.2],
+  [12.52, 75.38],
+  [12.38, 75.52],
+  [12.2, 75.66],
+  [12.05, 75.8],
+];
+const borderD = border.map(([la, ln], i) => `${i ? 'L' : 'M'}${px(la, ln)[0].toFixed(1)} ${px(la, ln)[1].toFixed(1)}`).join(' ');
+
+const pins = LOCATIONS.map((l) => {
+  const [x, y] = px(l.lat, l.lng);
+  return { ...l, x, y };
+});
+---
+
+<section class="loc theme-dark section grain" aria-labelledby="loc-title">
+  <div class="bg-glow loc__glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-head section-head--split">
+      <div class="loc__head">
+        <p class="eyebrow" data-reveal>{eyebrow}</p>
+        <h2 id="loc-title" class="h2" data-reveal style="--d:1">
+          Three branches. <em class="accent">One</em> standard of service.
+        </h2>
+      </div>
+      <p class="lead" data-reveal style="--d:2">
+        Visit us, call us or message us — our teams in Kannur, Payyannur and Mangaluru serve businesses across North Kerala and coastal Karnataka.
+      </p>
+    </div>
+
+    <div class="loc__body" data-loc>
+      <figure class="loc__map" data-reveal="zoom">
+        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-labelledby="loc-map-title">
+          <title id="loc-map-title">Illustrative map of Softkey Technologies branches in Mangaluru, Payyannur and Kannur</title>
+          <defs>
+            <pattern id="seaDots" width="10" height="10" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="0.9" fill="rgb(255 255 255 / .09)"></circle>
+            </pattern>
+            <linearGradient id="landFill" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#10275a"></stop>
+              <stop offset="1" stop-color="#0a1a3c"></stop>
+            </linearGradient>
+            <radialGradient id="pinGlow">
+              <stop offset="0" stop-color="#D4AF6A" stop-opacity=".55"></stop>
+              <stop offset="1" stop-color="#D4AF6A" stop-opacity="0"></stop>
+            </radialGradient>
+          </defs>
+          <rect width={W} height={H} fill="url(#seaDots)"></rect>
+          <path d={landD} fill="url(#landFill)"></path>
+          <path d={coastD} fill="none" stroke="#D4AF6A" stroke-opacity=".7" stroke-width="1.4" stroke-linejoin="round"></path>
+          <path d={borderD} fill="none" stroke="rgb(255 255 255 / .28)" stroke-width="1" stroke-dasharray="4 5"></path>
+          <text x="300" y="120" class="map-state">KARNATAKA</text>
+          <text x="330" y="530" class="map-state">KERALA</text>
+          <text x="40" y="330" class="map-sea">Arabian Sea</text>
+
+          {
+            pins.map((p) => (
+              <g class="pin" data-pin={p.id} transform={`translate(${p.x.toFixed(1)} ${p.y.toFixed(1)})`}>
+                <circle r="34" fill="url(#pinGlow)" class="pin__glow" />
+                <circle r="9" class="pin__ring" />
+                <circle r="4.5" class="pin__dot" />
+                <text x="16" y="5" class="pin__label">
+                  {p.city}
+                </text>
+              </g>
+            ))
+          }
+        </svg>
+        <figcaption>Illustrative map — not to scale</figcaption>
+      </figure>
+
+      <ol class="loc__list" role="list">
+        {
+          LOCATIONS.map((l, i) => (
+            <li class="loc__item spotlight" data-loc-item={l.id} data-reveal style={`--d:${i}`}>
+              <span class="loc__num" aria-hidden="true">
+                0{i + 1}
+              </span>
+              <div class="loc__info">
+                <h3 class="loc__city">{l.city}</h3>
+                <p class="loc__addr">
+                  {l.address}
+                  <span>
+                    {l.region === l.city ? '' : `${l.region}, `}
+                    {l.state}
+                  </span>
+                </p>
+                <div class="loc__actions">
+                  <a href={mapsLink(l.mapsQuery)} target="_blank" rel="noopener" class="loc__action">
+                    <Icon name="navigation" size={16} /> Directions
+                  </a>
+                  <a href={CONTACT.phone.href} class="loc__action">
+                    <Icon name="phone" size={16} /> Call
+                  </a>
+                  <a
+                    href={whatsappLink(`Hello Softkey Technologies (${l.city}), I would like to know more about your services.`)}
+                    target="_blank"
+                    rel="noopener"
+                    class="loc__action"
+                  >
+                    <Icon name="whatsapp" size={16} /> WhatsApp
+                  </a>
+                </div>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <p class="loc__reg" data-reveal>
+      <Icon name="building-2" size={18} />
+      <span><strong>Registered office:</strong> {REGISTERED_OFFICE.lines.join(', ')}</span>
+    </p>
+  </div>
+</section>
+
+<style>
+  .loc {
+    background: linear-gradient(180deg, #071531, #050c1f);
+    overflow: clip;
+  }
+
+  .loc__glow {
+    width: 38rem;
+    height: 38rem;
+    right: -14rem;
+    top: 10%;
+    background: radial-gradient(closest-side, rgb(35 76 160 / 0.45), transparent);
+  }
+
+  .loc__head {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .loc__body {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: clamp(2.5rem, 2rem + 3vw, 4rem);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .loc__body {
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      gap: 4rem;
+    }
+  }
+
+  .loc__map {
+    position: relative;
+    margin: 0;
+    max-width: 420px;
+    width: 100%;
+    justify-self: center;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    background: rgb(255 255 255 / 0.02);
+    border: 1px solid var(--border);
+  }
+
+  .loc__map svg {
+    width: 100%;
+    height: auto;
+    border-radius: calc(var(--radius-lg) - 8px);
+  }
+
+  .loc__map figcaption {
+    margin-top: 0.6rem;
+    text-align: right;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--ink-400);
+  }
+
+  .map-state {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    fill: rgb(255 255 255 / 0.28);
+    text-anchor: middle;
+  }
+
+  .map-sea {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 22px;
+    fill: rgb(255 255 255 / 0.22);
+  }
+
+  .pin__glow {
+    opacity: 0.6;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pin-pulse 3s ease-in-out infinite;
+  }
+
+  .pin__ring {
+    fill: rgb(5 12 31 / 0.6);
+    stroke: #d4af6a;
+    stroke-width: 1.5;
+    transition: r 0.4s var(--ease-out);
+  }
+
+  .pin__dot {
+    fill: #f3e0ad;
+  }
+
+  .pin__label {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 700;
+    fill: #fff;
+    paint-order: stroke;
+    stroke: rgb(5 12 31 / 0.85);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+  }
+
+  .pin.is-active .pin__ring {
+    r: 13;
+    fill: rgb(212 175 106 / 0.25);
+  }
+
+  .pin.is-active .pin__glow {
+    opacity: 1;
+  }
+
+  .loc__list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--border);
+  }
+
+  .loc__item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.25rem;
+    padding: 1.6rem 1rem 1.6rem 0.25rem;
+    border-bottom: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .loc__num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.4rem;
+    line-height: 1.4;
+    color: var(--gold-400);
+  }
+
+  .loc__city {
+    font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+    letter-spacing: -0.025em;
+  }
+
+  .loc__addr {
+    margin-top: 0.3rem;
+    color: var(--ink-200);
+    font-weight: 550;
+  }
+
+  .loc__addr span {
+    display: block;
+    color: var(--ink-400);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+  }
+
+  .loc__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .loc__action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--border-strong);
+    font-size: 0.85rem;
+    font-weight: 650;
+    color: var(--ink-100);
+    transition:
+      border-color 0.3s,
+      background-color 0.3s,
+      color 0.3s;
+  }
+
+  .loc__action :global(.icon) {
+    color: var(--gold-400);
+  }
+
+  .loc__action:hover {
+    border-color: var(--gold-400);
+    background: rgb(212 175 106 / 0.08);
+    color: #fff;
+  }
+
+  .loc__reg {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+    margin-top: 2.5rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius-sm);
+    background: rgb(255 255 255 / 0.03);
+    border: 1px solid var(--border);
+    color: var(--ink-300);
+    font-size: var(--fs-sm);
+  }
+
+  .loc__reg :global(.icon) {
+    margin-top: 0.15rem;
+    color: var(--gold-400);
+  }
+
+  .loc__reg strong {
+    color: #fff;
+  }
+
+  @keyframes pin-pulse {
+    0%,
+    100% {
+      transform: scale(0.8);
+    }
+    50% {
+      transform: scale(1.15);
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-loc]').forEach((root) => {
+    const pins = Array.from(root.querySelectorAll<SVGGElement>('[data-pin]'));
+    root.querySelectorAll<HTMLElement>('[data-loc-item]').forEach((item) => {
+      const id = item.dataset.locItem;
+      const set = (on: boolean) => pins.forEach((p) => p.classList.toggle('is-active', on && p.dataset.pin === id));
+      item.addEventListener('mouseenter', () => set(true));
+      item.addEventListener('mouseleave', () => set(false));
+      item.addEventListener('focusin', () => set(true));
+      item.addEventListener('focusout', () => set(false));
+    });
+  });
+</script>

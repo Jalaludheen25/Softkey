@@ -1,0 +1,828 @@
+---
+import Icon from '@/components/Icon.astro';
+import Logo from '@/components/Logo.astro';
+import { whatsappLink, LOCATIONS } from '@/data/site';
+import { PARTNERS } from '@/data/partners';
+import { SERVICES } from '@/data/services';
+
+const bars = [38, 52, 46, 64, 58, 72, 66, 84, 78, 92, 86, 100];
+const months = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
+// Smooth line through bar tops
+const pts = bars.map((b, i) => [8 + i * (304 / (bars.length - 1)), 118 - b * 0.92]);
+const line = pts.map((p, i) => (i === 0 ? `M${p[0]} ${p[1]}` : `L${p[0].toFixed(1)} ${p[1].toFixed(1)}`)).join(' ');
+const area = `${line} L312 124 L8 124 Z`;
+---
+
+<section class="hero theme-dark grain" aria-labelledby="hero-title">
+  <div class="hero__bg" aria-hidden="true">
+    <div class="bg-grid"></div>
+    <div class="bg-glow hero__glow hero__glow--a"></div>
+    <div class="bg-glow hero__glow hero__glow--b"></div>
+  </div>
+
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="hero__badge" data-reveal>
+        <span class="hero__badge-dot" aria-hidden="true"></span>
+        Channel partner for Tally
+        <span class="hero__badge-sep" aria-hidden="true"></span>
+        <span class="hero__badge-cities">{LOCATIONS.map((l) => l.city).join(' · ')}</span>
+      </p>
+
+      <h1 id="hero-title" class="hero__title" data-split>
+        <span class="line" style="--l:0"><span>Tally, Accounting &amp;</span></span>
+        <span class="line" style="--l:1"><span><em class="accent">Business Management</em></span></span>
+        <span class="line" style="--l:2"><span>Solutions</span></span>
+      </h1>
+
+      <p class="lead hero__lead" data-reveal style="--d:4">
+        Softkey Technologies helps businesses choose, implement, customize and support TallyPrime — along with the cloud, mobile and billing apps
+        that work around it. One partner, from first license to everyday support.
+      </p>
+
+      <div class="btn-row btn-row--stack-sm" data-reveal style="--d:5">
+        <a class="btn btn--gold btn--lg" href="/contact/">
+          Get Started
+          <Icon name="arrow-right" class="icon--arrow" stroke={2} />
+        </a>
+        <a class="btn btn--glass btn--lg" href={whatsappLink('Hello Softkey Technologies, I would like to talk to a Tally expert.')} target="_blank" rel="noopener">
+          <Icon name="whatsapp" />
+          Talk to an Expert
+        </a>
+      </div>
+
+      <dl class="hero__facts" data-reveal style="--d:6">
+        <div>
+          <dt>Branches in Kerala &amp; Karnataka</dt>
+          <dd>{LOCATIONS.length}</dd>
+        </div>
+        <div>
+          <dt>Channel-partner products</dt>
+          <dd>{PARTNERS.length}</dd>
+        </div>
+        <div>
+          <dt>Specialised services</dt>
+          <dd>{SERVICES.length}</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="hero__visual" data-tilt-scope data-reveal="zoom" style="--d:3">
+      <div class="hv" data-tilt="6">
+        <svg class="hv__rings" viewBox="0 0 600 600" aria-hidden="true">
+          <defs>
+            <linearGradient id="ringGold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#F3E0AD" stop-opacity="0.9"></stop>
+              <stop offset="0.5" stop-color="#B98D36" stop-opacity="0.35"></stop>
+              <stop offset="1" stop-color="#E2C68A" stop-opacity="0.8"></stop>
+            </linearGradient>
+          </defs>
+          <g class="hv__ring hv__ring--1"><circle cx="300" cy="300" r="286" fill="none" stroke="url(#ringGold)" stroke-width="1" stroke-dasharray="2 10"></circle></g>
+          <g class="hv__ring hv__ring--2">
+            <circle cx="300" cy="300" r="232" fill="none" stroke="url(#ringGold)" stroke-width="1.4" stroke-dasharray="1210 248" stroke-dashoffset="61" stroke-linecap="round"></circle>
+            <circle cx="464" cy="136" r="7" fill="#99EB26"></circle>
+          </g>
+          <g class="hv__ring hv__ring--3"><circle cx="300" cy="300" r="176" fill="none" stroke="rgb(255 255 255 / .08)" stroke-width="1"></circle></g>
+        </svg>
+
+        <div class="hv__panel">
+          <div class="db">
+            <div class="db__top">
+              <div class="db__brand">
+                <span class="db__logo"><Logo variant="icon" decorative /></span>
+                <span>
+                  <strong>Business Overview</strong>
+                  <small>Illustrative dashboard</small>
+                </span>
+              </div>
+              <span class="db__pill">H1 · Apr–Sep</span>
+            </div>
+
+            <div class="db__kpis">
+              <div class="kpi">
+                <span>Sales</span>
+                <strong>₹18.46L</strong>
+                <em class="up"><Icon name="trending-up" size={13} stroke={2} /> 12.4%</em>
+              </div>
+              <div class="kpi">
+                <span>Receivables</span>
+                <strong>₹6.21L</strong>
+                <em>32 parties</em>
+              </div>
+              <div class="kpi">
+                <span>GST payable</span>
+                <strong>₹1.08L</strong>
+                <em>GSTR-3B</em>
+              </div>
+            </div>
+
+            <div class="db__chart">
+              <svg viewBox="0 0 320 130" preserveAspectRatio="none" aria-hidden="true">
+                <defs>
+                  <linearGradient id="dbArea" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#D4AF6A" stop-opacity="0.45"></stop>
+                    <stop offset="1" stop-color="#D4AF6A" stop-opacity="0"></stop>
+                  </linearGradient>
+                  <linearGradient id="dbLine" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0" stop-color="#B98D36"></stop>
+                    <stop offset="1" stop-color="#F3E0AD"></stop>
+                  </linearGradient>
+                </defs>
+                {[30, 60, 90].map((y) => <line x1="0" x2="320" y1={y} y2={y} stroke="rgb(255 255 255 / .06)" stroke-width="1" />)}
+                {bars.map((b, i) => <rect class="db__bar" x={2 + i * (304 / (bars.length - 1))} y={124 - b * 0.92} width="12" height={b * 0.92} rx="3" style={`--i:${i}`} />)}
+                <path d={area} fill="url(#dbArea)" class="db__area"></path>
+                <path d={line} fill="none" stroke="url(#dbLine)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="db__line" pathLength="1"></path>
+                <circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r="4.5" fill="#F3E0AD" class="db__point"></circle>
+              </svg>
+              <div class="db__months" aria-hidden="true">{months.map((m) => <span>{m}</span>)}</div>
+            </div>
+
+            <ul class="db__list" role="list">
+              <li>
+                <span class="db__tag db__tag--sale">Sales</span>
+                <span class="db__ref">INV-0421</span>
+                <span class="db__amt">₹42,500</span>
+                <span class="db__status"><Icon name="circle-check" size={14} stroke={2} /> e-Invoice</span>
+              </li>
+              <li>
+                <span class="db__tag db__tag--rcpt">Receipt</span>
+                <span class="db__ref">RCT-0198</span>
+                <span class="db__amt">₹18,000</span>
+                <span class="db__status"><Icon name="circle-check" size={14} stroke={2} /> Bank</span>
+              </li>
+              <li>
+                <span class="db__tag db__tag--pur">Purchase</span>
+                <span class="db__ref">PUR-0310</span>
+                <span class="db__amt">₹27,640</span>
+                <span class="db__status"><Icon name="circle-check" size={14} stroke={2} /> ITC</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="hv__chip hv__chip--a">
+          <div class="chip">
+            <span class="chip__icon chip__icon--lime"><Icon name="file-check-2" size={18} /></span>
+            <span><strong>GSTR-1 ready</strong><small>Invoices reconciled</small></span>
+          </div>
+        </div>
+        <div class="hv__chip hv__chip--b">
+          <div class="chip">
+            <span class="chip__icon"><Icon name="truck" size={18} /></span>
+            <span><strong>e-Way Bill generated</strong><small>From invoice INV-0421</small></span>
+          </div>
+        </div>
+        <div class="hv__chip hv__chip--c">
+          <div class="chip">
+            <span class="chip__icon"><Icon name="cloud" size={18} /></span>
+            <span><strong>Synced to cloud</strong><small><i class="live" aria-hidden="true"></i> Just now</small></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#intro" aria-label="Scroll to introduction">
+    <span>Scroll</span>
+    <i aria-hidden="true"></i>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: clip;
+    padding-top: calc(var(--header-h) + clamp(2rem, 1rem + 4vw, 4.5rem));
+    padding-bottom: clamp(4rem, 2.5rem + 5vw, 7rem);
+    background: var(--grad-navy);
+    isolation: isolate;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .hero__glow--a {
+    width: 46rem;
+    height: 46rem;
+    right: -12rem;
+    top: -10rem;
+    background: radial-gradient(closest-side, rgb(35 76 160 / 0.55), transparent);
+  }
+
+  .hero__glow--b {
+    width: 34rem;
+    height: 34rem;
+    left: -14rem;
+    bottom: -16rem;
+    background: radial-gradient(closest-side, rgb(212 175 106 / 0.18), transparent);
+  }
+
+  .hero__inner {
+    position: relative;
+    display: grid;
+    gap: clamp(3rem, 2rem + 4vw, 4.5rem);
+    align-items: center;
+  }
+
+  @media (min-width: 1024px) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+      gap: 3rem;
+      min-height: min(calc(100svh - var(--header-h) - 6rem), 760px);
+    }
+  }
+
+  /* ---- Copy ---- */
+  .hero__copy {
+    container-type: inline-size;
+  }
+
+  .hero__badge {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.7rem;
+    padding: 0.5rem 1rem 0.5rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgb(212 175 106 / 0.28);
+    background: rgb(212 175 106 / 0.06);
+    font-size: 0.8rem;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    color: var(--gold-200);
+  }
+
+  .hero__badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 0 4px rgb(153 235 38 / 0.15);
+  }
+
+  .hero__badge-sep {
+    width: 1px;
+    height: 12px;
+    background: rgb(212 175 106 / 0.4);
+  }
+
+  @media (max-width: 479px) {
+    .hero__badge-sep {
+      display: none;
+    }
+  }
+
+  .hero__badge-cities {
+    color: var(--ink-300);
+    font-weight: 600;
+  }
+
+  .hero__title {
+    margin-top: 1.6rem;
+    /* Longest line is ~8.55em wide: scale with the column so it always fits on 3 lines */
+    font-size: clamp(2rem, 11.4cqi, 4.6rem);
+    line-height: 1.02;
+    letter-spacing: -0.038em;
+    font-weight: 650;
+  }
+
+  .hero__title .line {
+    white-space: nowrap;
+  }
+
+  .hero__title .accent {
+    font-size: 1.1em;
+    line-height: 0.9;
+  }
+
+  .hero__lead {
+    margin-top: 1.6rem;
+    max-width: 36rem;
+  }
+
+  .hero__copy .btn-row {
+    margin-top: 2.2rem;
+  }
+
+  .hero__facts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2.75rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid rgb(255 255 255 / 0.08);
+    max-width: 34rem;
+  }
+
+  .hero__facts div {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: 0.35rem;
+  }
+
+  .hero__facts dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(2.2rem, 1.8rem + 1.4vw, 3rem);
+    line-height: 1;
+    background: var(--grad-gold-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero__facts dt {
+    font-size: 0.8rem;
+    line-height: 1.35;
+    color: var(--ink-400);
+    font-weight: 600;
+  }
+
+  /* ---- Visual ---- */
+  .hero__visual {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin-inline: auto;
+  }
+
+  .hv {
+    --rx: 0deg;
+    --ry: 0deg;
+    --px: 0;
+    --py: 0;
+    position: relative;
+    display: grid;
+    place-items: center;
+    padding-block: clamp(2.75rem, 1.5rem + 6vw, 5.5rem);
+  }
+
+  .hv__rings {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 108%;
+    height: auto;
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .hv__ring {
+    transform-origin: 300px 300px;
+    transform-box: view-box;
+  }
+
+  .hv__ring--1 {
+    animation: spin 120s linear infinite;
+  }
+
+  .hv__ring--2 {
+    animation: spin 60s linear infinite reverse;
+  }
+
+  .hv__panel {
+    position: relative;
+    width: 88%;
+    transform: perspective(1400px) rotateX(calc(5deg + var(--rx))) rotateY(calc(-10deg + var(--ry)));
+    transition: transform 0.8s var(--ease-out);
+  }
+
+  .db {
+    border-radius: 22px;
+    padding: clamp(0.9rem, 0.6rem + 1.2vw, 1.4rem);
+    background: linear-gradient(155deg, rgb(24 44 92 / 0.86), rgb(8 19 44 / 0.93));
+    border: 1px solid rgb(255 255 255 / 0.12);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.12),
+      0 50px 100px -30px rgb(0 0 0 / 0.75),
+      0 0 0 1px rgb(212 175 106 / 0.08);
+    font-size: clamp(0.62rem, 0.5rem + 0.35vw, 0.8rem);
+  }
+
+  .db__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .db__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    line-height: 1.2;
+  }
+
+  .db__brand strong {
+    display: block;
+    color: #fff;
+    font-size: 1.12em;
+    font-weight: 700;
+  }
+
+  .db__brand small {
+    color: var(--ink-400);
+    font-size: 0.85em;
+  }
+
+  .db__logo {
+    display: grid;
+    place-items: center;
+    width: 2.6em;
+    height: 2.6em;
+    border-radius: 10px;
+    background: rgb(255 255 255 / 0.06);
+    border: 1px solid rgb(255 255 255 / 0.1);
+    color: #fff;
+  }
+
+  .db__logo :global(.logo) {
+    width: 1.8em;
+  }
+
+  .db__pill {
+    padding: 0.35em 0.8em;
+    border-radius: 999px;
+    border: 1px solid rgb(212 175 106 / 0.35);
+    color: var(--gold-200);
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  .db__kpis {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6em;
+    margin-top: 1.1em;
+  }
+
+  .kpi {
+    display: grid;
+    gap: 0.15em;
+    padding: 0.8em 0.9em;
+    border-radius: 12px;
+    background: rgb(255 255 255 / 0.04);
+    border: 1px solid rgb(255 255 255 / 0.07);
+    min-width: 0;
+  }
+
+  .kpi span {
+    color: var(--ink-400);
+    font-weight: 600;
+  }
+
+  .kpi strong {
+    color: #fff;
+    font-size: 1.45em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .kpi em {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-style: normal;
+    color: var(--ink-400);
+    font-size: 0.92em;
+    white-space: nowrap;
+  }
+
+  .kpi em.up {
+    color: var(--lime);
+  }
+
+  .db__chart {
+    margin-top: 1em;
+    padding: 0.9em 0.9em 0.6em;
+    border-radius: 14px;
+    background: rgb(3 8 22 / 0.35);
+    border: 1px solid rgb(255 255 255 / 0.06);
+  }
+
+  .db__chart svg {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 320 / 130;
+    overflow: visible;
+  }
+
+  .db__bar {
+    fill: rgb(255 255 255 / 0.07);
+    transform-box: fill-box;
+    transform-origin: bottom;
+    animation: grow 1.2s var(--ease-out) both;
+    animation-delay: calc(var(--i) * 60ms + 600ms);
+  }
+
+  .db__line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 2.2s var(--ease-out) 900ms forwards;
+  }
+
+  .db__area {
+    opacity: 0;
+    animation: fade 1.2s var(--ease-out) 1.6s forwards;
+  }
+
+  .db__point {
+    opacity: 0;
+    animation:
+      fade 0.6s 2.6s forwards,
+      beacon 2.4s ease-in-out 3s infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .db__months {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5em;
+    color: var(--ink-500);
+    font-size: 0.85em;
+    font-weight: 600;
+  }
+
+  .db__list {
+    display: grid;
+    gap: 0.35em;
+    margin-top: 0.9em;
+  }
+
+  .db__list li {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 0.8em;
+    padding: 0.55em 0.7em;
+    border-radius: 10px;
+    background: rgb(255 255 255 / 0.03);
+  }
+
+  .db__tag {
+    padding: 0.2em 0.6em;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.85em;
+  }
+
+  .db__tag--sale {
+    background: rgb(212 175 106 / 0.16);
+    color: var(--gold-200);
+  }
+
+  .db__tag--rcpt {
+    background: rgb(153 235 38 / 0.12);
+    color: #c9f58a;
+  }
+
+  .db__tag--pur {
+    background: rgb(120 160 255 / 0.14);
+    color: #b9cdff;
+  }
+
+  .db__ref {
+    color: var(--ink-300);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .db__amt {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .db__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    color: var(--ink-400);
+    font-weight: 600;
+  }
+
+  .db__status :global(.icon) {
+    color: var(--lime);
+    width: 1.1em;
+    height: 1.1em;
+  }
+
+  /* ---- Floating chips ---- */
+  .hv__chip {
+    position: absolute;
+    z-index: 2;
+    transform: translate3d(calc(var(--px) * var(--depth, 28px)), calc(var(--py) * var(--depth, 28px)), 0);
+    transition: transform 0.8s var(--ease-out);
+  }
+
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.7rem 1rem 0.7rem 0.7rem;
+    border-radius: 16px;
+    background: linear-gradient(160deg, rgb(28 50 100 / 0.82), rgb(9 20 46 / 0.88));
+    border: 1px solid rgb(255 255 255 / 0.12);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.1),
+      0 24px 50px -20px rgb(0 0 0 / 0.8);
+    font-size: clamp(0.7rem, 0.62rem + 0.3vw, 0.85rem);
+    line-height: 1.25;
+    white-space: nowrap;
+    animation: float 7s ease-in-out infinite;
+  }
+
+  .chip strong {
+    display: block;
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .chip small {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    color: var(--ink-400);
+    font-size: 0.9em;
+  }
+
+  .chip__icon {
+    display: grid;
+    place-items: center;
+    width: 2.4em;
+    height: 2.4em;
+    border-radius: 11px;
+    color: var(--gold-200);
+    background: rgb(212 175 106 / 0.14);
+    border: 1px solid rgb(212 175 106 / 0.28);
+  }
+
+  .chip__icon--lime {
+    color: #d7fb9f;
+    background: rgb(153 235 38 / 0.12);
+    border-color: rgb(153 235 38 / 0.3);
+  }
+
+  .live {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 0 3px rgb(153 235 38 / 0.2);
+  }
+
+  .hv__chip--a {
+    top: 3%;
+    left: -3%;
+    --depth: 34px;
+  }
+
+  .hv__chip--b {
+    top: 49%;
+    right: -5%;
+    --depth: 42px;
+  }
+
+  .hv__chip--b .chip {
+    animation-delay: -2.5s;
+  }
+
+  .hv__chip--c {
+    bottom: 3%;
+    left: -1%;
+    --depth: 24px;
+  }
+
+  .hv__chip--c .chip {
+    animation-delay: -4.5s;
+  }
+
+  @media (max-width: 520px) {
+    .hv__chip--a {
+      left: 0;
+      top: 0;
+    }
+    .hv__chip--b {
+      right: 0;
+      top: 46%;
+    }
+    .hv__chip--c {
+      left: 2%;
+      bottom: 0;
+    }
+    .hv__panel {
+      width: 94%;
+    }
+    .db__status {
+      display: none;
+    }
+    .db__list li {
+      grid-template-columns: auto 1fr auto;
+    }
+  }
+
+  /* ---- Scroll cue ---- */
+  .hero__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 1.5rem;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-400);
+  }
+
+  .hero__scroll i {
+    position: relative;
+    width: 1px;
+    height: 42px;
+    overflow: hidden;
+    background: rgb(255 255 255 / 0.12);
+  }
+
+  .hero__scroll i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(transparent, var(--gold-300));
+    animation: scrollcue 2.2s var(--ease-in-out) infinite;
+  }
+
+  @media (min-width: 1024px) and (min-height: 760px) {
+    .hero__scroll {
+      display: flex;
+    }
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes grow {
+    from {
+      transform: scaleY(0);
+    }
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes fade {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes beacon {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+  }
+
+  @keyframes scrollcue {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(100%);
+    }
+  }
+</style>

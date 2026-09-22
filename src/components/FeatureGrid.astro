@@ -1,0 +1,114 @@
+---
+import Icon from './Icon.astro';
+import type { Feature } from '@/data/services';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+  features: Feature[];
+  id?: string;
+}
+const { eyebrow, title, lead, features, id = 'features' } = Astro.props;
+---
+
+<section class="fg theme-dark section grain" aria-labelledby={`${id}-title`}>
+  <div class="bg-glow fg__glow" aria-hidden="true"></div>
+  <div class="container">
+    <div class="section-head section-head--split">
+      <div class="fg__head">
+        <p class="eyebrow" data-reveal>{eyebrow}</p>
+        <h2 id={`${id}-title`} class="h2" data-reveal style="--d:1" set:html={title} />
+      </div>
+      {lead && <p class="lead" data-reveal style="--d:2">{lead}</p>}
+    </div>
+
+    <ul class="fg__grid" role="list">
+      {
+        features.map((f, i) => (
+          <li class="fg__item spotlight" data-reveal style={`--d:${i % 3}`}>
+            <span class="icon-ring">
+              <Icon name={f.icon} />
+            </span>
+            <h3 class="fg__title">{f.title}</h3>
+            <p class="fg__text">{f.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .fg {
+    background: linear-gradient(180deg, #050c1f, #071531);
+    overflow: clip;
+  }
+
+  .fg__glow {
+    width: 36rem;
+    height: 36rem;
+    left: -14rem;
+    bottom: -10rem;
+    background: radial-gradient(closest-side, rgb(212 175 106 / 0.12), transparent);
+  }
+
+  .fg__head {
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .fg__grid {
+    display: grid;
+    margin: clamp(2.5rem, 2rem + 2vw, 3.5rem) 0 0;
+    border-top: 1px solid var(--border);
+  }
+
+  @media (min-width: 640px) {
+    .fg__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .fg__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .fg__item {
+    display: grid;
+    gap: 0.8rem;
+    align-content: start;
+    padding: 2rem 1.5rem 2.25rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  @media (min-width: 640px) {
+    .fg__item:nth-child(odd) {
+      border-right: 1px solid var(--border);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .fg__item:nth-child(odd) {
+      border-right: 0;
+    }
+    .fg__item:not(:nth-child(3n)) {
+      border-right: 1px solid var(--border);
+    }
+  }
+
+  .fg__title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    margin-top: 0.4rem;
+  }
+
+  .fg__text {
+    color: var(--fg-muted);
+    font-size: var(--fs-sm);
+    line-height: 1.7;
+  }
+</style>
