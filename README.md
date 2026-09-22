@@ -11,7 +11,7 @@ npm install
 npm run dev        # http://localhost:4321
 npm run build      # outputs the production site to dist/
 npm run preview    # serves dist/ locally
-npx astro check    # type-check all components
+npm run check      # type-check all components
 ```
 
 Requires Node.js 20 or newer.
@@ -71,7 +71,7 @@ The logo is a vector rebuild of the mark on the client's business card (`referen
 To regenerate `src/data/brand-geometry.ts`, `public/brand/*.svg`, the favicons and the social share image:
 
 ```bash
-node scripts/generate-brand.mjs
+npm run brand
 ```
 
 Standalone logo files for print or social use are in `public/brand/`.

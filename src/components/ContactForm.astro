@@ -277,18 +277,16 @@ const serviceNames = JSON.stringify(Object.fromEntries(SERVICES.map((s) => [s.sl
       if (data.website) return; // honeypot
       const service = serviceName(data.service) || 'Not sure yet';
 
-      const lines = [
+      const details = [
         'New enquiry from tallygoldpartner.in',
         `Name: ${data.name.trim()}`,
         `Phone: ${data.phone.trim()}`,
-        data.email ? `Email: ${data.email.trim()}` : '',
-        data.business ? `Business: ${data.business.trim()}` : '',
+        data.email && `Email: ${data.email.trim()}`,
+        data.business && `Business: ${data.business.trim()}`,
         `Interested in: ${service}`,
-        data.location ? `Nearest branch: ${data.location}` : '',
-        '',
-        data.message.trim(),
-      ].filter((l, i, arr) => l !== '' || (i > 0 && arr[i - 1] !== ''));
-      const text = lines.join('\n');
+        data.location && `Nearest branch: ${data.location}`,
+      ].filter(Boolean);
+      const text = `${details.join('\n')}\n\n${data.message.trim()}`;
       const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(text)}`;
       const mailUrl = `mailto:${email}?subject=${encodeURIComponent(`Enquiry: ${service}`)}&body=${encodeURIComponent(text)}`;
 
