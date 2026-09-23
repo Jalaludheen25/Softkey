@@ -16,7 +16,7 @@ interface Props {
 
 const { variant = 'horizontal', tone = 'light', class: className, title = 'Softkey Technologies Private Limited', decorative = false } = Astro.props;
 
-const gold = tone === 'light' ? '#D9B870' : '#B98D36';
+const toneClass = tone === 'light' ? 'logo--gold-light' : 'logo--gold-dark';
 const [ix, iy, iw] = ICON.viewBox.split(' ').map(Number);
 
 // Horizontal lockup geometry (matches scripts/generate-brand.mjs)
@@ -39,7 +39,7 @@ const a11y: { 'aria-hidden'?: 'true'; role?: 'img'; 'aria-label'?: string } = de
 
 {
   variant === 'icon' && (
-    <svg class:list={['logo', 'logo--icon', className]} viewBox={ICON.viewBox} xmlns="http://www.w3.org/2000/svg" {...a11y}>
+    <svg class:list={['logo', 'logo--icon', toneClass, className]} viewBox={ICON.viewBox} xmlns="http://www.w3.org/2000/svg" {...a11y}>
       <path d={ICON.ring} fill="currentColor" />
       <path d={ICON.shape} fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round" />
       <circle class="logo__dot" cx={ICON.dot.cx} cy={ICON.dot.cy} r={ICON.dot.r} fill="#99EB26" />
@@ -49,7 +49,7 @@ const a11y: { 'aria-hidden'?: 'true'; role?: 'img'; 'aria-label'?: string } = de
 
 {
   variant === 'horizontal' && (
-    <svg class:list={['logo', 'logo--horizontal', className]} viewBox={`0 0 ${hW.toFixed(2)} ${H}`} xmlns="http://www.w3.org/2000/svg" {...a11y}>
+    <svg class:list={['logo', 'logo--horizontal', toneClass, className]} viewBox={`0 0 ${hW.toFixed(2)} ${H}`} xmlns="http://www.w3.org/2000/svg" {...a11y}>
       <g transform={`translate(${-ix} ${-iy})`}>
         <path d={ICON.ring} fill="currentColor" />
         <path d={ICON.shape} fill="currentColor" stroke="currentColor" stroke-width="0.8" stroke-linejoin="round" />
@@ -57,7 +57,7 @@ const a11y: { 'aria-hidden'?: 'true'; role?: 'img'; 'aria-label'?: string } = de
       </g>
       <g transform={`translate(${iw + hGap} ${ty.toFixed(2)}) scale(${hScale.toFixed(4)})`}>
         <path transform={`translate(0 ${WORDMARK.softkey.baseline})`} d={WORDMARK.softkey.d} fill="currentColor" />
-        <path transform={`translate(0 ${WORDMARK.technologies.baseline})`} d={WORDMARK.technologies.d} fill={gold} />
+        <path transform={`translate(0 ${WORDMARK.technologies.baseline})`} d={WORDMARK.technologies.d} fill="var(--logo-gold)" />
       </g>
     </svg>
   )
@@ -65,12 +65,12 @@ const a11y: { 'aria-hidden'?: 'true'; role?: 'img'; 'aria-label'?: string } = de
 
 {
   variant === 'stacked' && (
-    <svg class:list={['logo', 'logo--stacked', className]} viewBox={`0 0 ${WORDMARK.width} ${WORDMARK.stackedHeight}`} xmlns="http://www.w3.org/2000/svg" {...a11y}>
+    <svg class:list={['logo', 'logo--stacked', toneClass, className]} viewBox={`0 0 ${WORDMARK.width} ${WORDMARK.stackedHeight}`} xmlns="http://www.w3.org/2000/svg" {...a11y}>
       <path transform={`translate(0 ${WORDMARK.softkey.baseline})`} d={WORDMARK.softkey.d} fill="currentColor" />
-      <path transform={`translate(0 ${WORDMARK.technologies.baseline})`} d={WORDMARK.technologies.d} fill={gold} />
+      <path transform={`translate(0 ${WORDMARK.technologies.baseline})`} d={WORDMARK.technologies.d} fill="var(--logo-gold)" />
       <path transform={`translate(${pvt.x} ${pvt.baseline})`} d={pvt.d} fill="currentColor" />
-      <rect x={ruleInset} y={ruleY - 1.5} width={ruleW} height="3" fill={gold} />
-      <rect x={pvt.x + pvt.width + ruleGap} y={ruleY - 1.5} width={ruleW} height="3" fill={gold} />
+      <rect x={ruleInset} y={ruleY - 1.5} width={ruleW} height="3" fill="var(--logo-gold)" />
+      <rect x={pvt.x + pvt.width + ruleGap} y={ruleY - 1.5} width={ruleW} height="3" fill="var(--logo-gold)" />
     </svg>
   )
 }
@@ -80,5 +80,14 @@ const a11y: { 'aria-hidden'?: 'true'; role?: 'img'; 'aria-label'?: string } = de
     display: block;
     height: auto;
     overflow: visible;
+  }
+
+  /* Overridable so a lockup can adapt to its background (e.g. the light header) */
+  .logo--gold-light {
+    --logo-gold: #d9b870;
+  }
+
+  .logo--gold-dark {
+    --logo-gold: #b98d36;
   }
 </style>

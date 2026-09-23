@@ -20,9 +20,11 @@ interface Props {
   schema?: Record<string, unknown>[];
   /** Use the raw title (no brand suffix) */
   rawTitle?: boolean;
+  /** "light" when the page opens with a light hero, so the transparent header stays readable */
+  headerTheme?: 'dark' | 'light';
 }
 
-const { title, description, image = '/og-default.png', noindex = false, schema = [], rawTitle = false } = Astro.props;
+const { title, description, image = '/og-default.png', noindex = false, schema = [], rawTitle = false, headerTheme = 'dark' } = Astro.props;
 
 const pageTitle = rawTitle ? title : `${title} | ${SITE.name}`;
 const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), SITE.url).href;
@@ -131,7 +133,7 @@ const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': grap
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Header />
+    <Header theme={headerTheme} />
     <main id="main" tabindex="-1">
       <slot />
     </main>

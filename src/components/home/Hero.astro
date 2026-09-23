@@ -13,7 +13,7 @@ const line = pts.map((p, i) => (i === 0 ? `M${p[0]} ${p[1]}` : `L${p[0].toFixed(
 const area = `${line} L312 124 L8 124 Z`;
 ---
 
-<section class="hero theme-dark grain" aria-labelledby="hero-title">
+<section class="hero theme-light grain" aria-labelledby="hero-title">
   <div class="hero__bg" aria-hidden="true">
     <div class="bg-grid"></div>
     <div class="bg-glow hero__glow hero__glow--a"></div>
@@ -45,7 +45,7 @@ const area = `${line} L312 124 L8 124 Z`;
           Get Started
           <Icon name="arrow-right" class="icon--arrow" stroke={2} />
         </a>
-        <a class="btn btn--glass btn--lg" href={whatsappLink('Hello Softkey Technologies, I would like to talk to a Tally expert.')} target="_blank" rel="noopener">
+        <a class="btn btn--outline btn--lg" href={whatsappLink('Hello Softkey Technologies, I would like to talk to a Tally expert.')} target="_blank" rel="noopener">
           <Icon name="whatsapp" />
           Talk to an Expert
         </a>
@@ -72,9 +72,9 @@ const area = `${line} L312 124 L8 124 Z`;
         <svg class="hv__rings" viewBox="0 0 600 600" aria-hidden="true">
           <defs>
             <linearGradient id="ringGold" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#F3E0AD" stop-opacity="0.9"></stop>
+              <stop offset="0" stop-color="#C79D52" stop-opacity="0.95"></stop>
               <stop offset="0.5" stop-color="#B98D36" stop-opacity="0.35"></stop>
-              <stop offset="1" stop-color="#E2C68A" stop-opacity="0.8"></stop>
+              <stop offset="1" stop-color="#D4AF6A" stop-opacity="0.9"></stop>
             </linearGradient>
           </defs>
           <g class="hv__ring hv__ring--1"><circle cx="300" cy="300" r="286" fill="none" stroke="url(#ringGold)" stroke-width="1" stroke-dasharray="2 10"></circle></g>
@@ -82,7 +82,7 @@ const area = `${line} L312 124 L8 124 Z`;
             <circle cx="300" cy="300" r="232" fill="none" stroke="url(#ringGold)" stroke-width="1.4" stroke-dasharray="1210 248" stroke-dashoffset="61" stroke-linecap="round"></circle>
             <circle cx="464" cy="136" r="7" fill="#99EB26"></circle>
           </g>
-          <g class="hv__ring hv__ring--3"><circle cx="300" cy="300" r="176" fill="none" stroke="rgb(255 255 255 / .08)" stroke-width="1"></circle></g>
+          <g class="hv__ring hv__ring--3"><circle cx="300" cy="300" r="176" fill="none" stroke="rgb(6 23 49 / .07)" stroke-width="1"></circle></g>
         </svg>
 
         <div class="hv__panel">
@@ -120,19 +120,19 @@ const area = `${line} L312 124 L8 124 Z`;
               <svg viewBox="0 0 320 130" preserveAspectRatio="none" aria-hidden="true">
                 <defs>
                   <linearGradient id="dbArea" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stop-color="#D4AF6A" stop-opacity="0.45"></stop>
+                    <stop offset="0" stop-color="#D4AF6A" stop-opacity="0.5"></stop>
                     <stop offset="1" stop-color="#D4AF6A" stop-opacity="0"></stop>
                   </linearGradient>
                   <linearGradient id="dbLine" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0" stop-color="#B98D36"></stop>
-                    <stop offset="1" stop-color="#F3E0AD"></stop>
+                    <stop offset="0" stop-color="#8F6B25"></stop>
+                    <stop offset="1" stop-color="#D4AF6A"></stop>
                   </linearGradient>
                 </defs>
-                {[30, 60, 90].map((y) => <line x1="0" x2="320" y1={y} y2={y} stroke="rgb(255 255 255 / .06)" stroke-width="1" />)}
+                {[30, 60, 90].map((y) => <line x1="0" x2="320" y1={y} y2={y} stroke="rgb(6 23 49 / .07)" stroke-width="1" />)}
                 {bars.map((b, i) => <rect class="db__bar" x={2 + i * (304 / (bars.length - 1))} y={124 - b * 0.92} width="12" height={b * 0.92} rx="3" style={`--i:${i}`} />)}
                 <path d={area} fill="url(#dbArea)" class="db__area"></path>
                 <path d={line} fill="none" stroke="url(#dbLine)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="db__line" pathLength="1"></path>
-                <circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r="4.5" fill="#F3E0AD" class="db__point"></circle>
+                <circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r="4.5" fill="#B98D36" class="db__point"></circle>
               </svg>
               <div class="db__months" aria-hidden="true">{months.map((m) => <span>{m}</span>)}</div>
             </div>
@@ -194,7 +194,9 @@ const area = `${line} L312 124 L8 124 Z`;
     overflow: clip;
     padding-top: calc(var(--header-h) + clamp(2rem, 1rem + 4vw, 4.5rem));
     padding-bottom: clamp(4rem, 2.5rem + 5vw, 7rem);
-    background: var(--grad-navy);
+    background:
+      radial-gradient(120% 90% at 78% -10%, rgb(212 175 106 / 0.28) 0%, rgb(212 175 106 / 0.08) 35%, transparent 62%),
+      linear-gradient(180deg, #ffffff 0%, #fdfaf4 45%, #f4ece0 100%);
     isolation: isolate;
   }
 
@@ -208,8 +210,9 @@ const area = `${line} L312 124 L8 124 Z`;
     width: 46rem;
     height: 46rem;
     right: -12rem;
-    top: -10rem;
-    background: radial-gradient(closest-side, rgb(35 76 160 / 0.55), transparent);
+    top: -12rem;
+    background: radial-gradient(closest-side, rgb(212 175 106 / 0.5), transparent);
+    opacity: 0.58;
   }
 
   .hero__glow--b {
@@ -217,7 +220,19 @@ const area = `${line} L312 124 L8 124 Z`;
     height: 34rem;
     left: -14rem;
     bottom: -16rem;
-    background: radial-gradient(closest-side, rgb(212 175 106 / 0.18), transparent);
+    background: radial-gradient(closest-side, rgb(35 76 160 / 0.16), transparent);
+  }
+
+  /* Grid lines have to be dark on a light background */
+  .hero :global(.bg-grid) {
+    background-image:
+      linear-gradient(rgb(6 23 49 / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(6 23 49 / 0.045) 1px, transparent 1px);
+  }
+
+  .hero.grain::before {
+    opacity: 0.035;
+    mix-blend-mode: multiply;
   }
 
   .hero__inner {
@@ -247,12 +262,13 @@ const area = `${line} L312 124 L8 124 Z`;
     gap: 0.4rem 0.7rem;
     padding: 0.5rem 1rem 0.5rem 0.75rem;
     border-radius: 999px;
-    border: 1px solid rgb(212 175 106 / 0.28);
-    background: rgb(212 175 106 / 0.06);
+    border: 1px solid rgb(185 141 54 / 0.32);
+    background: rgb(255 255 255 / 0.85);
+    box-shadow: 0 10px 24px -18px rgb(6 23 49 / 0.5);
     font-size: 0.8rem;
     font-weight: 650;
     letter-spacing: 0.04em;
-    color: var(--gold-200);
+    color: var(--gold-800);
   }
 
   .hero__badge-dot {
@@ -260,13 +276,13 @@ const area = `${line} L312 124 L8 124 Z`;
     height: 8px;
     border-radius: 50%;
     background: var(--lime);
-    box-shadow: 0 0 0 4px rgb(153 235 38 / 0.15);
+    box-shadow: 0 0 0 4px rgb(107 168 27 / 0.22);
   }
 
   .hero__badge-sep {
     width: 1px;
     height: 12px;
-    background: rgb(212 175 106 / 0.4);
+    background: rgb(185 141 54 / 0.45);
   }
 
   @media (max-width: 479px) {
@@ -276,7 +292,7 @@ const area = `${line} L312 124 L8 124 Z`;
   }
 
   .hero__badge-cities {
-    color: var(--ink-300);
+    color: var(--fg-muted);
     font-weight: 600;
   }
 
@@ -313,7 +329,7 @@ const area = `${line} L312 124 L8 124 Z`;
     gap: 1rem;
     margin-top: 2.75rem;
     padding-top: 1.75rem;
-    border-top: 1px solid rgb(255 255 255 / 0.08);
+    border-top: 1px solid rgb(6 23 49 / 0.12);
     max-width: 34rem;
   }
 
@@ -330,7 +346,7 @@ const area = `${line} L312 124 L8 124 Z`;
     font-style: italic;
     font-size: clamp(2.2rem, 1.8rem + 1.4vw, 3rem);
     line-height: 1;
-    background: var(--grad-gold-text);
+    background: linear-gradient(100deg, #a87f2b 0%, #84621f 55%, #9c7527 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -339,7 +355,7 @@ const area = `${line} L312 124 L8 124 Z`;
   .hero__facts dt {
     font-size: 0.8rem;
     line-height: 1.35;
-    color: var(--ink-400);
+    color: var(--fg-subtle);
     font-weight: 600;
   }
 
@@ -396,14 +412,14 @@ const area = `${line} L312 124 L8 124 Z`;
   .db {
     border-radius: 22px;
     padding: clamp(0.9rem, 0.6rem + 1.2vw, 1.4rem);
-    background: linear-gradient(155deg, rgb(24 44 92 / 0.86), rgb(8 19 44 / 0.93));
-    border: 1px solid rgb(255 255 255 / 0.12);
+    background: linear-gradient(155deg, rgb(255 255 255 / 0.96), rgb(252 248 241 / 0.92));
+    border: 1px solid rgb(6 23 49 / 0.08);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.12),
-      0 50px 100px -30px rgb(0 0 0 / 0.75),
-      0 0 0 1px rgb(212 175 106 / 0.08);
+      inset 0 1px 0 rgb(255 255 255 / 0.9),
+      0 50px 90px -35px rgb(6 23 49 / 0.35),
+      0 0 0 1px rgb(185 141 54 / 0.12);
     font-size: clamp(0.62rem, 0.5rem + 0.35vw, 0.8rem);
   }
 
@@ -423,13 +439,13 @@ const area = `${line} L312 124 L8 124 Z`;
 
   .db__brand strong {
     display: block;
-    color: #fff;
+    color: var(--navy-900);
     font-size: 1.12em;
     font-weight: 700;
   }
 
   .db__brand small {
-    color: var(--ink-400);
+    color: var(--fg-subtle);
     font-size: 0.85em;
   }
 
@@ -439,8 +455,8 @@ const area = `${line} L312 124 L8 124 Z`;
     width: 2.6em;
     height: 2.6em;
     border-radius: 10px;
-    background: rgb(255 255 255 / 0.06);
-    border: 1px solid rgb(255 255 255 / 0.1);
+    background: var(--navy-900);
+    border: 1px solid rgb(6 23 49 / 0.1);
     color: #fff;
   }
 
@@ -451,8 +467,9 @@ const area = `${line} L312 124 L8 124 Z`;
   .db__pill {
     padding: 0.35em 0.8em;
     border-radius: 999px;
-    border: 1px solid rgb(212 175 106 / 0.35);
-    color: var(--gold-200);
+    border: 1px solid rgb(185 141 54 / 0.4);
+    background: rgb(212 175 106 / 0.1);
+    color: var(--gold-800);
     font-weight: 650;
     white-space: nowrap;
   }
@@ -469,18 +486,19 @@ const area = `${line} L312 124 L8 124 Z`;
     gap: 0.15em;
     padding: 0.8em 0.9em;
     border-radius: 12px;
-    background: rgb(255 255 255 / 0.04);
-    border: 1px solid rgb(255 255 255 / 0.07);
+    background: #fff;
+    border: 1px solid rgb(6 23 49 / 0.07);
+    box-shadow: 0 10px 20px -18px rgb(6 23 49 / 0.45);
     min-width: 0;
   }
 
   .kpi span {
-    color: var(--ink-400);
+    color: var(--fg-subtle);
     font-weight: 600;
   }
 
   .kpi strong {
-    color: #fff;
+    color: var(--navy-900);
     font-size: 1.45em;
     font-weight: 700;
     letter-spacing: -0.02em;
@@ -492,21 +510,21 @@ const area = `${line} L312 124 L8 124 Z`;
     align-items: center;
     gap: 0.3em;
     font-style: normal;
-    color: var(--ink-400);
+    color: var(--fg-subtle);
     font-size: 0.92em;
     white-space: nowrap;
   }
 
   .kpi em.up {
-    color: var(--lime);
+    color: #3c7c16;
   }
 
   .db__chart {
     margin-top: 1em;
     padding: 0.9em 0.9em 0.6em;
     border-radius: 14px;
-    background: rgb(3 8 22 / 0.35);
-    border: 1px solid rgb(255 255 255 / 0.06);
+    background: rgb(6 23 49 / 0.03);
+    border: 1px solid rgb(6 23 49 / 0.06);
   }
 
   .db__chart svg {
@@ -517,7 +535,7 @@ const area = `${line} L312 124 L8 124 Z`;
   }
 
   .db__bar {
-    fill: rgb(255 255 255 / 0.07);
+    fill: rgb(6 23 49 / 0.08);
     transform-box: fill-box;
     transform-origin: bottom;
     animation: grow 1.2s var(--ease-out) both;
@@ -548,7 +566,7 @@ const area = `${line} L312 124 L8 124 Z`;
     display: flex;
     justify-content: space-between;
     margin-top: 0.5em;
-    color: var(--ink-500);
+    color: var(--fg-subtle);
     font-size: 0.85em;
     font-weight: 600;
   }
@@ -566,7 +584,7 @@ const area = `${line} L312 124 L8 124 Z`;
     gap: 0.8em;
     padding: 0.55em 0.7em;
     border-radius: 10px;
-    background: rgb(255 255 255 / 0.03);
+    background: rgb(6 23 49 / 0.035);
   }
 
   .db__tag {
@@ -577,22 +595,22 @@ const area = `${line} L312 124 L8 124 Z`;
   }
 
   .db__tag--sale {
-    background: rgb(212 175 106 / 0.16);
-    color: var(--gold-200);
+    background: rgb(212 175 106 / 0.2);
+    color: #7a5a1c;
   }
 
   .db__tag--rcpt {
-    background: rgb(153 235 38 / 0.12);
-    color: #c9f58a;
+    background: rgb(60 124 22 / 0.14);
+    color: #33690f;
   }
 
   .db__tag--pur {
-    background: rgb(120 160 255 / 0.14);
-    color: #b9cdff;
+    background: rgb(33 66 121 / 0.12);
+    color: #1d3a6b;
   }
 
   .db__ref {
-    color: var(--ink-300);
+    color: var(--fg-muted);
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
@@ -600,7 +618,7 @@ const area = `${line} L312 124 L8 124 Z`;
   }
 
   .db__amt {
-    color: #fff;
+    color: var(--navy-900);
     font-weight: 700;
   }
 
@@ -608,12 +626,12 @@ const area = `${line} L312 124 L8 124 Z`;
     display: inline-flex;
     align-items: center;
     gap: 0.3em;
-    color: var(--ink-400);
+    color: var(--fg-subtle);
     font-weight: 600;
   }
 
   .db__status :global(.icon) {
-    color: var(--lime);
+    color: #3c7c16;
     width: 1.1em;
     height: 1.1em;
   }
@@ -632,13 +650,13 @@ const area = `${line} L312 124 L8 124 Z`;
     gap: 0.7rem;
     padding: 0.7rem 1rem 0.7rem 0.7rem;
     border-radius: 16px;
-    background: linear-gradient(160deg, rgb(28 50 100 / 0.82), rgb(9 20 46 / 0.88));
-    border: 1px solid rgb(255 255 255 / 0.12);
+    background: linear-gradient(160deg, rgb(255 255 255 / 0.97), rgb(250 245 236 / 0.94));
+    border: 1px solid rgb(6 23 49 / 0.08);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.1),
-      0 24px 50px -20px rgb(0 0 0 / 0.8);
+      inset 0 1px 0 rgb(255 255 255 / 0.9),
+      0 24px 45px -22px rgb(6 23 49 / 0.45);
     font-size: clamp(0.7rem, 0.62rem + 0.3vw, 0.85rem);
     line-height: 1.25;
     white-space: nowrap;
@@ -647,7 +665,7 @@ const area = `${line} L312 124 L8 124 Z`;
 
   .chip strong {
     display: block;
-    color: #fff;
+    color: var(--navy-900);
     font-weight: 700;
   }
 
@@ -655,7 +673,7 @@ const area = `${line} L312 124 L8 124 Z`;
     display: inline-flex;
     align-items: center;
     gap: 0.35em;
-    color: var(--ink-400);
+    color: var(--fg-subtle);
     font-size: 0.9em;
   }
 
@@ -665,23 +683,23 @@ const area = `${line} L312 124 L8 124 Z`;
     width: 2.4em;
     height: 2.4em;
     border-radius: 11px;
-    color: var(--gold-200);
-    background: rgb(212 175 106 / 0.14);
-    border: 1px solid rgb(212 175 106 / 0.28);
+    color: var(--gold-800);
+    background: rgb(212 175 106 / 0.16);
+    border: 1px solid rgb(185 141 54 / 0.3);
   }
 
   .chip__icon--lime {
-    color: #d7fb9f;
-    background: rgb(153 235 38 / 0.12);
-    border-color: rgb(153 235 38 / 0.3);
+    color: #33690f;
+    background: rgb(60 124 22 / 0.12);
+    border-color: rgb(60 124 22 / 0.28);
   }
 
   .live {
     width: 6px;
     height: 6px;
     border-radius: 50%;
-    background: var(--lime);
-    box-shadow: 0 0 0 3px rgb(153 235 38 / 0.2);
+    background: #5fb318;
+    box-shadow: 0 0 0 3px rgb(60 124 22 / 0.18);
   }
 
   .hv__chip--a {
@@ -748,7 +766,7 @@ const area = `${line} L312 124 L8 124 Z`;
     font-weight: 700;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--ink-400);
+    color: var(--fg-subtle);
   }
 
   .hero__scroll i {
@@ -756,14 +774,14 @@ const area = `${line} L312 124 L8 124 Z`;
     width: 1px;
     height: 42px;
     overflow: hidden;
-    background: rgb(255 255 255 / 0.12);
+    background: rgb(6 23 49 / 0.12);
   }
 
   .hero__scroll i::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(transparent, var(--gold-300));
+    background: linear-gradient(transparent, var(--gold-600));
     animation: scrollcue 2.2s var(--ease-in-out) infinite;
   }
 

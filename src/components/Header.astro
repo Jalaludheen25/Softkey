@@ -4,11 +4,17 @@ import Icon from './Icon.astro';
 import { NAV, CONTACT, LOCATIONS, whatsappLink } from '@/data/site';
 import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
 
+interface Props {
+  /** "light" keeps the transparent header readable over a light hero */
+  theme?: 'dark' | 'light';
+}
+const { theme = 'dark' } = Astro.props;
+
 const path = Astro.url.pathname.replace(/\/?$/, '/');
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 
-<header class="site-header" data-header>
+<header class:list={['site-header', { 'on-light': theme === 'light' }]} data-header>
   <div class="container header-inner">
     <a class="brand" href="/" aria-label="Softkey Technologies — home">
       <Logo variant="horizontal" tone="light" class="brand__logo" decorative />
@@ -177,6 +183,64 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 
   .site-header.is-scrolled::after {
     opacity: 1;
+  }
+
+  /* ---- Light mode: transparent header over a light hero (until scrolled) ---- */
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .brand {
+    color: var(--navy-900);
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .brand :global(.logo) {
+    --logo-gold: #b98d36;
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .nav-link {
+    color: #46526d;
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .nav-link:hover,
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .nav-link[aria-current='page'] {
+    color: var(--navy-900);
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .nav-link::after {
+    background: var(--gold-700);
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .mega-toggle {
+    color: #5f6a83;
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .has-mega:hover .mega-toggle,
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .has-mega.is-open .mega-toggle {
+    color: var(--gold-700);
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .header-call {
+    color: var(--navy-900);
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .header-call small {
+    color: #6b7690;
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .header-call__icon {
+    border-color: rgb(185 141 54 / 0.45);
+    color: var(--gold-700);
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .header-call:hover .header-call__icon {
+    background: var(--gold-600);
+    color: #fff;
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .menu-toggle {
+    border-color: rgb(6 23 49 / 0.15);
+    background: rgb(255 255 255 / 0.7);
+  }
+
+  .site-header.on-light:not(.is-scrolled):not(.menu-open) .menu-toggle__bars span {
+    background: var(--navy-900);
   }
 
   .header-inner {
