@@ -1,19 +1,13 @@
 ---
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
-import Logo from './Logo.astro';
 import { PARTNERS } from '@/data/partners';
+import { logoScale } from '@/lib/logo';
 
 interface Props {
   showLink?: boolean;
 }
 const { showLink = true } = Astro.props;
-
-const n = PARTNERS.length;
-const positions = PARTNERS.map((_, i) => {
-  const a = (-90 + (360 / n) * i) * (Math.PI / 180);
-  return { x: 50 + 40 * Math.cos(a), y: 50 + 40 * Math.sin(a) };
-});
 ---
 
 <section class="eco theme-light section" aria-labelledby="eco-title">
@@ -27,19 +21,9 @@ const positions = PARTNERS.map((_, i) => {
         Softkey Technologies is a channel partner for six products that work together — so licensing, setup, training and support for your
         whole stack come from one accountable team.
       </p>
-      <ul role="list" class="eco__names" data-reveal style="--d:3">
-        {
-          PARTNERS.map((p) => (
-            <li>
-              <strong>{p.name}</strong>
-              <span>{p.category}</span>
-            </li>
-          ))
-        }
-      </ul>
       {
         showLink && (
-          <a class="link-arrow" href="/partners/" data-reveal style="--d:4">
+          <a class="link-arrow" href="/partners/" data-reveal style="--d:3">
             Explore the ecosystem <Icon name="arrow-up-right" />
           </a>
         )
@@ -47,35 +31,19 @@ const positions = PARTNERS.map((_, i) => {
     </div>
 
     <div class="eco__visual" data-reveal="zoom" style="--d:2">
-      <div class="orbit">
-        <svg class="orbit__lines" viewBox="0 0 100 100" aria-hidden="true">
-          <circle cx="50" cy="50" r="40" fill="none" stroke="rgb(143 107 37 / .28)" stroke-width="0.25"></circle>
-          <circle class="orbit__dash" cx="50" cy="50" r="46" fill="none" stroke="rgb(143 107 37 / .35)" stroke-width="0.2" stroke-dasharray="0.6 1.6"></circle>
-          <circle cx="50" cy="50" r="24" fill="none" stroke="rgb(6 23 49 / .08)" stroke-width="0.25"></circle>
-          {positions.map((p) => <line x1="50" y1="50" x2={p.x} y2={p.y} stroke="rgb(143 107 37 / .3)" stroke-width="0.2" />)}
-          {
-            positions.map((p, i) => (
-              <circle class="orbit__pulse" r="0.9" fill="#B98D36" style={`--i:${i}`}>
-                <animateMotion dur="3.6s" begin={`${i * 0.6}s`} repeatCount="indefinite" path={`M${p.x} ${p.y} L50 50`} />
-              </circle>
-            ))
-          }
-        </svg>
-
-        <div class="orbit__core">
-          <Logo variant="icon" tone="light" decorative />
-        </div>
-
+      <span class="eco__ring" aria-hidden="true"></span>
+      <ul class="eco__wall" role="list">
         {
           PARTNERS.map((p, i) => (
-            <div class="orbit__node" style={`left:${positions[i].x}%;top:${positions[i].y}%`}>
-              <div class="plate">
-                <Image src={p.logo} alt={`${p.name}${p.byline ? ' ' + p.byline : ''} logo`} widths={[160, 320]} sizes="140px" class="plate__img" loading="lazy" />
-              </div>
-            </div>
+            <li class="eco__cell" style={`--d:${i}; --logo-scale:${logoScale(p)}`}>
+              <span class="eco__logo">
+                <Image src={p.logo} alt={`${p.name} logo`} widths={[200, 400]} sizes="180px" loading="lazy" />
+              </span>
+              <span class="eco__cat">{p.category}</span>
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </div>
 </section>
@@ -96,7 +64,7 @@ const positions = PARTNERS.map((_, i) => {
 
   @media (min-width: 1024px) {
     .eco__grid {
-      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
       gap: 4rem;
     }
   }
@@ -107,151 +75,109 @@ const positions = PARTNERS.map((_, i) => {
     justify-items: start;
   }
 
-  .eco__names {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0;
-    width: 100%;
-    margin-block: 0.5rem 0.75rem;
-    border-top: 1px solid var(--border);
-  }
-
-  .eco__names li {
-    display: grid;
-    gap: 0.1rem;
-    padding: 0.85rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .eco__names li:nth-child(odd) {
-    padding-right: 1rem;
-  }
-
-  .eco__names strong {
-    color: var(--fg-strong);
-    font-weight: 700;
-  }
-
-  .eco__names span {
-    font-size: var(--fs-xs);
-    color: var(--fg-subtle);
-  }
-
-  /* ---- Orbit ---- */
+  /* ---- Logo wall: every product in its own branding, sized consistently ---- */
   .eco__visual {
-    width: 100%;
-    max-width: 560px;
-    margin-inline: auto;
-  }
-
-  .orbit {
     position: relative;
-    aspect-ratio: 1;
-  }
-
-  .orbit__lines {
-    position: absolute;
-    inset: 0;
     width: 100%;
-    height: 100%;
-    overflow: visible;
   }
 
-  .orbit__dash {
-    transform-origin: 50px 50px;
-    animation: orbit-spin 90s linear infinite;
-  }
-
-  .orbit__core {
+  .eco__ring {
     position: absolute;
     left: 50%;
     top: 50%;
-    display: grid;
-    place-items: center;
-    width: 30%;
+    width: min(120%, 40rem);
     aspect-ratio: 1;
     transform: translate(-50%, -50%);
     border-radius: 50%;
-    color: #fff;
-    background:
-      radial-gradient(circle at 30% 25%, #1b3a78, #061731 70%);
-    box-shadow:
-      0 0 0 10px rgb(6 23 49 / 0.05),
-      0 0 0 22px rgb(185 141 54 / 0.07),
-      0 30px 60px -20px rgb(6 23 49 / 0.6);
+    border: 1px solid rgb(185 141 54 / 0.25);
+    box-shadow: 0 0 0 1px rgb(185 141 54 / 0.06) inset;
+    pointer-events: none;
   }
 
-  .orbit__core :global(.logo) {
-    width: 58%;
-  }
-
-  .orbit__node {
-    position: absolute;
-    width: 25%;
-    transform: translate(-50%, -50%);
-  }
-
-  .plate {
+  .eco__wall {
+    position: relative;
     display: grid;
-    place-items: center;
-    aspect-ratio: 1.3;
-    padding: 12%;
-    border-radius: 18px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: 0;
+    border-radius: var(--radius-lg);
     background: #fff;
-    border: 1px solid rgb(6 23 49 / 0.06);
-    box-shadow:
-      0 18px 36px -18px rgb(6 23 49 / 0.35),
-      0 2px 6px -2px rgb(6 23 49 / 0.08);
-    transition:
-      transform 0.5s var(--ease-out),
-      box-shadow 0.5s var(--ease-out);
+    border: 1px solid rgb(6 23 49 / 0.07);
+    box-shadow: 0 40px 80px -50px rgb(6 23 49 / 0.55);
+    overflow: hidden;
   }
 
-  .plate:hover {
-    transform: translateY(-4px) scale(1.04);
-    box-shadow:
-      0 26px 44px -18px rgb(6 23 49 / 0.45),
-      0 0 0 1px rgb(185 141 54 / 0.35);
-  }
-
-  .plate :global(.plate__img) {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  /* Grid fallback on small screens */
-  @media (max-width: 639px) {
-    .orbit {
-      aspect-ratio: auto;
-      display: grid;
+  @media (min-width: 560px) {
+    .eco__wall {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.75rem;
-    }
-    .orbit__lines,
-    .orbit__core {
-      display: none;
-    }
-    .orbit__node {
-      position: static;
-      width: auto;
-      transform: none;
-    }
-    .plate {
-      border-radius: 14px;
-      padding: 14%;
     }
   }
 
-  @keyframes orbit-spin {
-    to {
-      transform: rotate(360deg);
+  .eco__cell {
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 0.85rem;
+    padding: clamp(1.25rem, 1rem + 1.2vw, 2rem) 0.9rem;
+    text-align: center;
+    border-right: 1px solid rgb(6 23 49 / 0.07);
+    border-bottom: 1px solid rgb(6 23 49 / 0.07);
+    transition: background-color 0.4s var(--ease-out);
+  }
+
+  /* Remove the outer edges of the grid */
+  .eco__cell:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .eco__cell:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  @media (min-width: 560px) {
+    .eco__cell:nth-child(2n) {
+      border-right: 1px solid rgb(6 23 49 / 0.07);
+    }
+    .eco__cell:nth-child(3n) {
+      border-right: 0;
+    }
+    .eco__cell:nth-last-child(-n + 3) {
+      border-bottom: 0;
     }
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .orbit__pulse {
-      display: none;
-    }
+  .eco__cell:hover {
+    background: var(--ivory);
+  }
+
+  /* The wrapper needs its own width, otherwise a percentage max-width on the
+     image resolves against a shrink-to-fit box and collapses it. */
+  .eco__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    height: calc(clamp(42px, 2rem + 1.5vw, 56px) * var(--logo-scale, 1));
+  }
+
+  .eco__logo :global(img) {
+    height: 100%;
+    width: auto;
+    max-width: 92%;
+    object-fit: contain;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .eco__cell:hover .eco__logo :global(img) {
+    transform: scale(1.05);
+  }
+
+  .eco__cat {
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    line-height: 1.35;
+    color: var(--fg-subtle);
   }
 </style>

@@ -11,6 +11,8 @@ export type Partner = {
   name: string;
   byline?: string;
   logo: ImageMetadata;
+  /** Optional manual nudge on top of the automatic optical balance (see lib/logo.ts). */
+  logoTweak?: number;
   category: string;
   description: string;
   /** What Softkey Technologies provides around this product. */
@@ -36,6 +38,7 @@ export const PARTNERS: Partner[] = [
     name: 'Tally on Cloud',
     byline: 'on AWS',
     logo: tallyCloudLogo,
+    logoTweak: 1.05,
     category: 'Cloud hosting',
     description:
       'Run TallyPrime on Amazon Web Services and let authorized users work on the same company data from any location, without an office server.',
@@ -58,6 +61,7 @@ export const PARTNERS: Partner[] = [
     name: 'Live Keeping',
     byline: 'an IndiaMART company',
     logo: liveKeepingLogo,
+    logoTweak: 1.05,
     category: 'Tally on mobile',
     description:
       'Access Tally reports on your phone, share invoices and ledgers with customers in a tap, and keep an eye on the business from anywhere.',
@@ -68,6 +72,7 @@ export const PARTNERS: Partner[] = [
     id: 'credflow',
     name: 'CredFlow',
     logo: credflowLogo,
+    logoTweak: 0.92,
     category: 'Receivables automation',
     description:
       'Automated payment reminders and receivables tracking connected to Tally, helping businesses follow up consistently and get paid faster.',

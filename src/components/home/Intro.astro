@@ -1,9 +1,10 @@
 ---
-import { Picture } from 'astro:assets';
+import { Image, Picture } from 'astro:assets';
 import Icon from '@/components/Icon.astro';
 import Logo from '@/components/Logo.astro';
 import consulting from '@/assets/images/consulting.jpg';
 import { PARTNERS } from '@/data/partners';
+import { logoScale } from '@/lib/logo';
 import { LOCATIONS } from '@/data/site';
 
 const facts = [
@@ -47,8 +48,14 @@ const facts = [
             <strong>Tally &amp; its ecosystem</strong>
           </span>
         </div>
-        <ul role="list" class="intro__card-list">
-          {PARTNERS.map((p) => <li>{p.name}</li>)}
+        <ul role="list" class="intro__card-logos">
+          {
+            PARTNERS.map((p) => (
+              <li style={`--logo-scale:${logoScale(p)}`}>
+                <Image src={p.logo} alt={`${p.name} logo`} widths={[120, 240]} sizes="80px" loading="lazy" />
+              </li>
+            ))
+          }
         </ul>
       </div>
     </div>
@@ -197,21 +204,31 @@ const facts = [
     width: 30px;
   }
 
-  .intro__card-list {
-    display: flex;
-    flex-wrap: wrap;
+  /* Each product in its own branding, on a white plate so the logos stay true */
+  .intro__card-logos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 0.4rem;
     margin-top: 1rem;
   }
 
-  .intro__card-list li {
-    padding: 0.28rem 0.65rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 650;
-    color: var(--ink-200);
-    background: rgb(255 255 255 / 0.06);
-    border: 1px solid rgb(255 255 255 / 0.08);
+  .intro__card-logos li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0.3rem 0.35rem;
+    border-radius: 9px;
+    background: #fff;
+    box-shadow: 0 6px 14px -10px rgb(0 0 0 / 0.6);
+  }
+
+  .intro__card-logos :global(img) {
+    max-width: 92%;
+    height: calc(26px * var(--logo-scale, 1));
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
   }
 
   .intro__copy {

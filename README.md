@@ -76,6 +76,20 @@ npm run brand
 
 Standalone logo files for print or social use are in `public/brand/`.
 
+### Partner product logos
+
+`src/assets/partners/` holds the six product logos shown in the ecosystem sections:
+
+| Logo | Source |
+| --- | --- |
+| Tally, Vyapar | Official vendor SVG, rasterised to transparent PNG |
+| Biz Analyst, CredFlow | Official vendor PNG (transparent) |
+| Tally on Cloud (AWS), Live Keeping | From the client's card — these two lockups are not published officially. The white card background was removed so they match the others. |
+
+The versions cropped from the client's card are kept in `src/assets/partners/from-card/`. To go back to them for any product, point its `logo` import in `src/data/partners.ts` at that folder.
+
+Logos are sized by `src/lib/logo.ts`, which balances them optically from their aspect ratio — wide wordmarks and square app icons end up with similar visual weight. Use `logoTweak` in `src/data/partners.ts` to nudge an individual logo.
+
 ## Project structure
 
 ```
