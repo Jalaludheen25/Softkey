@@ -82,11 +82,11 @@ Standalone logo files for print or social use are in `public/brand/`.
 
 | Logo | Source |
 | --- | --- |
-| Tally, Vyapar | Official vendor SVG, rasterised to transparent PNG |
+| Vyapar | Official vendor SVG, rasterised to transparent PNG |
 | Biz Analyst, CredFlow | Official vendor PNG (transparent) |
-| Tally on Cloud (AWS), Live Keeping | From the client's card — these two lockups are not published officially. The white card background was removed so they match the others. |
+| Tally, Tally on Cloud (AWS), Live Keeping | From the client's business card, with the white background removed. Tally uses the card's **red** lockup at the client's request; Tally's current official logo (black script) is kept in `src/assets/partners/official/` if they ever switch. |
 
-The versions cropped from the client's card are kept in `src/assets/partners/from-card/`. To go back to them for any product, point its `logo` import in `src/data/partners.ts` at that folder.
+The original card crops (white background) are kept in `src/assets/partners/from-card/`. To change any product's artwork, point its `logo` import in `src/data/partners.ts` at the file you want.
 
 Logos are sized by `src/lib/logo.ts`, which balances them optically from their aspect ratio — wide wordmarks and square app icons end up with similar visual weight. Use `logoTweak` in `src/data/partners.ts` to nudge an individual logo.
 
