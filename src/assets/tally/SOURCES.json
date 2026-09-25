@@ -66,6 +66,54 @@
    "src": "https://help.tallysolutions.com/wp-content/uploads/2020/08/analysis-and-verification-data-analysis-tally.gif",
    "w": 1600,
    "h": 877
+  },
+  {
+   "key": "receivables",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/09/bill-settlement-select-bills-tally-1.gif",
+   "w": 1368,
+   "h": 493
+  },
+  {
+   "key": "godown-summary",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/08/godown-summary-compare-data-tally.jpg",
+   "w": 1368,
+   "h": 669
+  },
+  {
+   "key": "batch-inventory",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2021/05/MicrosoftTeams-image-68.png",
+   "w": 1600,
+   "h": 481
+  },
+  {
+   "key": "cost-centre",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/09/Payment-voucher-with-class-in-As-voucher.jpg",
+   "w": 1600,
+   "h": 488
+  },
+  {
+   "key": "stock-summary",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/09/stripe-view-stock-summary.jpg",
+   "w": 1600,
+   "h": 622
+  },
+  {
+   "key": "balance-sheet",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/08/stripe-view-balance-sheet.jpg",
+   "w": 1600,
+   "h": 841
+  },
+  {
+   "key": "sales-invoice",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/09/salesinvoice-creation-tally.gif",
+   "w": 1222,
+   "h": 668
+  },
+  {
+   "key": "outstandings",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/08/analysis-and-verification-net-pending-payables-tally.gif",
+   "w": 1600,
+   "h": 861
   }
  ]
 }

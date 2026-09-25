@@ -1,8 +1,6 @@
 ---
-import { Image } from 'astro:assets';
 import Icon from '@/components/Icon.astro';
 import Logo from '@/components/Logo.astro';
-import tallyScript from '@/assets/partners/tally-script.png';
 import { whatsappLink, LOCATIONS } from '@/data/site';
 import { PARTNERS } from '@/data/partners';
 import { SERVICES } from '@/data/services';
@@ -26,7 +24,8 @@ const area = `${line} L312 124 L8 124 Z`;
     <div class="hero__copy">
       <p class="hero__badge" data-reveal>
         <span class="hero__badge-dot" aria-hidden="true"></span>
-        Channel partner for Tally
+        Channel partner for
+        <img src="/brand/tally-script.svg" alt="Tally" class="hero__badge-logo" width="43" height="21" />
         <span class="hero__badge-sep" aria-hidden="true"></span>
         <span class="hero__badge-cities">{LOCATIONS.map((l) => l.city).join(' · ')}</span>
       </p>
@@ -34,7 +33,7 @@ const area = `${line} L312 124 L8 124 Z`;
       <h1 id="hero-title" class="hero__title" data-split>
         <span class="line" style="--l:0">
           <span>
-            <Image src={tallyScript} alt="Tally" class="hero__tally" widths={[240, 480, 720]} sizes="240px" loading="eager" fetchpriority="high" />
+            <img src="/brand/tally-script.svg" alt="Tally" class="title-logo hero__tally" width="43" height="21" fetchpriority="high" />
             <span class="hero__title-rest">, Accounting &amp;</span>
           </span>
         </span>
@@ -278,6 +277,13 @@ const area = `${line} L312 124 L8 124 Z`;
     color: var(--gold-800);
   }
 
+  .hero__badge-logo {
+    display: inline-block;
+    height: 1.2em;
+    width: auto;
+    transform: translateY(0.1em);
+  }
+
   .hero__badge-dot {
     width: 8px;
     height: 8px;
@@ -318,11 +324,7 @@ const area = `${line} L312 124 L8 124 Z`;
 
   /* Tally's own logo, set to the cap height of the headline */
   .hero__title :global(.hero__tally) {
-    display: inline-block;
-    height: 0.74em;
-    width: auto;
     margin-right: 0.02em;
-    transform: translateY(0.03em);
   }
 
   .hero__title .accent {

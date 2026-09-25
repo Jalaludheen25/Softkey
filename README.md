@@ -48,7 +48,7 @@ All content lives in typed data files, so most edits don't require touching layo
 | Partner products and logos | `src/data/partners.ts`, `src/assets/partners/` |
 | Industries | `src/data/industries.ts` |
 | Testimonials | `src/data/testimonials.ts` |
-| Photography | `src/assets/images/` (optimised to AVIF/WebP automatically) |
+| Imagery | `src/assets/tally/` — TallyPrime screens (optimised to AVIF/WebP automatically) |
 
 Service pages are generated from `src/data/services.ts`. Add an entry there and `/services/<slug>/` is created, and the page is added to the navigation, footer and sitemap.
 
@@ -75,6 +75,12 @@ npm run brand
 ```
 
 Standalone logo files for print or social use are in `public/brand/`.
+
+### Tally logos in headings
+
+Page headings can carry a brand logo instead of the word: write `{{tally}}` or `{{tallyprime}}` in a headline and `richTitle()` (`src/lib/text.ts`) swaps in the logo, keeping the word as alt text so the heading still reads correctly. The logos live in `public/brand/` as SVG, so they stay sharp at any size.
+
+The gold hero panels on About and Partners are `src/components/GoldPanel.astro` (`variant="partner"` / `variant="ecosystem"`) — navy and gold, built in CSS rather than as images, so they scale cleanly.
 
 ### Tally product screens
 
@@ -114,6 +120,6 @@ scripts/           Build-time tooling (brand asset generator)
 
 ## Credits
 
-Photography from [Unsplash](https://unsplash.com) under the Unsplash License. Icons from [Lucide](https://lucide.dev) (ISC) and [Remix Icon](https://remixicon.com) (Apache 2.0). Fonts: Manrope and Instrument Serif (SIL OFL), and Montserrat for the logo (SIL OFL).
+Product screenshots are Tally Solutions' own (see `src/assets/tally/SOURCES.json`). The site no longer uses stock photography; the unused photos remain in `src/assets/images/` and can be deleted — nothing imports them, so they are not built into `dist/`. Icons from [Lucide](https://lucide.dev) (ISC) and [Remix Icon](https://remixicon.com) (Apache 2.0). Fonts: Manrope and Instrument Serif (SIL OFL), and Montserrat for the logo (SIL OFL).
 
 Tally, TallyPrime and related marks are trademarks of Tally Solutions Pvt. Ltd. Other product names and logos belong to their respective owners.

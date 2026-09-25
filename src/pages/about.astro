@@ -6,11 +6,12 @@ import Logo from '@/components/Logo.astro';
 import Ecosystem from '@/components/Ecosystem.astro';
 import Locations from '@/components/Locations.astro';
 import CTASection from '@/components/CTASection.astro';
-import team from '@/assets/images/team.jpg';
+import GoldPanel from '@/components/GoldPanel.astro';
 import { SITE, LOCATIONS, REGISTERED_OFFICE, whatsappLink } from '@/data/site';
 import { PARTNERS } from '@/data/partners';
 import { SERVICES } from '@/data/services';
 import { breadcrumbSchema } from '@/data/schema';
+import { richTitle } from '@/lib/text';
 
 const crumbs = [{ label: 'About' }];
 
@@ -53,14 +54,11 @@ const facts = [
 >
   <PageHero
     eyebrow="About us"
-    title={`A Tally partner built around <em class="accent">your business</em>`}
+    title={richTitle('A {{tally}} partner built around *your business*')}
     lead="Softkey Technologies Pvt. Ltd. helps businesses across North Kerala and coastal Karnataka get the most from TallyPrime and the tools that work around it."
     crumbs={crumbs}
-    image={team}
-    imageAlt="Team collaborating around a table with laptops"
-    badgeIcon="handshake"
-    badgeText="Channel partner for Tally"
   >
+    <GoldPanel slot="media" variant="partner" />
     <Fragment slot="actions">
       <a class="btn btn--gold btn--lg" href="/contact/">Get Started <Icon name="arrow-right" class="icon--arrow" stroke={2} /></a>
       <a class="btn btn--outline btn--lg" href="/services/">Our services</a>

@@ -1,0 +1,205 @@
+---
+/**
+ * Premium gold partner panel used as the hero visual on About and Partners.
+ * "partner"   — Softkey × Tally partnership plaque
+ * "ecosystem" — the six channel-partner products on gold-framed plates
+ */
+import { Image } from 'astro:assets';
+import Logo from './Logo.astro';
+import { PARTNERS } from '@/data/partners';
+import { logoScale } from '@/lib/logo';
+import { LOCATIONS } from '@/data/site';
+
+interface Props {
+  variant?: 'partner' | 'ecosystem';
+  class?: string;
+}
+const { variant = 'partner', class: className } = Astro.props;
+---
+
+<div class:list={['gp', `gp--${variant}`, className]}>
+  <span class="gp__foil" aria-hidden="true"></span>
+  <svg class="gp__rings" viewBox="0 0 600 600" aria-hidden="true">
+    <circle cx="300" cy="300" r="286" fill="none" stroke="rgb(212 175 106 / .22)" stroke-width="1" stroke-dasharray="2 10"></circle>
+    <circle cx="300" cy="300" r="232" fill="none" stroke="rgb(212 175 106 / .3)" stroke-width="1.2" stroke-dasharray="1210 248" stroke-dashoffset="61" stroke-linecap="round"></circle>
+    <circle cx="464" cy="136" r="6" fill="#99EB26"></circle>
+  </svg>
+
+  <div class="gp__inner">
+    <p class="gp__eyebrow">{variant === 'partner' ? 'Channel partner' : 'Channel partner for'}</p>
+
+    {
+      variant === 'partner' ? (
+        <>
+          <div class="gp__lockup">
+            <span class="gp__mark">
+              <Logo variant="icon" decorative />
+            </span>
+            <span class="gp__cross" aria-hidden="true" />
+            <img src="/brand/tally-white.svg" alt="Tally" class="gp__tally" width="142" height="70" />
+          </div>
+          <span class="gp__rule" aria-hidden="true" />
+          <p class="gp__caption">{LOCATIONS.map((l) => l.city).join(` · `)}</p>
+        </>
+      ) : (
+        <>
+          <ul class="gp__grid" role="list">
+            {PARTNERS.map((p) => (
+              <li style={`--logo-scale:${logoScale(p)}`}>
+                <Image src={p.logo} alt={`${p.name} logo`} widths={[160, 320]} sizes="130px" loading="eager" />
+              </li>
+            ))}
+          </ul>
+          <span class="gp__rule" aria-hidden="true" />
+          <p class="gp__caption">{PARTNERS.length} products · one accountable team</p>
+        </>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .gp {
+    position: relative;
+    width: 100%;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      radial-gradient(120% 90% at 18% -10%, rgb(212 175 106 / 0.32), transparent 52%),
+      linear-gradient(155deg, #0e2751 0%, #071733 48%, #0a1e40 100%);
+    border: 1px solid rgb(212 175 106 / 0.38);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.1),
+      0 50px 90px -45px rgb(6 23 49 / 0.85);
+  }
+
+  /* Gold foil sheen */
+  .gp__foil {
+    position: absolute;
+    inset: -40% -10%;
+    background: linear-gradient(
+      108deg,
+      transparent 20%,
+      rgb(243 224 173 / 0.12) 38%,
+      rgb(212 175 106 / 0.2) 46%,
+      rgb(255 255 255 / 0.16) 50%,
+      rgb(185 141 54 / 0.14) 56%,
+      transparent 74%
+    );
+    pointer-events: none;
+  }
+
+  .gp__rings {
+    position: absolute;
+    right: -22%;
+    top: 50%;
+    width: 86%;
+    transform: translateY(-50%);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  .gp__inner {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: 1.25rem;
+    padding: clamp(2rem, 1.25rem + 3vw, 3.25rem) clamp(1.25rem, 0.75rem + 2.5vw, 2.75rem);
+    text-align: center;
+  }
+
+  .gp__eyebrow {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--gold-300);
+  }
+
+  /* ---- Partner plaque ---- */
+  .gp__lockup {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 0.6rem + 1.6vw, 1.85rem);
+    padding-block: 0.5rem;
+  }
+
+  .gp__mark {
+    display: grid;
+    place-items: center;
+    width: clamp(62px, 4rem + 2vw, 86px);
+    aspect-ratio: 1;
+    border-radius: 22px;
+    color: #fff;
+    background: rgb(255 255 255 / 0.07);
+    border: 1px solid rgb(255 255 255 / 0.12);
+  }
+
+  .gp__mark :global(.logo) {
+    width: 62%;
+  }
+
+  .gp__cross {
+    width: 1px;
+    height: clamp(42px, 3rem + 1.5vw, 64px);
+    background: linear-gradient(transparent, rgb(212 175 106 / 0.75), transparent);
+  }
+
+  .gp__tally {
+    width: clamp(112px, 7rem + 4vw, 168px);
+    height: auto;
+  }
+
+  .gp__rule {
+    width: min(260px, 70%);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgb(212 175 106 / 0.7), transparent);
+  }
+
+  .gp__caption {
+    max-width: 30rem;
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--ink-300);
+  }
+
+  /* ---- Ecosystem plates ---- */
+  .gp__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    width: 100%;
+  }
+
+  @media (min-width: 480px) {
+    .gp__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .gp__grid li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: clamp(60px, 3rem + 4vw, 84px);
+    padding: 0.5rem 0.6rem;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow:
+      inset 0 0 0 1px rgb(212 175 106 / 0.25),
+      0 14px 26px -18px rgb(0 0 0 / 0.8);
+    transition: transform 0.45s var(--ease-out);
+  }
+
+  .gp__grid li:hover {
+    transform: translateY(-3px);
+  }
+
+  .gp__grid :global(img) {
+    height: calc(clamp(26px, 1.2rem + 1.5vw, 38px) * var(--logo-scale, 1));
+    width: auto;
+    max-width: 88%;
+    object-fit: contain;
+  }
+</style>

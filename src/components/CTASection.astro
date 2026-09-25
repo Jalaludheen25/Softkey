@@ -1,7 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
-import skyline from '@/assets/images/skyline.jpg';
+import ctaScreen from '@/assets/tally/dashboard.png';
 import { CONTACT, whatsappLink } from '@/data/site';
 
 interface Props {
@@ -20,7 +20,7 @@ const {
 
 <section class="cta theme-dark" aria-labelledby="cta-title">
   <div class="cta__media" aria-hidden="true" data-parallax="0.06">
-    <Picture src={skyline} formats={['avif', 'webp']} alt="" widths={[828, 1280, 1920]} sizes="100vw" loading="lazy" />
+    <Picture src={ctaScreen} formats={['avif', 'webp']} alt="" widths={[828, 1280, 1600]} sizes="100vw" loading="lazy" />
   </div>
   <div class="cta__shade" aria-hidden="true"></div>
   <svg class="cta__rings" viewBox="0 0 800 800" aria-hidden="true">
@@ -80,7 +80,9 @@ const {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: grayscale(0.35) contrast(1.05);
+    object-position: top center;
+    opacity: 0.5;
+    filter: saturate(0.75);
   }
 
   .cta__shade {

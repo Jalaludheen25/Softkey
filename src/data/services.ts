@@ -90,7 +90,7 @@ export const SERVICES: Service[] = [
     image: tallyPrimeImg,
     imageAlt: 'TallyPrime dashboard showing trading details, cash and bank accounts and accounting ratios',
     summary: 'New TallyPrime licenses, upgrades from Tally.ERP 9 and TSS renewals — with the right edition for your business.',
-    headline: 'TallyPrime licenses, upgrades & *renewals*',
+    headline: '{{tallyprime}} licenses, upgrades & *renewals*',
     lead: 'Get the right TallyPrime edition for your business, installed and activated correctly — plus timely TSS renewals so you always stay on the latest release.',
     intro: {
       title: 'Business management software, set up right from day one.',
@@ -153,7 +153,7 @@ export const SERVICES: Service[] = [
     image: implementationImg,
     imageAlt: 'TallyPrime company creation screen with company name, address and financial year details',
     summary: 'Structured TallyPrime rollouts — requirement study, data migration, configuration and go-live support.',
-    headline: 'Tally implementation, *planned* and delivered end to end',
+    headline: '{{tally}} implementation, *planned* and delivered end to end',
     lead: 'From the first requirement discussion to the day your team posts its first voucher, we handle the setup so you can focus on running your business.',
     intro: {
       title: 'A clean start for your books.',
@@ -212,7 +212,7 @@ export const SERVICES: Service[] = [
     image: customizationImg,
     imageAlt: 'TallyPrime stock item masters with the configuration panel open',
     summary: 'TDL-based customizations — invoice formats, reports, fields, controls and workflows built around your business.',
-    headline: 'Tally customization that fits *the way you work*',
+    headline: '{{tally}} customization that fits *the way you work*',
     lead: 'Custom invoice formats, reports, fields and workflows built with Tally Definition Language (TDL) — so TallyPrime works exactly the way your business does.',
     intro: {
       title: 'Your process, not a workaround.',
@@ -271,7 +271,7 @@ export const SERVICES: Service[] = [
     image: integrationImg,
     imageAlt: 'TallyPrime purchase dashboard showing orders outstanding and purchase accounts',
     summary: 'Connect TallyPrime with your billing, e-commerce, CRM, mobile apps and other business systems.',
-    headline: 'Tally integration — your systems, *finally connected*',
+    headline: '{{tally}} integration — your systems, *finally connected*',
     lead: 'Stop re-typing the same data in two places. We connect TallyPrime with the applications you already use so information flows automatically and accurately.',
     intro: {
       title: 'One source of truth for your numbers.',
@@ -330,7 +330,7 @@ export const SERVICES: Service[] = [
     image: supportImg,
     imageAlt: 'TallyPrime data analysis and verification screen listing account checks',
     summary: 'Annual maintenance contracts and on-call support to keep Tally running smoothly all year.',
-    headline: 'Tally AMC & support you can *count on*',
+    headline: '{{tally}} AMC & support you can *count on*',
     lead: 'An annual maintenance contract keeps your Tally healthy — regular check-ups, quick help when something goes wrong, and one team that knows your setup.',
     intro: {
       title: 'Support that knows your business.',
@@ -389,7 +389,7 @@ export const SERVICES: Service[] = [
     image: cloudImg,
     imageAlt: 'TallyPrime dashboard in vertical view showing sales and purchase trends',
     summary: 'Run TallyPrime on AWS and access it from anywhere — plus secure remote support sessions.',
-    headline: 'Tally on Cloud & *remote* support',
+    headline: '{{tally}} on Cloud & *remote* support',
     lead: 'Access TallyPrime securely from any location with Tally on Cloud (AWS), and get expert help remotely without waiting for a visit.',
     intro: {
       title: 'Your books, wherever business takes you.',

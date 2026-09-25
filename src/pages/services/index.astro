@@ -9,6 +9,7 @@ import CTASection from '@/components/CTASection.astro';
 import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
 import { whatsappLink } from '@/data/site';
 import { breadcrumbSchema } from '@/data/schema';
+import { richTitle } from '@/lib/text';
 
 const crumbs = [{ label: 'Services' }];
 const engage = [
@@ -27,7 +28,7 @@ const engage = [
 >
   <PageHero
     eyebrow="Our services"
-    title={`Tally services, <em class="accent">end to end</em>`}
+    title={richTitle('{{tally}} services, *end to end*')}
     lead="Nine focused services that cover the full life of your Tally setup — from choosing a license to customizing, connecting, supporting and training."
     crumbs={crumbs}
   >

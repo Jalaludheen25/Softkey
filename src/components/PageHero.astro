@@ -24,12 +24,12 @@ const { eyebrow, title, lead, crumbs, image, imageAlt = '', media = 'photo', scr
 const trail: Crumb[] = [{ label: 'Home', href: '/' }, ...crumbs];
 ---
 
-<section class:list={['phero', 'theme-light', 'grain', { 'phero--media': !!image }]} aria-labelledby="page-title">
+<section class:list={['phero', 'theme-light', 'grain', { 'phero--media': !!image || Astro.slots.has('media') }]} aria-labelledby="page-title">
   <div class="phero__bg" aria-hidden="true">
     <div class="bg-grid"></div>
     <div class="bg-glow phero__glow"></div>
     {
-      !image && (
+      !image && !Astro.slots.has('media') && (
         <svg class="phero__ring" viewBox="0 0 600 600">
           <circle cx="300" cy="300" r="280" fill="none" stroke="rgb(185 141 54 / .35)" stroke-width="1.2" stroke-dasharray="1500 260" stroke-dashoffset="-40" />
           <circle cx="300" cy="300" r="210" fill="none" stroke="rgb(6 23 49 / .07)" stroke-width="1" />
@@ -67,7 +67,15 @@ const trail: Crumb[] = [{ label: 'Home', href: '/' }, ...crumbs];
     </div>
 
     {
-      image && (
+      Astro.slots.has('media') && (
+        <div class="phero__media phero__media--custom" data-reveal="zoom" style="--d:2">
+          <slot name="media" />
+        </div>
+      )
+    }
+
+    {
+      image && !Astro.slots.has('media') && (
         <div class="phero__media" data-reveal="zoom" style="--d:2">
           <div class="phero__line" aria-hidden="true" />
           {media === 'screen' ? (
@@ -239,6 +247,10 @@ const trail: Crumb[] = [{ label: 'Home', href: '/' }, ...crumbs];
     max-width: 620px;
     justify-self: center;
     padding: 0 0 1.5rem 1.5rem;
+  }
+
+  .phero__media--custom {
+    padding: 0;
   }
 
   .phero__line {

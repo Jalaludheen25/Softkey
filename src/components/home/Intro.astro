@@ -1,8 +1,9 @@
 ---
-import { Image, Picture } from 'astro:assets';
+import { Image } from 'astro:assets';
+import ScreenShot from '@/components/ScreenShot.astro';
 import Icon from '@/components/Icon.astro';
 import Logo from '@/components/Logo.astro';
-import consulting from '@/assets/images/consulting.jpg';
+import introScreen from '@/assets/tally/dashboard-trend.png';
 import { PARTNERS } from '@/data/partners';
 import { logoScale } from '@/lib/logo';
 import { LOCATIONS } from '@/data/site';
@@ -30,16 +31,14 @@ const facts = [
   <div class="container intro__grid">
     <div class="intro__media" data-reveal="left">
       <div class="intro__frame-line" aria-hidden="true"></div>
-      <div class="frame intro__photo" data-parallax="0.04">
-        <Picture
-          src={consulting}
-          formats={['avif', 'webp']}
-          alt="Two professionals reviewing figures together over laptops and notes"
-          widths={[480, 720, 960, 1280]}
-          sizes="(min-width: 1024px) 560px, 92vw"
-          loading="lazy"
-        />
-      </div>
+      <ScreenShot
+        src={introScreen}
+        alt="TallyPrime dashboard showing group trends, cash and bank balances and accounting ratios"
+        label="TallyPrime dashboard"
+        class="intro__photo"
+        sizes="(min-width: 1024px) 560px, 92vw"
+        widths={[480, 768, 1100, 1600]}
+      />
       <div class="intro__card">
         <div class="intro__card-head">
           <span class="intro__card-logo"><Logo variant="icon" decorative /></span>
@@ -118,7 +117,7 @@ const facts = [
 
   .intro__media {
     position: relative;
-    padding: 0 0 3.5rem 0;
+    padding: 0 0 5.5rem 0;
     max-width: 600px;
   }
 
@@ -130,7 +129,7 @@ const facts = [
 
   .intro__frame-line {
     position: absolute;
-    inset: 1.5rem -0.25rem 1.25rem 1.5rem;
+    inset: 1.5rem -0.25rem 3.25rem 1.5rem;
     border: 1px solid var(--border-gold);
     border-radius: var(--radius-lg);
   }
@@ -142,15 +141,7 @@ const facts = [
   }
 
   .intro__photo {
-    aspect-ratio: 4 / 4.4;
-    transform: translateY(var(--parallax, 0));
     box-shadow: 0 40px 80px -40px rgb(6 23 49 / 0.55);
-  }
-
-  .intro__photo :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 
   .intro__card {

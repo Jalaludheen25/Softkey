@@ -937,3 +937,43 @@ select.input {
   object-fit: cover;
   object-position: top center;
 }
+
+/* ---------- Product logos inside headings ---------- */
+.title-logo {
+  display: inline-block;
+  height: 0.74em;
+  width: auto;
+  vertical-align: baseline;
+  transform: translateY(0.03em);
+}
+
+.title-logo--prime {
+  height: 0.62em;
+  transform: translateY(0.06em);
+}
+
+/* Gold-framed product screen, for dark sections */
+.screen--gold {
+  background: rgb(7 19 44 / 0.6);
+  border-color: rgb(212 175 106 / 0.4);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 24px 50px -30px rgb(0 0 0 / 0.8);
+}
+
+.screen--gold .screen__bar {
+  background: linear-gradient(180deg, rgb(19 42 88 / 0.9), rgb(9 22 50 / 0.9));
+  border-bottom-color: rgb(212 175 106 / 0.3);
+}
+
+.screen--gold .screen__label {
+  color: var(--gold-200);
+}
+
+.screen--gold .screen__dots i {
+  background: rgb(255 255 255 / 0.18);
+}
+
+.screen--gold .screen__dots i:first-child {
+  background: rgb(212 175 106 / 0.8);
+}
