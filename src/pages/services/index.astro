@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import ScreenShot from '@/components/ScreenShot.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import Icon from '@/components/Icon.astro';
@@ -20,6 +20,7 @@ const engage = [
 ---
 
 <BaseLayout
+  headerTheme="light"
   title="Tally Services — Licenses, Implementation, Customization & AMC"
   description="TallyPrime licenses, implementation, customization, integration, AMC, cloud, GST setup, business apps and training from Softkey Technologies in Kannur, Payyannur and Mangaluru."
   schema={[breadcrumbSchema(crumbs, '/services/')]}
@@ -32,7 +33,7 @@ const engage = [
   >
     <Fragment slot="actions">
       <a class="btn btn--gold btn--lg" href="/contact/">Get Started <Icon name="arrow-right" class="icon--arrow" stroke={2} /></a>
-      <a class="btn btn--glass btn--lg" href={whatsappLink('Hello Softkey Technologies, I would like to talk to a Tally expert.')} target="_blank" rel="noopener">
+      <a class="btn btn--outline btn--lg" href={whatsappLink('Hello Softkey Technologies, I would like to talk to a Tally expert.')} target="_blank" rel="noopener">
         <Icon name="whatsapp" /> Talk to an Expert
       </a>
     </Fragment>
@@ -63,9 +64,14 @@ const engage = [
                 <p class="lead" data-reveal style="--d:2">
                   {g.summary}
                 </p>
-                <div class="frame group__img" data-reveal="zoom" style="--d:2">
-                  <Picture src={g.image} formats={['avif', 'webp']} alt={g.imageAlt} widths={[480, 720, 960]} sizes="(min-width: 1024px) 520px, 92vw" loading="lazy" />
-                </div>
+                <ScreenShot
+                  src={g.image}
+                  alt={g.imageAlt}
+                  class="group__img"
+                  ratio="16 / 10"
+                  sizes="(min-width: 1024px) 520px, 92vw"
+                  widths={[480, 768, 1100]}
+                />
               </div>
             </div>
             <ul class="group__list" role="list">
@@ -123,23 +129,26 @@ const engage = [
     gap: 0.45rem;
     padding: 0.5rem 0.95rem;
     border-radius: 999px;
-    border: 1px solid rgb(255 255 255 / 0.14);
-    background: rgb(255 255 255 / 0.03);
+    border: 1px solid rgb(6 23 49 / 0.12);
+    background: rgb(255 255 255 / 0.75);
+    box-shadow: 0 10px 22px -18px rgb(6 23 49 / 0.5);
     font-size: 0.85rem;
     font-weight: 650;
-    color: var(--ink-200);
+    color: var(--fg-muted);
     transition:
       border-color 0.3s,
-      color 0.3s;
+      color 0.3s,
+      background-color 0.3s;
   }
 
   .jump a :global(.icon) {
-    color: var(--gold-400);
+    color: var(--gold-700);
   }
 
   .jump a:hover {
-    border-color: var(--gold-400);
-    color: #fff;
+    border-color: var(--gold-600);
+    background: #fff;
+    color: var(--navy-900);
   }
 
   .groups {
@@ -191,8 +200,6 @@ const engage = [
 
   .group__img {
     margin-top: 0.75rem;
-    aspect-ratio: 16 / 10;
-    box-shadow: 0 30px 60px -35px rgb(6 23 49 / 0.55);
   }
 
   .group__list {

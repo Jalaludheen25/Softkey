@@ -1,13 +1,14 @@
 import type { ImageMetadata } from 'astro';
-import tallyPrimeImg from '@/assets/images/tally-prime.jpg';
-import implementationImg from '@/assets/images/implementation.jpg';
-import customizationImg from '@/assets/images/customization.jpg';
-import integrationImg from '@/assets/images/integration.jpg';
-import supportImg from '@/assets/images/support.jpg';
-import cloudImg from '@/assets/images/cloud.jpg';
-import gstImg from '@/assets/images/gst.jpg';
-import businessImg from '@/assets/images/business-management.jpg';
-import trainingImg from '@/assets/images/training.jpg';
+// Product screens — official TallyPrime screenshots (see src/assets/tally/SOURCES.json)
+import tallyPrimeImg from '@/assets/tally/dashboard.png';
+import implementationImg from '@/assets/tally/company-creation.png';
+import customizationImg from '@/assets/tally/stock-items.png';
+import integrationImg from '@/assets/tally/dashboard-purchase.png';
+import supportImg from '@/assets/tally/data-verification.png';
+import cloudImg from '@/assets/tally/dashboard-vertical.png';
+import gstImg from '@/assets/tally/ledgers.png';
+import businessImg from '@/assets/tally/dashboard-sales.png';
+import trainingImg from '@/assets/tally/chart-of-accounts.png';
 
 export type Feature = { icon: string; title: string; text: string };
 export type Step = { title: string; text: string };
@@ -50,7 +51,7 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     title: 'Tally Solutions',
     icon: 'badge-indian-rupee',
     image: tallyPrimeImg,
-    imageAlt: 'Laptop on a glossy desk displaying a business analytics dashboard',
+    imageAlt: 'TallyPrime dashboard showing trading details, cash and bank accounts and accounting ratios',
     summary: 'Genuine TallyPrime licenses, upgrades and TSS renewals — implemented properly and available on the cloud.',
   },
   {
@@ -58,7 +59,7 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     title: 'Customization & Integration',
     icon: 'code-xml',
     image: customizationImg,
-    imageAlt: 'Laptop showing source code in a dark editor',
+    imageAlt: 'TallyPrime stock item masters with the configuration panel open',
     summary: 'TDL customizations and system integrations that make Tally fit your processes — not the other way round.',
   },
   {
@@ -66,7 +67,7 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     title: 'Support, AMC & Training',
     icon: 'headset',
     image: supportImg,
-    imageAlt: 'Support team working together at a computer while on a call',
+    imageAlt: 'TallyPrime data analysis and verification screen listing account checks',
     summary: 'Annual maintenance, remote and on-site support, and hands-on training that keeps your team productive.',
   },
   {
@@ -74,7 +75,7 @@ export const SERVICE_GROUPS: ServiceGroup[] = [
     title: 'Business Software Solutions',
     icon: 'briefcase-business',
     image: businessImg,
-    imageAlt: 'Monitor displaying business analytics charts',
+    imageAlt: 'TallyPrime sales dashboard showing sales accounts, orders outstanding and top stock groups',
     summary: 'GST-ready accounting plus connected apps for mobile reporting, collections and billing.',
   },
 ];
@@ -87,7 +88,7 @@ export const SERVICES: Service[] = [
     group: 'tally',
     icon: 'badge-indian-rupee',
     image: tallyPrimeImg,
-    imageAlt: 'Laptop on a glossy desk displaying a business analytics dashboard',
+    imageAlt: 'TallyPrime dashboard showing trading details, cash and bank accounts and accounting ratios',
     summary: 'New TallyPrime licenses, upgrades from Tally.ERP 9 and TSS renewals — with the right edition for your business.',
     headline: 'TallyPrime licenses, upgrades & *renewals*',
     lead: 'Get the right TallyPrime edition for your business, installed and activated correctly — plus timely TSS renewals so you always stay on the latest release.',
@@ -150,7 +151,7 @@ export const SERVICES: Service[] = [
     group: 'tally',
     icon: 'rocket',
     image: implementationImg,
-    imageAlt: 'Consultant discussing a software setup with a client over a laptop',
+    imageAlt: 'TallyPrime company creation screen with company name, address and financial year details',
     summary: 'Structured TallyPrime rollouts — requirement study, data migration, configuration and go-live support.',
     headline: 'Tally implementation, *planned* and delivered end to end',
     lead: 'From the first requirement discussion to the day your team posts its first voucher, we handle the setup so you can focus on running your business.',
@@ -209,7 +210,7 @@ export const SERVICES: Service[] = [
     group: 'customize',
     icon: 'code-xml',
     image: customizationImg,
-    imageAlt: 'Laptop showing source code in a dark editor',
+    imageAlt: 'TallyPrime stock item masters with the configuration panel open',
     summary: 'TDL-based customizations — invoice formats, reports, fields, controls and workflows built around your business.',
     headline: 'Tally customization that fits *the way you work*',
     lead: 'Custom invoice formats, reports, fields and workflows built with Tally Definition Language (TDL) — so TallyPrime works exactly the way your business does.',
@@ -268,7 +269,7 @@ export const SERVICES: Service[] = [
     group: 'customize',
     icon: 'workflow',
     image: integrationImg,
-    imageAlt: 'Network patch panel with connected cables',
+    imageAlt: 'TallyPrime purchase dashboard showing orders outstanding and purchase accounts',
     summary: 'Connect TallyPrime with your billing, e-commerce, CRM, mobile apps and other business systems.',
     headline: 'Tally integration — your systems, *finally connected*',
     lead: 'Stop re-typing the same data in two places. We connect TallyPrime with the applications you already use so information flows automatically and accurately.',
@@ -327,7 +328,7 @@ export const SERVICES: Service[] = [
     group: 'support',
     icon: 'headset',
     image: supportImg,
-    imageAlt: 'Support team working together at a computer while on a call',
+    imageAlt: 'TallyPrime data analysis and verification screen listing account checks',
     summary: 'Annual maintenance contracts and on-call support to keep Tally running smoothly all year.',
     headline: 'Tally AMC & support you can *count on*',
     lead: 'An annual maintenance contract keeps your Tally healthy — regular check-ups, quick help when something goes wrong, and one team that knows your setup.',
@@ -386,7 +387,7 @@ export const SERVICES: Service[] = [
     group: 'tally',
     icon: 'cloud-cog',
     image: cloudImg,
-    imageAlt: 'Server racks with network cabling in a data centre',
+    imageAlt: 'TallyPrime dashboard in vertical view showing sales and purchase trends',
     summary: 'Run TallyPrime on AWS and access it from anywhere — plus secure remote support sessions.',
     headline: 'Tally on Cloud & *remote* support',
     lead: 'Access TallyPrime securely from any location with Tally on Cloud (AWS), and get expert help remotely without waiting for a visit.',
@@ -445,7 +446,7 @@ export const SERVICES: Service[] = [
     group: 'business',
     icon: 'receipt-text',
     image: gstImg,
-    imageAlt: 'Calculator, pen and paperwork on a clean white desk',
+    imageAlt: 'TallyPrime ledger list showing CGST, SGST and IGST tax ledgers',
     summary: 'GST, e-invoicing, e-way bills, TDS and day-to-day accounting set up correctly in Tally.',
     headline: 'GST & accounting, set up for *compliance*',
     lead: 'Configure TallyPrime for GST, e-invoicing, e-way bills and TDS, and give your accounts team a clean, reliable workflow for everyday bookkeeping and returns.',
@@ -504,7 +505,7 @@ export const SERVICES: Service[] = [
     group: 'business',
     icon: 'briefcase-business',
     image: businessImg,
-    imageAlt: 'Monitor displaying business analytics charts',
+    imageAlt: 'TallyPrime sales dashboard showing sales accounts, orders outstanding and top stock groups',
     summary: 'Inventory, receivables, mobile reporting and billing apps from the Tally ecosystem — working together.',
     headline: 'Business management, *beyond the ledger*',
     lead: 'Combine TallyPrime with the right connected apps — mobile reporting, collections automation and simple billing — to run sales, stock and cash flow with clarity.',
@@ -563,7 +564,7 @@ export const SERVICES: Service[] = [
     group: 'support',
     icon: 'graduation-cap',
     image: trainingImg,
-    imageAlt: 'Presenter leading a training session in a meeting room with laptops',
+    imageAlt: 'TallyPrime chart of accounts expanded to show the ledger hierarchy',
     summary: 'Practical TallyPrime training for owners, accountants and staff — from basics to advanced features.',
     headline: 'Software training that *sticks*',
     lead: 'Practical, hands-on TallyPrime training for business owners, accountants and staff — built around the way your company actually uses Tally.',

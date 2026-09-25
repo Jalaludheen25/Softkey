@@ -76,6 +76,12 @@ npm run brand
 
 Standalone logo files for print or social use are in `public/brand/`.
 
+### Tally product screens
+
+`src/assets/tally/` holds the TallyPrime screenshots used on the service pages and the home "what we do" panel. They are official screenshots taken from Tally's documentation site — see `src/assets/tally/SOURCES.json` for the exact source URL of each one.
+
+**Before launch:** confirm with the client that they are happy to publish Tally's screenshots, or replace them with captures from the client's own TallyPrime installation (same file names, no code changes needed). Screens are framed by `src/components/ScreenShot.astro`, which draws the window bar and can crop to a fixed ratio.
+
 ### Partner product logos
 
 `src/assets/partners/` holds the six product logos shown in the ecosystem sections:

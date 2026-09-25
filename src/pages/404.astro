@@ -5,8 +5,8 @@ import Logo from '@/components/Logo.astro';
 import { SERVICES, serviceHref } from '@/data/services';
 ---
 
-<BaseLayout title="Page not found" description="The page you were looking for could not be found." noindex>
-  <section class="nf theme-dark grain" aria-labelledby="nf-title">
+<BaseLayout headerTheme="light" title="Page not found" description="The page you were looking for could not be found." noindex>
+  <section class="nf theme-light grain" aria-labelledby="nf-title">
     <div class="bg-grid" aria-hidden="true"></div>
     <div class="container nf__inner">
       <div class="nf__mark" aria-hidden="true">
@@ -17,7 +17,7 @@ import { SERVICES, serviceHref } from '@/data/services';
       <p class="lead">Let’s get you back on track. Try one of these pages instead.</p>
       <div class="btn-row nf__actions">
         <a class="btn btn--gold btn--lg" href="/">Back to home <Icon name="arrow-right" class="icon--arrow" stroke={2} /></a>
-        <a class="btn btn--glass btn--lg" href="/contact/">Contact us</a>
+        <a class="btn btn--outline btn--lg" href="/contact/">Contact us</a>
       </div>
       <ul class="nf__links" role="list">
         {
@@ -40,8 +40,21 @@ import { SERVICES, serviceHref } from '@/data/services';
     display: grid;
     align-items: center;
     padding: calc(var(--header-h) + 3rem) 0 5rem;
-    background: var(--grad-navy);
+    background:
+      radial-gradient(110% 70% at 80% -10%, rgb(212 175 106 / 0.26) 0%, rgb(212 175 106 / 0.07) 38%, transparent 64%),
+      linear-gradient(180deg, #ffffff 0%, #fdfaf4 50%, #f4ece0 100%);
     text-align: center;
+  }
+
+  .nf :global(.bg-grid) {
+    background-image:
+      linear-gradient(rgb(6 23 49 / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(6 23 49 / 0.045) 1px, transparent 1px);
+  }
+
+  .nf.grain::before {
+    opacity: 0.035;
+    mix-blend-mode: multiply;
   }
 
   .nf__inner {
@@ -54,7 +67,7 @@ import { SERVICES, serviceHref } from '@/data/services';
 
   .nf__mark {
     width: 96px;
-    color: #fff;
+    color: var(--navy-900);
     margin-bottom: 0.5rem;
   }
 
@@ -76,16 +89,17 @@ import { SERVICES, serviceHref } from '@/data/services';
     padding: 0.45rem 0.9rem;
     border-radius: 999px;
     border: 1px solid var(--border-strong);
+    background: rgb(255 255 255 / 0.7);
     font-size: 0.85rem;
     font-weight: 650;
-    color: var(--ink-200);
+    color: var(--fg-muted);
     transition:
       border-color 0.3s,
       color 0.3s;
   }
 
   .nf__links a:hover {
-    border-color: var(--gold-400);
-    color: #fff;
+    border-color: var(--gold-600);
+    color: var(--navy-900);
   }
 </style>

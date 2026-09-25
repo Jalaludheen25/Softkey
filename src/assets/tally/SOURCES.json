@@ -1,0 +1,71 @@
+{
+ "note": "Official TallyPrime screenshots from help.tallysolutions.com (Tally Solutions Pvt. Ltd.). Replace with the client’s own captures if preferred.",
+ "images": [
+  {
+   "key": "dashboard",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2023/10/1-dashboard-tallyprime.gif",
+   "w": 1600,
+   "h": 814
+  },
+  {
+   "key": "dashboard-sales",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2023/10/11-predefined-views-sales-dashboard-tallyprime.gif",
+   "w": 1600,
+   "h": 821
+  },
+  {
+   "key": "dashboard-purchase",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2023/10/10-predefined-views-purchase-dashboard-tallyprime.gif",
+   "w": 1600,
+   "h": 817
+  },
+  {
+   "key": "dashboard-trend",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2023/10/6-group-trend-added-to-dashboard-tallyprime.gif",
+   "w": 1600,
+   "h": 814
+  },
+  {
+   "key": "dashboard-vertical",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2023/10/19-dashboard-configured-to-view-vertically-tallyprime.gif",
+   "w": 1600,
+   "h": 814
+  },
+  {
+   "key": "company-creation",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2025/01/1-company-creation-tallyprime.png",
+   "w": 1600,
+   "h": 671
+  },
+  {
+   "key": "chart-of-accounts",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/08/chart-of-accounts-ledger-explode-tally.gif",
+   "w": 1223,
+   "h": 667
+  },
+  {
+   "key": "ledgers",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/08/1-remove-opening-balance-from-all-ledgers-zero-opening-balance-tallyprime.jpg",
+   "w": 1600,
+   "h": 847
+  },
+  {
+   "key": "stock-items",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/08/2-remove-opening-quantity-from-all-stock-items-zero-opening-quantity-tallyprime.jpg",
+   "w": 1600,
+   "h": 852
+  },
+  {
+   "key": "stock-list",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/08/multi-stock-items1-tally.gif",
+   "w": 1227,
+   "h": 671
+  },
+  {
+   "key": "data-verification",
+   "src": "https://help.tallysolutions.com/wp-content/uploads/2020/08/analysis-and-verification-data-analysis-tally.gif",
+   "w": 1600,
+   "h": 877
+  }
+ ]
+}

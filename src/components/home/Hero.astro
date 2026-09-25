@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import Icon from '@/components/Icon.astro';
 import Logo from '@/components/Logo.astro';
+import tallyScript from '@/assets/partners/tally-script.png';
 import { whatsappLink, LOCATIONS } from '@/data/site';
 import { PARTNERS } from '@/data/partners';
 import { SERVICES } from '@/data/services';
@@ -30,7 +32,12 @@ const area = `${line} L312 124 L8 124 Z`;
       </p>
 
       <h1 id="hero-title" class="hero__title" data-split>
-        <span class="line" style="--l:0"><span>Tally, Accounting &amp;</span></span>
+        <span class="line" style="--l:0">
+          <span>
+            <Image src={tallyScript} alt="Tally" class="hero__tally" widths={[240, 480, 720]} sizes="240px" loading="eager" fetchpriority="high" />
+            <span class="hero__title-rest">, Accounting &amp;</span>
+          </span>
+        </span>
         <span class="line" style="--l:1"><span><em class="accent">Business Management</em></span></span>
         <span class="line" style="--l:2"><span>Solutions</span></span>
       </h1>
@@ -307,6 +314,15 @@ const area = `${line} L312 124 L8 124 Z`;
 
   .hero__title .line {
     white-space: nowrap;
+  }
+
+  /* Tally's own logo, set to the cap height of the headline */
+  .hero__title :global(.hero__tally) {
+    display: inline-block;
+    height: 0.74em;
+    width: auto;
+    margin-right: 0.02em;
+    transform: translateY(0.03em);
   }
 
   .hero__title .accent {

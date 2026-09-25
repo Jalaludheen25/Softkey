@@ -46,7 +46,7 @@ const schema = [
 const waMessage = `Hello Softkey Technologies, I would like to know more about ${service.title}.`;
 ---
 
-<BaseLayout title={service.seo.title} description={service.seo.description} schema={schema}>
+<BaseLayout headerTheme="light" title={service.seo.title} description={service.seo.description} schema={schema}>
   <PageHero
     eyebrow={group.title}
     title={richTitle(service.headline)}
@@ -54,6 +54,8 @@ const waMessage = `Hello Softkey Technologies, I would like to know more about $
     crumbs={crumbs}
     image={service.image}
     imageAlt={service.imageAlt}
+    media="screen"
+    screenLabel="TallyPrime"
     badgeIcon={service.icon}
     badgeText={service.title}
   >
@@ -61,7 +63,7 @@ const waMessage = `Hello Softkey Technologies, I would like to know more about $
       <a class="btn btn--gold btn--lg" href={`/contact/?service=${service.slug}#enquiry`}>
         Get Started <Icon name="arrow-right" class="icon--arrow" stroke={2} />
       </a>
-      <a class="btn btn--glass btn--lg" href={whatsappLink(waMessage)} target="_blank" rel="noopener">
+      <a class="btn btn--outline btn--lg" href={whatsappLink(waMessage)} target="_blank" rel="noopener">
         <Icon name="whatsapp" /> Talk to an Expert
       </a>
     </Fragment>
@@ -131,8 +133,8 @@ const waMessage = `Hello Softkey Technologies, I would like to know more about $
             related.map((r, i) => (
               <li data-reveal style={`--d:${i + 1}`}>
                 <a class="rel__item" href={serviceHref(r.slug)}>
-                  <span class="rel__thumb">
-                    <Picture src={r.image} formats={['avif', 'webp']} alt="" widths={[160, 320]} sizes="96px" loading="lazy" />
+                  <span class="rel__thumb" aria-hidden="true">
+                    <Icon name={r.icon} size={22} />
                   </span>
                   <span class="rel__body">
                     <strong>{r.title}</strong>
@@ -291,7 +293,7 @@ const waMessage = `Hello Softkey Technologies, I would like to know more about $
 
   .rel__item {
     display: grid;
-    grid-template-columns: 72px minmax(0, 1fr) auto;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
     gap: 1rem;
     align-items: center;
     padding: 0.75rem;
@@ -311,17 +313,14 @@ const waMessage = `Hello Softkey Technologies, I would like to know more about $
   }
 
   .rel__thumb {
-    width: 72px;
-    height: 72px;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .rel__thumb :global(picture),
-  .rel__thumb :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    color: var(--gold-300);
+    background: rgb(212 175 106 / 0.1);
+    border: 1px solid var(--border-gold);
   }
 
   .rel__body {

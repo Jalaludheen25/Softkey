@@ -25,25 +25,31 @@ import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
 
     <div class="svc__body" data-svc>
       <div class="svc__media" aria-hidden="true">
-        <div class="svc__media-inner frame">
-          {
-            SERVICE_GROUPS.map((g, i) => (
-              <div class:list={['svc__img', { 'is-active': i === 0 }]} data-svc-img={i}>
-                <Picture src={g.image} formats={['avif', 'webp']} alt="" widths={[640, 960, 1280]} sizes="(min-width: 1024px) 520px, 1px" loading="lazy" />
-              </div>
-            ))
-          }
-          <div class="svc__media-shade"></div>
-          <div class="svc__media-meta">
+        <div class="svc__media-inner screen">
+          <div class="screen__bar">
+            <span class="screen__dots"><i /><i /><i /></span>
+            <span class="screen__label">TallyPrime</span>
+          </div>
+          <div class="svc__stack screen__body">
             {
               SERVICE_GROUPS.map((g, i) => (
-                <span class:list={['svc__media-label', { 'is-active': i === 0 }]} data-svc-label={i}>
-                  <Icon name={g.icon} size={18} />
-                  {g.title}
-                </span>
+                <div class:list={['svc__img', { 'is-active': i === 0 }]} data-svc-img={i}>
+                  <Picture src={g.image} formats={['avif', 'webp']} alt="" widths={[640, 960, 1280]} sizes="(min-width: 1024px) 560px, 1px" loading="lazy" />
+                </div>
               ))
             }
-            <span class="svc__media-count"><b data-svc-count>01</b> / 0{SERVICE_GROUPS.length}</span>
+            <div class="svc__media-shade"></div>
+            <div class="svc__media-meta">
+              {
+                SERVICE_GROUPS.map((g, i) => (
+                  <span class:list={['svc__media-label', { 'is-active': i === 0 }]} data-svc-label={i}>
+                    <Icon name={g.icon} size={18} />
+                    {g.title}
+                  </span>
+                ))
+              }
+              <span class="svc__media-count"><b data-svc-count>01</b> / 0{SERVICE_GROUPS.length}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -52,8 +58,14 @@ import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
         {
           SERVICE_GROUPS.map((g, i) => (
             <li class:list={['svc__row', 'spotlight', { 'is-active': i === 0 }]} data-svc-row={i} data-reveal style={`--d:${i}`}>
-              <div class="svc__thumb frame">
-                <Picture src={g.image} formats={['avif', 'webp']} alt={g.imageAlt} widths={[480, 720, 960]} sizes="(min-width: 1024px) 1px, 92vw" loading="lazy" />
+              <div class="svc__thumb screen">
+                <div class="screen__bar">
+                  <span class="screen__dots"><i /><i /><i /></span>
+                  <span class="screen__label">TallyPrime</span>
+                </div>
+                <div class="screen__body">
+                  <Picture src={g.image} formats={['avif', 'webp']} alt={g.imageAlt} widths={[480, 720, 960]} sizes="(min-width: 1024px) 1px, 92vw" loading="lazy" />
+                </div>
               </div>
               <span class="svc__num" aria-hidden="true">0{i + 1}</span>
               <div class="svc__main">
@@ -139,13 +151,20 @@ import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
   }
 
   .svc__media-inner {
-    aspect-ratio: 4 / 4.6;
-    background: var(--navy-850);
+    background: #fff;
+  }
+
+  /* The crossfading screens need their own box to sit in */
+  .svc__stack {
+    position: relative;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
   }
 
   .svc__img {
     position: absolute;
     inset: 0;
+    background: #fff;
     opacity: 0;
     transform: scale(1.06);
     transition:
@@ -159,6 +178,7 @@ import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
   }
 
   .svc__img :global(picture) {
+    display: block;
     height: 100%;
   }
 
@@ -166,12 +186,13 @@ import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
   }
 
   .svc__media-shade {
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, transparent 45%, rgb(5 12 31 / 0.88) 100%);
+    background: linear-gradient(180deg, transparent 40%, rgb(5 12 31 / 0.05) 62%, rgb(5 12 31 / 0.8) 100%);
   }
 
   .svc__media-meta {
@@ -252,15 +273,18 @@ import { SERVICE_GROUPS, servicesInGroup, serviceHref } from '@/data/services';
 
   .svc__thumb {
     grid-column: 1 / -1;
-    aspect-ratio: 16 / 9;
     margin-bottom: 1rem;
-    border-radius: var(--radius);
+  }
+
+  .svc__thumb .screen__body {
+    aspect-ratio: 16 / 10;
   }
 
   .svc__thumb :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: top center;
   }
 
   @media (min-width: 1024px) {

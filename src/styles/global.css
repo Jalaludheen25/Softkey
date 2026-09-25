@@ -866,3 +866,74 @@ select.input {
 .theme-dark .field-error {
   color: #ff9b94;
 }
+
+/* ---------- Product screen frame (TallyPrime screenshots) ---------- */
+.screen {
+  position: relative;
+  margin: 0;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  border: 1px solid rgb(6 23 49 / 0.1);
+  box-shadow:
+    0 2px 4px -2px rgb(6 23 49 / 0.2),
+    0 30px 60px -30px rgb(6 23 49 / 0.45);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.screen__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.9rem;
+  background: linear-gradient(180deg, #fbf8f2, #f2ece1);
+  border-bottom: 1px solid rgb(6 23 49 / 0.08);
+}
+
+.screen__dots {
+  display: inline-flex;
+  gap: 0.3rem;
+}
+
+.screen__dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgb(6 23 49 / 0.16);
+}
+
+.screen__dots i:first-child {
+  background: rgb(185 141 54 / 0.55);
+}
+
+.screen__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #5f6a83;
+}
+
+.screen__body {
+  position: relative;
+  background: #fff;
+}
+
+.screen__body img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Fixed-ratio variant: crop from the top so the screen header stays visible */
+.screen--ratio .screen__body {
+  aspect-ratio: var(--screen-ratio, 16 / 10);
+}
+
+.screen--ratio .screen__body img,
+.screen--ratio .screen__body picture {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
