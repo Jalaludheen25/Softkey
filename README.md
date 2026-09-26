@@ -48,6 +48,7 @@ All content lives in typed data files, so most edits don't require touching layo
 | Partner products and logos | `src/data/partners.ts`, `src/assets/partners/` |
 | Industries | `src/data/industries.ts` |
 | Testimonials | `src/data/testimonials.ts` |
+| TallyPrime pricing | `pricing` block on the `tallyprime` entry in `src/data/services.ts` |
 | Imagery | `src/assets/tally/` — TallyPrime screens (optimised to AVIF/WebP automatically) |
 
 Service pages are generated from `src/data/services.ts`. Add an entry there and `/services/<slug>/` is created, and the page is added to the navigation, footer and sitemap.
@@ -59,6 +60,7 @@ In a service `headline`, wrap words in `*asterisks*` to render them as the gold 
 - **Testimonials are placeholders.** Replace the entries in `src/data/testimonials.ts` with real, approved client reviews, then set `TESTIMONIALS_ARE_PLACEHOLDERS = false` to remove the on-page notice.
 - **Branch map pins** use approximate coordinates (`lat`/`lng` in `src/data/site.ts`) on an illustrative map. "Directions" buttons open a Google Maps search for each address; confirm they land on the right building.
 - **Privacy policy** (`src/pages/privacy-policy.astro`) is a sensible starting point. Have it reviewed.
+- **Pricing**: the 2-year Silver TSS renewal is shown as "price on request" with a 10% saving noted, because ₹9,000 is exactly two 1-year renewals and the discounted figure was not confirmed. Add `price` to that plan in `src/data/services.ts` once the client confirms it. All prices carry a "indicative, confirm before purchase" note.
 - **Spelling of branch towns** follows the business card exactly: *Kannur*, *Payyannur*, *Mangaluru*.
 
 ## Brand assets

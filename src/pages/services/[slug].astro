@@ -7,6 +7,7 @@ import Icon from '@/components/Icon.astro';
 import FeatureGrid from '@/components/FeatureGrid.astro';
 import ProcessSteps from '@/components/ProcessSteps.astro';
 import FaqList from '@/components/FaqList.astro';
+import Pricing from '@/components/Pricing.astro';
 import CTASection from '@/components/CTASection.astro';
 import { SERVICES, SERVICE_GROUPS, getService, serviceHref, type Service } from '@/data/services';
 import { SITE, CONTACT, whatsappLink } from '@/data/site';
@@ -105,6 +106,8 @@ const waMessage = `Hello Softkey Technologies, I would like to know more about $
       </aside>
     </div>
   </section>
+
+  {service.pricing && <Pricing pricing={service.pricing} context={service.title} />}
 
   <FeatureGrid
     eyebrow="What’s included"

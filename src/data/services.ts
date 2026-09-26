@@ -11,6 +11,28 @@ import businessImg from '@/assets/tally/dashboard-sales.png';
 import trainingImg from '@/assets/tally/chart-of-accounts.png';
 
 export type Feature = { icon: string; title: string; text: string };
+
+export type PricingPlan = {
+  name: string;
+  kind: string;
+  /** Base price in rupees, before GST. Omit when the price is on request. */
+  price?: number;
+  period?: string;
+  badge?: string;
+  features: string[];
+  featured?: boolean;
+  /** Show "price on request" instead of a figure */
+  enquire?: boolean;
+};
+
+export type Pricing = {
+  eyebrow: string;
+  title: string;
+  lead: string;
+  gstRate: number;
+  plans: PricingPlan[];
+  notes: string[];
+};
 export type Step = { title: string; text: string };
 export type Faq = { q: string; a: string };
 
@@ -31,6 +53,7 @@ export type Service = {
   process: Step[];
   faqs: Faq[];
   related: string[];
+  pricing?: Pricing;
   seo: { title: string; description: string };
 };
 
@@ -138,6 +161,49 @@ export const SERVICES: Service[] = [
       },
     ],
     related: ['tally-implementation', 'tally-amc-support', 'tally-cloud-remote-support'],
+    pricing: {
+      eyebrow: 'Pricing',
+      title: 'TallyPrime licenses & renewals',
+      lead: 'Straightforward pricing for the editions most businesses ask for. Every price below is exclusive of GST.',
+      gstRate: 18,
+      plans: [
+        {
+          name: 'TallyPrime Silver',
+          kind: 'Perpetual license',
+          price: 22500,
+          period: 'one-time',
+          features: ['Single user — one computer at a time', 'Accounting, inventory, GST, banking and payroll', 'Perpetual license, yours to keep'],
+        },
+        {
+          name: 'TallyPrime Gold',
+          kind: 'Perpetual license',
+          price: 67500,
+          period: 'one-time',
+          badge: 'Unlimited multi-user',
+          featured: true,
+          features: ['Unlimited users on one local network', 'Everything in Silver, for the whole team', 'Perpetual license, yours to keep'],
+        },
+        {
+          name: 'Silver TSS renewal',
+          kind: '1 year',
+          price: 4500,
+          period: 'per year',
+          features: ['New TallyPrime releases for a year', 'Tally’s connected services, including remote access', 'We remind you before it lapses'],
+        },
+        {
+          name: 'Silver TSS renewal',
+          kind: '2 years',
+          badge: 'Save 10%',
+          enquire: true,
+          features: ['Two years of releases and connected services', '10% discount on the two-year renewal', 'Ask us for today’s price'],
+        },
+      ],
+      notes: [
+        'Prices exclude GST, charged at 18%.',
+        'TallyPrime licenses are supplied by Tally Solutions Pvt. Ltd. Prices are indicative and can change — please confirm the current price with us before purchase.',
+        'Gold TSS renewals, upgrades from Tally.ERP 9 and other editions are quoted on request.',
+      ],
+    },
     seo: {
       title: 'TallyPrime Licenses, Upgrades & TSS Renewal',
       description:

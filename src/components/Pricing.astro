@@ -1,0 +1,353 @@
+---
+import Icon from './Icon.astro';
+import type { Pricing } from '@/data/services';
+import { whatsappLink } from '@/data/site';
+
+interface Props {
+  pricing: Pricing;
+  /** Used in the pre-filled WhatsApp message */
+  context?: string;
+}
+const { pricing, context = 'TallyPrime' } = Astro.props;
+
+const inr = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
+const withGst = (base: number) => Math.round(base * (1 + pricing.gstRate / 100));
+---
+
+<section class="pr theme-light section" aria-labelledby="pricing-title">
+  <div class="container">
+    <div class="section-head section-head--center">
+      <p class="eyebrow eyebrow--center" data-reveal>{pricing.eyebrow}</p>
+      <h2 id="pricing-title" class="h2" data-reveal style="--d:1">{pricing.title}</h2>
+      <p class="lead" data-reveal style="--d:2">{pricing.lead}</p>
+    </div>
+
+    <ul class="pr__grid" role="list">
+      {
+        pricing.plans.map((plan, i) => (
+          <li class:list={['pr__card', { 'pr__card--featured': plan.featured }]} data-reveal style={`--d:${i % 4}`}>
+            {plan.badge && <span class="pr__badge">{plan.badge}</span>}
+
+            <div class="pr__head">
+              <h3 class="pr__name">{plan.name}</h3>
+              <p class="pr__kind">{plan.kind}</p>
+            </div>
+
+            <div class="pr__price">
+              {plan.price ? (
+                <>
+                  <p class="pr__amount">
+                    <span class="pr__cur">₹</span>
+                    {inr.format(plan.price)}
+                  </p>
+                  <p class="pr__gst">
+                    + {pricing.gstRate}% GST
+                    {plan.period && <span class="pr__period"> · {plan.period}</span>}
+                  </p>
+                  <p class="pr__incl">₹{inr.format(withGst(plan.price))} including GST</p>
+                </>
+              ) : (
+                <>
+                  <p class="pr__amount pr__amount--ask">Price on request</p>
+                  <p class="pr__gst">
+                    Current offer
+                    {plan.period && <span class="pr__period"> · {plan.period}</span>}
+                  </p>
+                  <p class="pr__incl">We will confirm today’s price and GST</p>
+                </>
+              )}
+            </div>
+
+            <ul class="pr__features" role="list">
+              {plan.features.map((f) => (
+                <li>
+                  <Icon name="check" size={15} stroke={2.4} />
+                  {f}
+                </li>
+              ))}
+            </ul>
+
+            <a
+              class:list={['btn', plan.featured ? 'btn--gold' : 'btn--outline']}
+              href={whatsappLink(
+                `Hello Softkey Technologies, I would like to know more about ${plan.name} (${plan.kind})${plan.price ? ` — ₹${inr.format(plan.price)} + ${pricing.gstRate}% GST` : ''}.`
+              )}
+              target="_blank"
+              rel="noopener"
+            >
+              <Icon name="whatsapp" size={18} />
+              {plan.enquire ? 'Ask for the price' : 'Enquire now'}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="pr__foot" data-reveal>
+      <ul class="pr__notes" role="list">
+        {
+          pricing.notes.map((note) => (
+            <li>
+              <Icon name="info" size={15} />
+              {note}
+            </li>
+          ))
+        }
+      </ul>
+      <p class="pr__cta">
+        Need a quotation on letterhead?
+        <a class="link-arrow" href={`/contact/?service=tallyprime#enquiry`}>
+          Send an enquiry <Icon name="arrow-up-right" />
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pr {
+    background:
+      radial-gradient(60% 50% at 50% 0%, rgb(185 141 54 / 0.09), transparent 65%),
+      var(--ivory);
+  }
+
+  .pr__grid {
+    display: grid;
+    gap: 1.1rem;
+    margin: clamp(2.25rem, 1.75rem + 2vw, 3.5rem) 0 0;
+  }
+
+  @media (min-width: 620px) {
+    .pr__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1180px) {
+    .pr__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  .pr__card {
+    position: relative;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 1.25rem;
+    padding: clamp(1.5rem, 1.2rem + 1vw, 2rem) clamp(1.25rem, 1rem + 0.8vw, 1.75rem) clamp(1.5rem, 1.2rem + 1vw, 1.9rem);
+    border-radius: var(--radius-lg);
+    background: #fff;
+    border: 1px solid rgb(6 23 49 / 0.07);
+    box-shadow: 0 24px 50px -40px rgb(6 23 49 / 0.55);
+    transition:
+      transform 0.5s var(--ease-out),
+      box-shadow 0.5s var(--ease-out),
+      border-color 0.4s;
+  }
+
+  .pr__card:hover {
+    transform: translateY(-4px);
+    border-color: rgb(185 141 54 / 0.35);
+    box-shadow: 0 34px 60px -38px rgb(6 23 49 / 0.6);
+  }
+
+  .pr__card--featured {
+    color: var(--ink-100);
+    background:
+      radial-gradient(120% 80% at 100% 0%, rgb(212 175 106 / 0.22), transparent 55%),
+      linear-gradient(160deg, #0e2751 0%, #071733 55%, #0a1e40 100%);
+    border-color: rgb(212 175 106 / 0.4);
+    box-shadow: 0 34px 60px -34px rgb(6 23 49 / 0.75);
+  }
+
+  .pr__badge {
+    position: absolute;
+    top: -0.7rem;
+    left: clamp(1.25rem, 1rem + 0.8vw, 1.75rem);
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    background: var(--grad-gold);
+    color: var(--navy-950);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    box-shadow: 0 10px 20px -12px rgb(185 141 54 / 0.8);
+  }
+
+  .pr__name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .pr__card--featured .pr__name {
+    color: #fff;
+  }
+
+  .pr__kind {
+    margin-top: 0.2rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-700);
+  }
+
+  .pr__card--featured .pr__kind {
+    color: var(--gold-300);
+  }
+
+  .pr__price {
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pr__card--featured .pr__price {
+    border-color: rgb(255 255 255 / 0.12);
+  }
+
+  .pr__amount {
+    display: flex;
+    align-items: baseline;
+    gap: 0.1rem;
+    font-size: clamp(1.9rem, 1.5rem + 1.4vw, 2.5rem);
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--navy-900);
+  }
+
+  .pr__card--featured .pr__amount {
+    color: #fff;
+  }
+
+  .pr__amount--ask {
+    font-size: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .pr__cur {
+    font-size: 0.62em;
+    font-weight: 650;
+  }
+
+  .pr__gst {
+    margin-top: 0.3rem;
+    font-size: var(--fs-sm);
+    font-weight: 650;
+    color: var(--fg-muted);
+  }
+
+  .pr__card--featured .pr__gst {
+    color: var(--ink-300);
+  }
+
+  .pr__period {
+    font-weight: 600;
+  }
+
+  .pr__incl {
+    margin-top: 0.15rem;
+    font-size: var(--fs-xs);
+    color: var(--fg-subtle);
+  }
+
+  .pr__card--featured .pr__incl {
+    color: var(--ink-400);
+  }
+
+  .pr__features {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+  }
+
+  .pr__features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--fg-muted);
+  }
+
+  .pr__card--featured .pr__features li {
+    color: var(--ink-200);
+  }
+
+  .pr__features :global(.icon) {
+    margin-top: 0.2rem;
+    flex: none;
+    color: var(--gold-700);
+  }
+
+  .pr__card--featured .pr__features :global(.icon) {
+    color: var(--gold-300);
+  }
+
+  .pr__card .btn {
+    width: 100%;
+  }
+
+  .pr__card--featured .btn--outline {
+    color: #fff;
+    border-color: rgb(255 255 255 / 0.28);
+  }
+
+  /* ---- Footnotes ---- */
+  .pr__foot {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: clamp(2rem, 1.5rem + 1.5vw, 2.75rem);
+    padding: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+    border-radius: var(--radius);
+    background: rgb(255 255 255 / 0.7);
+    border: 1px solid var(--border);
+  }
+
+  @media (min-width: 900px) {
+    .pr__foot {
+      grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+      align-items: center;
+      gap: 2.5rem;
+    }
+  }
+
+  .pr__notes {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .pr__notes li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: var(--fs-xs);
+    line-height: 1.6;
+    color: var(--fg-muted);
+  }
+
+  .pr__notes :global(.icon) {
+    margin-top: 0.15rem;
+    flex: none;
+    color: var(--gold-700);
+  }
+
+  .pr__cta {
+    display: grid;
+    gap: 0.35rem;
+    font-size: var(--fs-sm);
+    font-weight: 650;
+    color: var(--fg-strong);
+  }
+
+  @media (min-width: 900px) {
+    .pr__cta {
+      justify-items: end;
+      text-align: right;
+    }
+  }
+</style>

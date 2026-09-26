@@ -4,7 +4,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import PageHero from '@/components/PageHero.astro';
 import Icon from '@/components/Icon.astro';
 import CTASection from '@/components/CTASection.astro';
-import GoldPanel from '@/components/GoldPanel.astro';
+import OrbitPanel from '@/components/OrbitPanel.astro';
 import { PARTNERS } from '@/data/partners';
 import { logoScale } from '@/lib/logo';
 import { getService, serviceHref } from '@/data/services';
@@ -34,7 +34,7 @@ const reasons = [
     lead="Six products that work together — and one partner to license, set up, train and support all of them."
     crumbs={crumbs}
   >
-    <GoldPanel slot="media" variant="ecosystem" />
+    <OrbitPanel slot="media" />
     <Fragment slot="actions">
       <a class="btn btn--gold btn--lg" href="/contact/">Get Started <Icon name="arrow-right" class="icon--arrow" stroke={2} /></a>
       <a class="btn btn--outline btn--lg" href={whatsappLink('Hello Softkey Technologies, I would like help choosing the right Tally products.')} target="_blank" rel="noopener">
