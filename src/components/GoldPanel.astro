@@ -1,20 +1,27 @@
 ---
 /**
- * Premium gold partner panel used as the hero visual on About and Partners.
- * "partner"   — Softkey × Tally partnership plaque
- * "ecosystem" — the six channel-partner products on gold-framed plates
+ * Premium gold panel used as the hero visual on About and Partners.
+ * Both variants showcase the client's TallyPrime Gold product render.
+ * "partner"   — product + Softkey × Tally partnership lockup
+ * "ecosystem" — product + the six channel-partner products
  */
 import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
 import Logo from './Logo.astro';
 import { PARTNERS } from '@/data/partners';
 import { logoScale } from '@/lib/logo';
 import { LOCATIONS } from '@/data/site';
+import goldBox from '@/assets/products/tallyprime-gold-box.jpg';
 
 interface Props {
-  variant?: 'partner' | 'ecosystem';
+  variant?: 'partner' | 'ecosystem' | 'contact';
   class?: string;
 }
 const { variant = 'partner', class: className } = Astro.props;
+
+const eyebrows = { partner: 'Channel partner', ecosystem: 'Channel partner for', contact: 'How we can help' } as const;
+
+const helpWith = ['New TallyPrime licenses', 'Upgrades & TSS renewals', 'AMC & support', 'Implementation & training'];
 ---
 
 <div class:list={['gp', `gp--${variant}`, className]}>
@@ -26,35 +33,60 @@ const { variant = 'partner', class: className } = Astro.props;
   </svg>
 
   <div class="gp__inner">
-    <p class="gp__eyebrow">{variant === 'partner' ? 'Channel partner' : 'Channel partner for'}</p>
+    <figure class="gp__product">
+      <Image
+        src={goldBox}
+        alt="TallyPrime Gold — Unlimited Multi-User Edition software box"
+        widths={[240, 480, 720]}
+        sizes="(min-width: 640px) 220px, 42vw"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
 
-    {
-      variant === 'partner' ? (
-        <>
-          <div class="gp__lockup">
-            <span class="gp__mark">
-              <Logo variant="icon" decorative />
-            </span>
-            <span class="gp__cross" aria-hidden="true" />
-            <img src="/brand/tally-white.svg" alt="Tally" class="gp__tally" width="142" height="70" />
-          </div>
-          <span class="gp__rule" aria-hidden="true" />
-          <p class="gp__caption">{LOCATIONS.map((l) => l.city).join(` · `)}</p>
-        </>
-      ) : (
-        <>
-          <ul class="gp__grid" role="list">
-            {PARTNERS.map((p) => (
-              <li style={`--logo-scale:${logoScale(p)}`}>
-                <Image src={p.logo} alt={`${p.name} logo`} widths={[160, 320]} sizes="130px" loading="eager" />
-              </li>
-            ))}
-          </ul>
-          <span class="gp__rule" aria-hidden="true" />
-          <p class="gp__caption">{PARTNERS.length} products · one accountable team</p>
-        </>
-      )
-    }
+    <div class="gp__body">
+      <p class="gp__eyebrow">{eyebrows[variant]}</p>
+
+      {
+        variant === 'contact' ? (
+          <>
+            <ul class="gp__help" role="list">
+              {helpWith.map((item) => (
+                <li>
+                  <Icon name="check" size={15} stroke={2.4} />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <span class="gp__rule" aria-hidden="true" />
+            <p class="gp__caption">{LOCATIONS.map((l) => l.city).join(' · ')}</p>
+          </>
+        ) : variant === 'partner' ? (
+          <>
+            <div class="gp__lockup">
+              <span class="gp__mark">
+                <Logo variant="icon" decorative />
+              </span>
+              <span class="gp__cross" aria-hidden="true" />
+              <img src="/brand/tally-white.svg" alt="Tally" class="gp__tally" width="142" height="70" />
+            </div>
+            <span class="gp__rule" aria-hidden="true" />
+            <p class="gp__caption">{LOCATIONS.map((l) => l.city).join(' · ')}</p>
+          </>
+        ) : (
+          <>
+            <ul class="gp__grid" role="list">
+              {PARTNERS.map((p) => (
+                <li style={`--logo-scale:${logoScale(p)}`}>
+                  <Image src={p.logo} alt={`${p.name} logo`} widths={[120, 240]} sizes="96px" loading="eager" />
+                </li>
+              ))}
+            </ul>
+            <p class="gp__caption">{PARTNERS.length} products · one accountable team</p>
+          </>
+        )
+      }
+    </div>
   </div>
 </div>
 
@@ -92,20 +124,60 @@ const { variant = 'partner', class: className } = Astro.props;
 
   .gp__rings {
     position: absolute;
-    right: -22%;
+    right: -26%;
     top: 50%;
     width: 86%;
     transform: translateY(-50%);
-    opacity: 0.8;
+    opacity: 0.75;
     pointer-events: none;
   }
 
   .gp__inner {
     position: relative;
     display: grid;
+    gap: clamp(1.25rem, 0.9rem + 1.6vw, 2.25rem);
+    align-items: center;
+    padding: clamp(1.5rem, 1rem + 2.2vw, 2.5rem);
+  }
+
+  @media (min-width: 560px) {
+    .gp__inner {
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    }
+
+    .gp__product {
+      max-width: none;
+    }
+  }
+
+  /* ---- Product render ---- */
+  .gp__product {
+    /* keep the render from dominating when the panel stacks on phones */
+    max-width: 210px;
+    margin: 0 auto;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f1f1f1;
+    box-shadow:
+      0 0 0 1px rgb(212 175 106 / 0.35),
+      0 30px 60px -26px rgb(0 0 0 / 0.75);
+    transition: transform 0.6s var(--ease-out);
+  }
+
+  .gp:hover .gp__product {
+    transform: translateY(-4px);
+  }
+
+  .gp__product :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .gp__body {
+    display: grid;
     justify-items: center;
-    gap: 1.25rem;
-    padding: clamp(2rem, 1.25rem + 3vw, 3.25rem) clamp(1.25rem, 0.75rem + 2.5vw, 2.75rem);
+    gap: 1rem;
     text-align: center;
   }
 
@@ -117,20 +189,19 @@ const { variant = 'partner', class: className } = Astro.props;
     color: var(--gold-300);
   }
 
-  /* ---- Partner plaque ---- */
+  /* ---- Partner lockup ---- */
   .gp__lockup {
     display: flex;
     align-items: center;
-    gap: clamp(1rem, 0.6rem + 1.6vw, 1.85rem);
-    padding-block: 0.5rem;
+    gap: clamp(0.9rem, 0.6rem + 1.2vw, 1.5rem);
   }
 
   .gp__mark {
     display: grid;
     place-items: center;
-    width: clamp(62px, 4rem + 2vw, 86px);
+    width: clamp(56px, 3.5rem + 1.6vw, 74px);
     aspect-ratio: 1;
-    border-radius: 22px;
+    border-radius: 20px;
     color: #fff;
     background: rgb(255 255 255 / 0.07);
     border: 1px solid rgb(255 255 255 / 0.12);
@@ -142,53 +213,74 @@ const { variant = 'partner', class: className } = Astro.props;
 
   .gp__cross {
     width: 1px;
-    height: clamp(42px, 3rem + 1.5vw, 64px);
+    height: clamp(38px, 2.5rem + 1.2vw, 56px);
     background: linear-gradient(transparent, rgb(212 175 106 / 0.75), transparent);
   }
 
   .gp__tally {
-    width: clamp(112px, 7rem + 4vw, 168px);
+    width: clamp(104px, 6rem + 3.5vw, 150px);
     height: auto;
   }
 
   .gp__rule {
-    width: min(260px, 70%);
+    width: min(240px, 80%);
     height: 1px;
     background: linear-gradient(90deg, transparent, rgb(212 175 106 / 0.7), transparent);
   }
 
   .gp__caption {
-    max-width: 30rem;
     font-size: var(--fs-sm);
     line-height: 1.5;
     color: var(--ink-300);
   }
 
+  /* ---- Contact: what we help with ---- */
+  .gp--contact .gp__caption {
+    font-size: var(--fs-xs);
+  }
+
+  .gp__help {
+    display: grid;
+    gap: 0.6rem;
+    width: 100%;
+    text-align: left;
+  }
+
+  .gp__help li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    font-size: var(--fs-sm);
+    font-weight: 600;
+    line-height: 1.4;
+    color: #fff;
+  }
+
+  .gp__help :global(.icon) {
+    margin-top: 0.15rem;
+    flex: none;
+    color: var(--gold-300);
+  }
+
   /* ---- Ecosystem plates ---- */
   .gp__grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.65rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
     width: 100%;
-  }
-
-  @media (min-width: 480px) {
-    .gp__grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
   }
 
   .gp__grid li {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: clamp(60px, 3rem + 4vw, 84px);
-    padding: 0.5rem 0.6rem;
-    border-radius: 14px;
+    height: clamp(52px, 2.6rem + 3vw, 74px);
+    padding: 0.4rem 0.5rem;
+    border-radius: 12px;
     background: #fff;
     box-shadow:
       inset 0 0 0 1px rgb(212 175 106 / 0.25),
-      0 14px 26px -18px rgb(0 0 0 / 0.8);
+      0 12px 22px -16px rgb(0 0 0 / 0.8);
     transition: transform 0.45s var(--ease-out);
   }
 
@@ -197,7 +289,7 @@ const { variant = 'partner', class: className } = Astro.props;
   }
 
   .gp__grid :global(img) {
-    height: calc(clamp(26px, 1.2rem + 1.5vw, 38px) * var(--logo-scale, 1));
+    height: calc(clamp(22px, 1rem + 1.4vw, 34px) * var(--logo-scale, 1));
     width: auto;
     max-width: 88%;
     object-fit: contain;

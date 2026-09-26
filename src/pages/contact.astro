@@ -4,6 +4,7 @@ import PageHero from '@/components/PageHero.astro';
 import Icon from '@/components/Icon.astro';
 import ContactForm from '@/components/ContactForm.astro';
 import Locations from '@/components/Locations.astro';
+import GoldPanel from '@/components/GoldPanel.astro';
 import { CONTACT, REGISTERED_OFFICE, whatsappLink } from '@/data/site';
 import { breadcrumbSchema } from '@/data/schema';
 
@@ -35,7 +36,9 @@ const channels = [
     title={`Let’s talk about <em class="accent">your business</em>`}
     lead="Whether you need a new license, help with an existing setup or advice on where to start — send us a message and the right person will get back to you."
     crumbs={crumbs}
-  />
+  >
+    <GoldPanel slot="media" variant="contact" />
+  </PageHero>
 
   <section class="ct theme-light section" aria-label="Contact details and enquiry form">
     <div class="container ct__grid">

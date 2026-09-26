@@ -1,16 +1,13 @@
 ---
+import { Image } from 'astro:assets';
 import Icon from '@/components/Icon.astro';
-import Logo from '@/components/Logo.astro';
+import ScreenShot from '@/components/ScreenShot.astro';
+import goldBox from '@/assets/products/tallyprime-gold-box.jpg';
+import dashboardScreen from '@/assets/tally/dashboard.png';
 import { whatsappLink, LOCATIONS } from '@/data/site';
 import { PARTNERS } from '@/data/partners';
 import { SERVICES } from '@/data/services';
 
-const bars = [38, 52, 46, 64, 58, 72, 66, 84, 78, 92, 86, 100];
-const months = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'];
-// Smooth line through bar tops
-const pts = bars.map((b, i) => [8 + i * (304 / (bars.length - 1)), 118 - b * 0.92]);
-const line = pts.map((p, i) => (i === 0 ? `M${p[0]} ${p[1]}` : `L${p[0].toFixed(1)} ${p[1].toFixed(1)}`)).join(' ');
-const area = `${line} L312 124 L8 124 Z`;
 ---
 
 <section class="hero theme-light grain" aria-labelledby="hero-title">
@@ -92,77 +89,32 @@ const area = `${line} L312 124 L8 124 Z`;
         </svg>
 
         <div class="hv__panel">
-          <div class="db">
-            <div class="db__top">
-              <div class="db__brand">
-                <span class="db__logo"><Logo variant="icon" decorative /></span>
-                <span>
-                  <strong>Business Overview</strong>
-                  <small>Illustrative dashboard</small>
-                </span>
-              </div>
-              <span class="db__pill">H1 · Apr–Sep</span>
+          <div class="hv__product">
+            <div class="hv__screen">
+              <ScreenShot
+                src={dashboardScreen}
+                alt="TallyPrime dashboard showing trading details, cash and bank balances and accounting ratios"
+                label="TallyPrime"
+                ratio="16 / 10"
+                sizes="(min-width: 1024px) 430px, 62vw"
+                widths={[430, 760, 1100]}
+                loading="eager"
+              />
             </div>
-
-            <div class="db__kpis">
-              <div class="kpi">
-                <span>Sales</span>
-                <strong>₹18.46L</strong>
-                <em class="up"><Icon name="trending-up" size={13} stroke={2} /> 12.4%</em>
-              </div>
-              <div class="kpi">
-                <span>Receivables</span>
-                <strong>₹6.21L</strong>
-                <em>32 parties</em>
-              </div>
-              <div class="kpi">
-                <span>GST payable</span>
-                <strong>₹1.08L</strong>
-                <em>GSTR-3B</em>
-              </div>
-            </div>
-
-            <div class="db__chart">
-              <svg viewBox="0 0 320 130" preserveAspectRatio="none" aria-hidden="true">
-                <defs>
-                  <linearGradient id="dbArea" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0" stop-color="#D4AF6A" stop-opacity="0.5"></stop>
-                    <stop offset="1" stop-color="#D4AF6A" stop-opacity="0"></stop>
-                  </linearGradient>
-                  <linearGradient id="dbLine" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0" stop-color="#8F6B25"></stop>
-                    <stop offset="1" stop-color="#D4AF6A"></stop>
-                  </linearGradient>
-                </defs>
-                {[30, 60, 90].map((y) => <line x1="0" x2="320" y1={y} y2={y} stroke="rgb(6 23 49 / .07)" stroke-width="1" />)}
-                {bars.map((b, i) => <rect class="db__bar" x={2 + i * (304 / (bars.length - 1))} y={124 - b * 0.92} width="12" height={b * 0.92} rx="3" style={`--i:${i}`} />)}
-                <path d={area} fill="url(#dbArea)" class="db__area"></path>
-                <path d={line} fill="none" stroke="url(#dbLine)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" class="db__line" pathLength="1"></path>
-                <circle cx={pts[pts.length - 1][0]} cy={pts[pts.length - 1][1]} r="4.5" fill="#B98D36" class="db__point"></circle>
-              </svg>
-              <div class="db__months" aria-hidden="true">{months.map((m) => <span>{m}</span>)}</div>
-            </div>
-
-            <ul class="db__list" role="list">
-              <li>
-                <span class="db__tag db__tag--sale">Sales</span>
-                <span class="db__ref">INV-0421</span>
-                <span class="db__amt">₹42,500</span>
-                <span class="db__status"><Icon name="circle-check" size={14} stroke={2} /> e-Invoice</span>
-              </li>
-              <li>
-                <span class="db__tag db__tag--rcpt">Receipt</span>
-                <span class="db__ref">RCT-0198</span>
-                <span class="db__amt">₹18,000</span>
-                <span class="db__status"><Icon name="circle-check" size={14} stroke={2} /> Bank</span>
-              </li>
-              <li>
-                <span class="db__tag db__tag--pur">Purchase</span>
-                <span class="db__ref">PUR-0310</span>
-                <span class="db__amt">₹27,640</span>
-                <span class="db__status"><Icon name="circle-check" size={14} stroke={2} /> ITC</span>
-              </li>
-            </ul>
+            <figure class="hv__box">
+              <Image
+                src={goldBox}
+                alt="TallyPrime Gold — Unlimited Multi-User Edition software box"
+                widths={[280, 560, 840]}
+                sizes="(min-width: 1024px) 280px, 40vw"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </figure>
+            <p class="hv__tag">
+              <Icon name="badge-check" size={16} stroke={2} />
+              Gold · Unlimited multi-user
+            </p>
           </div>
         </div>
 
@@ -427,231 +379,59 @@ const area = `${line} L312 124 L8 124 Z`;
     transition: transform 0.8s var(--ease-out);
   }
 
-  .db {
-    border-radius: 22px;
-    padding: clamp(0.9rem, 0.6rem + 1.2vw, 1.4rem);
-    background: linear-gradient(155deg, rgb(255 255 255 / 0.96), rgb(252 248 241 / 0.92));
-    border: 1px solid rgb(6 23 49 / 0.08);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+  /* ---- Product composition: TallyPrime Gold box + a live screen ---- */
+  .hv__product {
+    position: relative;
+    aspect-ratio: 1 / 0.9;
+  }
+
+  .hv__screen {
+    position: absolute;
+    right: 0;
+    top: 2%;
+    width: 74%;
+  }
+
+  .hv__box {
+    position: absolute;
+    left: 0;
+    bottom: 6%;
+    width: 47%;
+    margin: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #f1f1f1;
     box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / 0.9),
-      0 50px 90px -35px rgb(6 23 49 / 0.35),
-      0 0 0 1px rgb(185 141 54 / 0.12);
-    font-size: clamp(0.62rem, 0.5rem + 0.35vw, 0.8rem);
+      0 0 0 1px rgb(185 141 54 / 0.28),
+      0 40px 70px -28px rgb(6 23 49 / 0.55);
   }
 
-  .db__top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .db__brand {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    line-height: 1.2;
-  }
-
-  .db__brand strong {
+  .hv__box :global(img) {
     display: block;
-    color: var(--navy-900);
-    font-size: 1.12em;
-    font-weight: 700;
-  }
-
-  .db__brand small {
-    color: var(--fg-subtle);
-    font-size: 0.85em;
-  }
-
-  .db__logo {
-    display: grid;
-    place-items: center;
-    width: 2.6em;
-    height: 2.6em;
-    border-radius: 10px;
-    background: var(--navy-900);
-    border: 1px solid rgb(6 23 49 / 0.1);
-    color: #fff;
-  }
-
-  .db__logo :global(.logo) {
-    width: 1.8em;
-  }
-
-  .db__pill {
-    padding: 0.35em 0.8em;
-    border-radius: 999px;
-    border: 1px solid rgb(185 141 54 / 0.4);
-    background: rgb(212 175 106 / 0.1);
-    color: var(--gold-800);
-    font-weight: 650;
-    white-space: nowrap;
-  }
-
-  .db__kpis {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.6em;
-    margin-top: 1.1em;
-  }
-
-  .kpi {
-    display: grid;
-    gap: 0.15em;
-    padding: 0.8em 0.9em;
-    border-radius: 12px;
-    background: #fff;
-    border: 1px solid rgb(6 23 49 / 0.07);
-    box-shadow: 0 10px 20px -18px rgb(6 23 49 / 0.45);
-    min-width: 0;
-  }
-
-  .kpi span {
-    color: var(--fg-subtle);
-    font-weight: 600;
-  }
-
-  .kpi strong {
-    color: var(--navy-900);
-    font-size: 1.45em;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-  }
-
-  .kpi em {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3em;
-    font-style: normal;
-    color: var(--fg-subtle);
-    font-size: 0.92em;
-    white-space: nowrap;
-  }
-
-  .kpi em.up {
-    color: #3c7c16;
-  }
-
-  .db__chart {
-    margin-top: 1em;
-    padding: 0.9em 0.9em 0.6em;
-    border-radius: 14px;
-    background: rgb(6 23 49 / 0.03);
-    border: 1px solid rgb(6 23 49 / 0.06);
-  }
-
-  .db__chart svg {
     width: 100%;
     height: auto;
-    aspect-ratio: 320 / 130;
-    overflow: visible;
   }
 
-  .db__bar {
-    fill: rgb(6 23 49 / 0.08);
-    transform-box: fill-box;
-    transform-origin: bottom;
-    animation: grow 1.2s var(--ease-out) both;
-    animation-delay: calc(var(--i) * 60ms + 600ms);
-  }
-
-  .db__line {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: draw 2.2s var(--ease-out) 900ms forwards;
-  }
-
-  .db__area {
-    opacity: 0;
-    animation: fade 1.2s var(--ease-out) 1.6s forwards;
-  }
-
-  .db__point {
-    opacity: 0;
-    animation:
-      fade 0.6s 2.6s forwards,
-      beacon 2.4s ease-in-out 3s infinite;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-
-  .db__months {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.5em;
-    color: var(--fg-subtle);
-    font-size: 0.85em;
-    font-weight: 600;
-  }
-
-  .db__list {
-    display: grid;
-    gap: 0.35em;
-    margin-top: 0.9em;
-  }
-
-  .db__list li {
-    display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    align-items: center;
-    gap: 0.8em;
-    padding: 0.55em 0.7em;
-    border-radius: 10px;
-    background: rgb(6 23 49 / 0.035);
-  }
-
-  .db__tag {
-    padding: 0.2em 0.6em;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 0.85em;
-  }
-
-  .db__tag--sale {
-    background: rgb(212 175 106 / 0.2);
-    color: #7a5a1c;
-  }
-
-  .db__tag--rcpt {
-    background: rgb(60 124 22 / 0.14);
-    color: #33690f;
-  }
-
-  .db__tag--pur {
-    background: rgb(33 66 121 / 0.12);
-    color: #1d3a6b;
-  }
-
-  .db__ref {
-    color: var(--fg-muted);
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .db__amt {
-    color: var(--navy-900);
-    font-weight: 700;
-  }
-
-  .db__status {
+  .hv__tag {
+    position: absolute;
+    left: 6%;
+    bottom: -1%;
     display: inline-flex;
     align-items: center;
-    gap: 0.3em;
-    color: var(--fg-subtle);
-    font-weight: 600;
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    background: var(--navy-900);
+    color: var(--gold-200);
+    font-size: clamp(0.68rem, 0.6rem + 0.3vw, 0.8rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    box-shadow: 0 16px 30px -18px rgb(6 23 49 / 0.8);
   }
 
-  .db__status :global(.icon) {
-    color: #3c7c16;
-    width: 1.1em;
-    height: 1.1em;
+  .hv__tag :global(.icon) {
+    color: var(--gold-300);
   }
 
   /* ---- Floating chips ---- */
@@ -737,8 +517,8 @@ const area = `${line} L312 124 L8 124 Z`;
   }
 
   .hv__chip--c {
-    bottom: 3%;
-    left: -1%;
+    bottom: -4%;
+    left: 34%;
     --depth: 24px;
   }
 

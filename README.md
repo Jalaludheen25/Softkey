@@ -82,6 +82,10 @@ Page headings can carry a brand logo instead of the word: write `{{tally}}` or `
 
 The gold hero panels on About and Partners are `src/components/GoldPanel.astro` (`variant="partner"` / `variant="ecosystem"`) — navy and gold, built in CSS rather than as images, so they scale cleanly.
 
+### TallyPrime Gold product visuals
+
+The client's product renders live in `/assets` (originals, not deployed). The cropped versions the site uses are in `src/assets/products/` — see that folder's `SOURCES.json` for which original each came from. They appear in the home hero and in the gold panels on About and Partners (`src/components/GoldPanel.astro`).
+
 ### Tally product screens
 
 `src/assets/tally/` holds the TallyPrime screenshots used on the service pages and the home "what we do" panel. They are official screenshots taken from Tally's documentation site — see `src/assets/tally/SOURCES.json` for the exact source URL of each one.
