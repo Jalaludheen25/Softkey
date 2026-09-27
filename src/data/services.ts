@@ -1,4 +1,8 @@
 import type { ImageMetadata } from 'astro';
+// Softkey's own TallyPrime box artwork (see src/assets/products/SOURCES.json)
+import silverArt from '@/assets/products/tallyprime-silver-front.jpg';
+import goldArt from '@/assets/products/tallyprime-gold-front.jpg';
+
 // Product screens — official TallyPrime screenshots (see src/assets/tally/SOURCES.json)
 import tallyPrimeImg from '@/assets/tally/dashboard.png';
 import implementationImg from '@/assets/tally/company-creation.png';
@@ -23,6 +27,9 @@ export type PricingPlan = {
   featured?: boolean;
   /** Show "price on request" instead of a figure */
   enquire?: boolean;
+  /** Edition artwork shown in the top corner of the card */
+  image?: ImageMetadata;
+  imageAlt?: string;
 };
 
 export type Pricing = {
@@ -172,6 +179,8 @@ export const SERVICES: Service[] = [
           kind: 'Perpetual license',
           price: 22500,
           period: 'one-time',
+          image: silverArt,
+          imageAlt: 'TallyPrime Silver — Single User Edition pack',
           features: ['Single user — one computer at a time', 'Accounting, inventory, GST, banking and payroll', 'Perpetual license, yours to keep'],
         },
         {
@@ -181,6 +190,8 @@ export const SERVICES: Service[] = [
           period: 'one-time',
           badge: 'Unlimited multi-user',
           featured: true,
+          image: goldArt,
+          imageAlt: 'TallyPrime Gold — Unlimited Multi User Edition pack',
           features: ['Unlimited users on one local network', 'Everything in Silver, for the whole team', 'Perpetual license, yours to keep'],
         },
         {
@@ -188,6 +199,8 @@ export const SERVICES: Service[] = [
           kind: '1 year',
           price: 4500,
           period: 'per year',
+          image: silverArt,
+          imageAlt: 'TallyPrime Silver — Single User Edition pack',
           features: ['New TallyPrime releases for a year', 'Tally’s connected services, including remote access', 'We remind you before it lapses'],
         },
         {
@@ -195,6 +208,8 @@ export const SERVICES: Service[] = [
           kind: '2 years',
           badge: 'Save 10%',
           enquire: true,
+          image: silverArt,
+          imageAlt: 'TallyPrime Silver — Single User Edition pack',
           features: ['Two years of releases and connected services', '10% discount on the two-year renewal', 'Ask us for today’s price'],
         },
       ],

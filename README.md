@@ -86,7 +86,7 @@ The gold hero panels on About and Partners are `src/components/GoldPanel.astro` 
 
 ### TallyPrime Gold product visuals
 
-The client's product renders live in `/assets` (originals, not deployed). The cropped versions the site uses are in `src/assets/products/` — see that folder's `SOURCES.json` for which original each came from. They appear in the home hero and in the gold panels on About and Partners (`src/components/GoldPanel.astro`).
+The client's product renders live in `/assets` (originals, not deployed). The cropped versions the site uses are in `src/assets/products/` — see that folder's `SOURCES.json` for which original each came from. They appear in the home hero, in the gold panels on About and Partners (`src/components/GoldPanel.astro`), and as the edition artwork on the TallyPrime pricing cards (`src/components/Pricing.astro`, via the `image` field on each plan).
 
 ### Tally product screens
 

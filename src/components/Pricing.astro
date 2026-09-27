@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import type { Pricing } from '@/data/services';
 import { whatsappLink } from '@/data/site';
@@ -28,12 +29,26 @@ const withGst = (base: number) => Math.round(base * (1 + pricing.gstRate / 100))
           <li class:list={['pr__card', { 'pr__card--featured': plan.featured }]} data-reveal style={`--d:${i % 4}`}>
             {plan.badge && <span class="pr__badge">{plan.badge}</span>}
 
-            <div class="pr__head">
-              <h3 class="pr__name">{plan.name}</h3>
-              <p class="pr__kind">{plan.kind}</p>
-            </div>
+            <div class="pr__top">
+              {plan.image && (
+                <figure class:list={['pr__art', { 'pr__art--gold': plan.featured }]}>
+                  <Picture
+                    src={plan.image}
+                    formats={['avif', 'webp']}
+                    alt={plan.imageAlt ?? `${plan.name} pack`}
+                    widths={[120, 148, 220]}
+                    sizes="(min-width: 1180px) 70px, 58px"
+                    loading="lazy"
+                  />
+                </figure>
+              )}
 
-            <div class="pr__price">
+              <div class="pr__head">
+                <h3 class="pr__name">{plan.name}</h3>
+                <p class="pr__kind">{plan.kind}</p>
+              </div>
+
+              <div class="pr__price">
               {plan.price ? (
                 <>
                   <p class="pr__amount">
@@ -56,6 +71,7 @@ const withGst = (base: number) => Math.round(base * (1 + pricing.gstRate / 100))
                   <p class="pr__incl">We will confirm today’s price and GST</p>
                 </>
               )}
+              </div>
             </div>
 
             <ul class="pr__features" role="list">
@@ -128,12 +144,17 @@ const withGst = (base: number) => Math.round(base * (1 + pricing.gstRate / 100))
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1.25rem;
     }
+
+    /* Four narrow columns: reserve two lines so the kind labels stay level */
+    .pr__name {
+      min-height: 2lh;
+    }
   }
 
   .pr__card {
     position: relative;
     display: grid;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-rows: auto 1fr auto;
     gap: 1.25rem;
     padding: clamp(1.5rem, 1.2rem + 1vw, 2rem) clamp(1.25rem, 1rem + 0.8vw, 1.75rem) clamp(1.5rem, 1.2rem + 1vw, 1.9rem);
     border-radius: var(--radius-lg);
@@ -176,6 +197,65 @@ const withGst = (base: number) => Math.round(base * (1 + pricing.gstRate / 100))
     box-shadow: 0 10px 20px -12px rgb(185 141 54 / 0.8);
   }
 
+  /* Name + price on the left, the edition pack artwork in the top corner */
+  .pr__top {
+    display: grid;
+    column-gap: 1rem;
+    align-items: start;
+    padding-bottom: 1.15rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Second column only exists when the plan carries pack artwork */
+  .pr__top:has(.pr__art) {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .pr__head {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .pr__price {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: 0.55rem;
+  }
+
+  .pr__art {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+    width: clamp(58px, 4.6vw, 72px);
+    margin: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8f7e5;
+    box-shadow:
+      0 0 0 1px rgb(6 23 49 / 0.08),
+      0 14px 24px -16px rgb(6 23 49 / 0.6);
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .pr__art--gold {
+    background: #38506a;
+    box-shadow:
+      0 0 0 1px rgb(212 175 106 / 0.5),
+      0 14px 24px -16px rgb(0 0 0 / 0.75);
+  }
+
+  .pr__card:hover .pr__art {
+    transform: translateY(-3px) rotate(-1.5deg);
+  }
+
+  .pr__art :global(img) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 0.71;
+    object-fit: cover;
+    object-position: center 22%;
+  }
+
   .pr__name {
     font-size: 1.15rem;
     font-weight: 700;
@@ -199,12 +279,7 @@ const withGst = (base: number) => Math.round(base * (1 + pricing.gstRate / 100))
     color: var(--gold-300);
   }
 
-  .pr__price {
-    padding-bottom: 1.1rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .pr__card--featured .pr__price {
+  .pr__card--featured .pr__top {
     border-color: rgb(255 255 255 / 0.12);
   }
 
