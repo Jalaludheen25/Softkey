@@ -14,12 +14,13 @@ npm run preview    # serves dist/ locally
 npm run check      # type-check all components
 ```
 
-Requires Node.js 20 or newer.
+Requires **Node.js 22.19 or newer** (Node 24 LTS recommended; see `.nvmrc`). Astro 7 needs Node 22.12+, and its `undici` dependency needs 22.19+. The build fails on Node 20.
 
 ## Deploying
 
-`npm run build` produces a static `dist/` folder. Upload its **contents** to the web root.
+`npm run build` produces a static `dist/` folder. Upload its **contents** to the web root. No server adapter or entry file is needed.
 
+- **Hostinger (Node.js web app, GitHub deploy):** framework preset **Astro**, build command `npm run build`, output directory `dist`, no entry file. Set the **Node.js version to 24.x** (22.x also works). Hostinger pre-selects the version from `engines` in `package.json`, so keep that field in step with Astro's requirement. If the enquiry form posts to an endpoint, add `PUBLIC_FORM_ENDPOINT` as an environment variable **before** building, because it is compiled into the page.
 - **cPanel / Apache hosting:** upload `dist/` to `public_html/`. The included `.htaccess` serves the custom 404 page, adds security and caching headers, and redirects `www` / `http` to `https://tallygoldpartner.in`. **Make sure an SSL certificate is active before uploading**, because the redirect forces HTTPS.
 - **Netlify / Cloudflare Pages / Vercel:** build command `npm run build`, output directory `dist`. The `_headers` file is applied automatically on Netlify and Cloudflare Pages.
 
